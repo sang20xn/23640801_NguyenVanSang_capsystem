@@ -74,7 +74,7 @@ Có thể phân loại tác nhân của CAB System thành:
 **Supporting/Secondary Actors:**
 
 > Quản trị viên → Ban giám đốc → Kế toán/Tài chính → Payment Gateway → Notification Provider
-## 3.1. Danh sách các bên liên quan
+## 3. Danh sách các bên liên quan
 
 | STT | Bên liên quan | Vai trò |
 |---:|---|---|
@@ -132,29 +132,33 @@ Có thể sử dụng **ma trận Power – Interest (Quyền lực – Mức đ
 
 
 # 6.1 Ma trận Power – Interest
-
 ```mermaid
 quadrantChart
-    title Ma trận Power - Interest của CAB System
+    title Ma trận Power – Interest | CAB System
     x-axis "Quan tâm thấp" --> "Quan tâm cao"
     y-axis "Quyền lực thấp" --> "Quyền lực cao"
-    quadrant-1 "Quản lý chặt chẽ"
-    quadrant-2 "Duy trì hài lòng"
-    quadrant-3 "Theo dõi"
-    quadrant-4 "Giữ liên lạc thường xuyên"
+
+    quadrant-1 "QUẢN LÝ CHẶT CHẼ"
+    quadrant-2 "DUY TRÌ HÀI LÒNG"
+    quadrant-3 "THEO DÕI"
+    quadrant-4 "GIỮ LIÊN LẠC THƯỜNG XUYÊN"
 
     "Ban giám đốc ABC": [0.90, 0.90]
-    "Quản lý vận hành": [0.85, 0.85]
-    "Tài chính / Kế toán": [0.40, 0.85]
+    "Quản lý vận hành": [0.82, 0.85]
 
-    "Business Analyst (BA)": [0.85, 0.45]
-    "Nhân viên vận hành": [0.80, 0.35]
-    "Khách hàng": [0.90, 0.25]
-    "Tài xế": [0.85, 0.25]
-    "Đội phát triển hệ thống": [0.80, 0.45]
-    "Đội kiểm thử (QA/Testers)": [0.75, 0.45]
-    "Bộ phận IT / Kỹ thuật": [0.75, 0.50]
+    "Tài chính / Kế toán": [0.35, 0.85]
 
-    "Nhà cung cấp dịch vụ thanh toán": [0.35, 0.25]
-    "Nhà cung cấp dịch vụ thông báo": [0.30, 0.20]
+    "Business Analyst (BA)": [0.88, 0.55]
+    "Nhân viên vận hành": [0.62, 0.30]
+    "Khách hàng": [0.92, 0.25]
+    "Tài xế": [0.78, 0.20]
+    "Đội phát triển hệ thống": [0.72, 0.50]
+    "Đội kiểm thử (QA/Testers)": [0.58, 0.45]
+    "Bộ phận IT / Kỹ thuật": [0.68, 0.35]
+
+    "Nhà cung cấp dịch vụ thanh toán": [0.30, 0.22]
+    "Nhà cung cấp dịch vụ thông báo": [0.20, 0.15]
+```
+# 
+
     
