@@ -331,3 +331,7 @@ Các chức năng **FR-11 đến FR-14** chỉ nên triển khai ở **mức t�
 * **FR-12:** Có thể triển khai **mức cơ bản**, tập trung vào các chức năng hỗ trợ vận hành thiết yếu
 * **FR-13:** Triển khai **Dashboard & báo cáo cơ bản**
 * **FR-14:** Triển khai **Audit & kiểm soát cơ bản**, ưu tiên các thao tác quản trị quan trọng
+# 10. use case diagram
+# 11. Đặc tả use case 
+# 12. Phân tích quy trình nghiệp vụ (business project )
+# 13. Phân tích quy tắc nghiệp vụ (business rules )
