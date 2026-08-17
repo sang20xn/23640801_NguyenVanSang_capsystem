@@ -95,43 +95,66 @@ Có thể phân loại tác nhân của CAB System thành:
 
 Có thể sử dụng **ma trận Power – Interest (Quyền lực – Mức độ quan tâm)** để phân tích và xác định chiến lược quản lý các bên liên quan.
 
-| Mức độ                             | Bên liên quan                                            | Cách quản lý                              |
-| ---------------------------------- | -------------------------------------------------------- | ----------------------------------------- |
-| **Quyền lực cao – Quan tâm cao**   | Ban giám đốc, Sponsor, Nhân viên vận hành, Quản trị viên | **Quản lý chặt chẽ**                      |
-| **Quyền lực cao – Quan tâm thấp**  | Một số quản lý cấp cao, Bộ phận tài chính/kế toán        | **Duy trì sự hài lòng**                   |
-| **Quyền lực thấp – Quan tâm cao**  | Khách hàng, Tài xế, BA, Developer, QA/Tester, DevOps/IT  | **Giữ liên lạc và cập nhật thường xuyên** |
-| **Quyền lực thấp – Quan tâm thấp** | Một số nhà cung cấp/phòng ban ít tham gia trực tiếp      | **Theo dõi**                              |
+| Mức độ                             | Bên liên quan                                                                                                             | Cách quản lý                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| **Quyền lực cao – Quan tâm cao**   | **Ban giám đốc ABC, Quản lý vận hành**                                                                                    | **Quản lý chặt chẽ**                      |
+| **Quyền lực cao – Quan tâm thấp**  | **Bộ phận Tài chính / Kế toán**                                                                                           | **Duy trì sự hài lòng**                   |
+| **Quyền lực thấp – Quan tâm cao**  | **BA, Nhân viên vận hành, Khách hàng, Tài xế, Đội phát triển hệ thống, Đội kiểm thử (QA/Testers), Bộ phận IT / Kỹ thuật** | **Giữ liên lạc và cập nhật thường xuyên** |
+| **Quyền lực thấp – Quan tâm thấp** | **Nhà cung cấp dịch vụ thanh toán, Nhà cung cấp dịch vụ thông báo**                                                       | **Theo dõi**                              |
 
----
 
 # 5. Ma trận các bên liên quan
 
 ## 5.1. Ma trận Power – Interest
 
-|                    | **Quan tâm thấp**                                                                 | **Quan tâm cao**                                                                                               |
-| ------------------ | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Quyền lực cao**  | **Duy trì hài lòng**<br>• Bộ phận tài chính/kế toán<br>• Một số quản lý liên quan | **Quản lý chặt chẽ**<br>• Ban giám đốc / Sponsor<br>• Quản lý vận hành<br>• Quản trị hệ thống                  |
-| **Quyền lực thấp** | **Theo dõi**<br>• Một số nhà cung cấp phụ trợ<br>• Các phòng ban ít tham gia      | **Giữ liên lạc thường xuyên**<br>• Khách hàng<br>• Tài xế<br>• BA<br>• Developer<br>• QA/Tester<br>• DevOps/IT |
+|                    | **Quan tâm thấp**                                                                     | **Quan tâm cao**                                                                                                                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Quyền lực cao**  | **Duy trì hài lòng**<br>• Bộ phận Tài chính / Kế toán                                 | **Quản lý chặt chẽ**<br>• Ban giám đốc ABC / Sponsor<br>• Quản lý vận hành                                                                                                                          |
+| **Quyền lực thấp** | **Theo dõi**<br>• Nhà cung cấp dịch vụ thanh toán<br>• Nhà cung cấp dịch vụ thông báo | **Giữ liên lạc thường xuyên**<br>• Business Analyst (BA)<br>• Nhân viên vận hành<br>• Khách hàng<br>• Tài xế<br>• Đội phát triển hệ thống<br>• Đội kiểm thử (QA/Testers)<br>• Bộ phận IT / Kỹ thuật |
 
----
 
 # 6. Ma trận chi tiết: Quyền lực – Mức độ quan tâm – Chiến lược
 
-| Bên liên quan             | Quyền lực  | Quan tâm          | Mức độ ảnh hưởng  | Chiến lược                                                             |
-| ------------------------- | ---------- | ----------------- | ----------------- | ---------------------------------------------------------------------- |
-| **Ban giám đốc ABC**      | Cao        | Cao               | Rất cao           | Quản lý chặt chẽ, báo cáo tiến độ và các vấn đề quan trọng.            |
-| **Quản lý vận hành**      | Cao        | Cao               | Rất cao           | Tham gia xác định nghiệp vụ, xác nhận quy trình và UAT.                |
-| **Quản trị viên**         | Cao        | Cao               | Cao               | Tham gia thiết kế quyền, bảo mật và quản trị.                          |
-| **Khách hàng**            | Thấp       | Cao               | Cao               | Khảo sát nhu cầu, lấy phản hồi và kiểm thử trải nghiệm.                |
-| **Tài xế**                | Thấp       | Cao               | Cao               | Thu thập yêu cầu thực tế, kiểm thử quy trình nhận và thực hiện chuyến. |
-| **BA**                    | Trung bình | Cao               | Cao               | Kết nối các bên, phân tích và quản lý yêu cầu.                         |
-| **Developer**             | Trung bình | Cao               | Cao               | Tham gia phân tích tính khả thi và xây dựng giải pháp.                 |
-| **QA/Tester**             | Trung bình | Cao               | Cao               | Kiểm thử và xác nhận chất lượng hệ thống.                              |
-| **DevOps/IT**             | Trung bình | Cao               | Cao               | Đảm bảo triển khai, hiệu năng, khả năng mở rộng và giám sát.           |
-| **Tài chính/kế toán**     | Cao        | Trung bình        | Cao               | Tham vấn về thanh toán, đối soát và báo cáo doanh thu.                 |
-| **Bộ phận kinh doanh**    | Trung bình | Cao               | Cao               | Cung cấp yêu cầu kinh doanh và KPI.                                    |
-| **Payment Provider**      | Trung bình | Trung bình        | Trung bình        | Quản lý tích hợp và SLA.                                               |
-| **Notification Provider** | Thấp       | Trung bình        | Thấp – Trung bình | Theo dõi tích hợp và khả năng mở rộng.                                 |
-| **Cơ quan quản lý**       | Cao        | Thấp – Trung bình | Cao               | Đảm bảo tuân thủ các quy định liên quan.                               |
+| Bên liên quan                       | Quyền lực  | Quan tâm          | Mức độ ảnh hưởng  | Chiến lược                                                                                                                 |
+| ----------------------------------- | ---------- | ----------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Ban giám đốc ABC**                | Cao        | Cao               | Rất cao           | Quản lý chặt chẽ, báo cáo tiến độ, phạm vi, rủi ro và các vấn đề quan trọng để ra quyết định kịp thời.                     |
+| **Business Analyst (BA)**           | Trung bình | Cao               | Cao               | Tham gia thu thập, phân tích, làm rõ và quản lý yêu cầu; kết nối giữa các bên liên quan và đội phát triển.                 |
+| **Quản lý vận hành**                | Cao        | Cao               | Rất cao           | Tham gia xác định nghiệp vụ, xác nhận quy trình vận hành, tiêu chí phân công tài xế, xử lý ngoại lệ và UAT.                |
+| **Nhân viên vận hành**              | Thấp       | Cao               | Cao               | Thu thập phản hồi thực tế, tham gia kiểm thử các chức năng quản lý khách hàng, tài xế, phương tiện và chuyến đi.           |
+| **Khách hàng**                      | Thấp       | Cao               | Cao               | Khảo sát nhu cầu, lấy phản hồi và kiểm thử trải nghiệm đặt xe, theo dõi chuyến, thanh toán và đánh giá.                    |
+| **Tài xế**                          | Thấp       | Cao               | Cao               | Thu thập yêu cầu thực tế, lấy phản hồi và kiểm thử quy trình nhận/từ chối chuyến, cập nhật trạng thái và vị trí.           |
+| **Bộ phận Tài chính / Kế toán**     | Cao        | Trung bình        | Cao               | Tham vấn về thanh toán, đối soát cước, doanh thu và lịch sử giao dịch; đảm bảo tính chính xác của dữ liệu tài chính.       |
+| **Đội phát triển hệ thống**         | Trung bình | Cao               | Cao               | Tham gia phân tích tính khả thi, thiết kế, xây dựng, tích hợp và triển khai các chức năng của CAB System.                  |
+| **Đội kiểm thử (QA/Testers)**       | Trung bình | Cao               | Cao               | Kiểm thử chức năng, hiệu năng, bảo mật và các trường hợp ngoại lệ; xác nhận hệ thống đáp ứng yêu cầu trước khi triển khai. |
+| **Bộ phận IT / Kỹ thuật**           | Trung bình | Cao               | Cao               | Đảm bảo hạ tầng, triển khai, giám sát, hiệu năng, khả năng mở rộng, tính ổn định và khả năng bảo trì hệ thống.             |
+| **Nhà cung cấp dịch vụ thanh toán** | Thấp       | Thấp – Trung bình | Trung bình        | Quản lý tích hợp, theo dõi trạng thái giao dịch và SLA; phối hợp xử lý các vấn đề liên quan đến thanh toán.                |
+| **Nhà cung cấp dịch vụ thông báo**  | Thấp       | Thấp – Trung bình | Thấp – Trung bình | Theo dõi tích hợp và khả năng cung cấp dịch vụ; đảm bảo hệ thống có thể thay đổi hoặc bổ sung nhà cung cấp khi cần.        |
 
 
+# 6.1 Ma trận Power – Interest
+
+```mermaid
+quadrantChart
+    title Ma trận Power - Interest của CAB System
+    x-axis "Quan tâm thấp" --> "Quan tâm cao"
+    y-axis "Quyền lực thấp" --> "Quyền lực cao"
+    quadrant-1 "Quản lý chặt chẽ"
+    quadrant-2 "Duy trì hài lòng"
+    quadrant-3 "Theo dõi"
+    quadrant-4 "Giữ liên lạc thường xuyên"
+
+    "Ban giám đốc ABC": [0.90, 0.90]
+    "Quản lý vận hành": [0.85, 0.85]
+    "Tài chính / Kế toán": [0.40, 0.85]
+
+    "Business Analyst (BA)": [0.85, 0.45]
+    "Nhân viên vận hành": [0.80, 0.35]
+    "Khách hàng": [0.90, 0.25]
+    "Tài xế": [0.85, 0.25]
+    "Đội phát triển hệ thống": [0.80, 0.45]
+    "Đội kiểm thử (QA/Testers)": [0.75, 0.45]
+    "Bộ phận IT / Kỹ thuật": [0.75, 0.50]
+
+    "Nhà cung cấp dịch vụ thanh toán": [0.35, 0.25]
+    "Nhà cung cấp dịch vụ thông báo": [0.30, 0.20]
+    
