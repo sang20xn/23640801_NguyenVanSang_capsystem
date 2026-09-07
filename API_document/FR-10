@@ -1,0 +1,319 @@
+
+openapi: 3.0.3
+
+info:
+  title: API Quản lý thông báo
+  description: Đặc tả API cho FR-10 - Quản lý thông báo
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # =========================================================
+  # FR-10.1 - THÔNG BÁO TIẾP NHẬN YÊU CẦU ĐẶT XE
+  # =========================================================
+  /api/notifications/booking-received:
+    post:
+      tags:
+        - Thông báo
+      summary: Thông báo tiếp nhận yêu cầu đặt xe
+      description: Gửi thông báo cho khách hàng khi hệ thống tiếp nhận yêu cầu đặt xe
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              bookingId: 5001
+              customerId: 1001
+              notificationType: BOOKING_RECEIVED
+              channel: APP
+              message: Yêu cầu đặt xe của bạn đã được tiếp nhận
+      responses:
+        '200':
+          description: Gửi thông báo thành công
+          content:
+            application/json:
+              example:
+                notificationId: 11001
+                bookingId: 5001
+                customerId: 1001
+                notificationType: BOOKING_RECEIVED
+                status: SENT
+        '400':
+          description: Dữ liệu thông báo không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy yêu cầu đặt xe
+
+
+  # =========================================================
+  # FR-10.2 - THÔNG BÁO TÀI XẾ NHẬN CHUYẾN
+  # =========================================================
+  /api/notifications/driver-assigned:
+    post:
+      tags:
+        - Thông báo
+      summary: Thông báo tài xế nhận chuyến
+      description: Thông báo cho khách hàng khi tài xế đã nhận chuyến
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              customerId: 1001
+              driverId: 2001
+              notificationType: DRIVER_ASSIGNED
+              channel: APP
+              message: Tài xế đã nhận chuyến của bạn
+      responses:
+        '200':
+          description: Gửi thông báo thành công
+          content:
+            application/json:
+              example:
+                notificationId: 11002
+                tripId: 6001
+                driverId: 2001
+                status: SENT
+        '400':
+          description: Dữ liệu thông báo không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy chuyến đi hoặc tài xế
+
+
+  # =========================================================
+  # FR-10.3 - THÔNG BÁO TÀI XẾ ĐẾN ĐIỂM ĐÓN
+  # =========================================================
+  /api/notifications/driver-arrived:
+    post:
+      tags:
+        - Thông báo
+      summary: Thông báo tài xế đến điểm đón
+      description: Thông báo cho khách hàng khi tài xế đã đến điểm đón
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              customerId: 1001
+              driverId: 2001
+              notificationType: DRIVER_ARRIVED
+              channel: APP
+              message: Tài xế đã đến điểm đón
+      responses:
+        '200':
+          description: Gửi thông báo thành công
+          content:
+            application/json:
+              example:
+                notificationId: 11003
+                tripId: 6001
+                notificationType: DRIVER_ARRIVED
+                status: SENT
+        '400':
+          description: Dữ liệu thông báo không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy chuyến đi
+
+
+  # =========================================================
+  # FR-10.4 - THÔNG BÁO HOÀN THÀNH CHUYẾN
+  # =========================================================
+  /api/notifications/trip-completed:
+    post:
+      tags:
+        - Thông báo
+      summary: Thông báo hoàn thành chuyến
+      description: Thông báo cho khách hàng khi chuyến đi đã hoàn thành
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              customerId: 1001
+              notificationType: TRIP_COMPLETED
+              channel: APP
+              message: Chuyến đi của bạn đã hoàn thành
+      responses:
+        '200':
+          description: Gửi thông báo thành công
+          content:
+            application/json:
+              example:
+                notificationId: 11004
+                tripId: 6001
+                notificationType: TRIP_COMPLETED
+                status: SENT
+        '400':
+          description: Dữ liệu thông báo không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy chuyến đi
+
+
+  # =========================================================
+  # FR-10.5 - THÔNG BÁO KẾT QUẢ THANH TOÁN
+  # =========================================================
+  /api/notifications/payment-result:
+    post:
+      tags:
+        - Thông báo
+      summary: Thông báo kết quả thanh toán
+      description: Gửi thông báo cho khách hàng về kết quả thanh toán
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              paymentId: 10002
+              customerId: 1001
+              notificationType: PAYMENT_RESULT
+              paymentStatus: SUCCESS
+              channel: APP
+              message: Thanh toán chuyến đi thành công
+      responses:
+        '200':
+          description: Gửi thông báo kết quả thanh toán thành công
+          content:
+            application/json:
+              example:
+                notificationId: 11005
+                paymentId: 10002
+                paymentStatus: SUCCESS
+                status: SENT
+        '400':
+          description: Thông tin thanh toán không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy giao dịch thanh toán
+
+
+  # =========================================================
+  # FR-10.6 - THÔNG BÁO CHUYẾN MỚI CHO TÀI XẾ
+  # =========================================================
+  /api/notifications/new-trip:
+    post:
+      tags:
+        - Thông báo
+      summary: Thông báo chuyến mới cho tài xế
+      description: Gửi thông báo đến tài xế về chuyến đi mới phù hợp
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6002
+              driverId: 2001
+              notificationType: NEW_TRIP
+              pickupLocation: 10.7769, 106.7009
+              destination: 10.8231, 106.6297
+              estimatedFare: 95000
+              channel: APP
+              message: Bạn có một chuyến đi mới
+      responses:
+        '200':
+          description: Gửi thông báo chuyến mới thành công
+          content:
+            application/json:
+              example:
+                notificationId: 11006
+                tripId: 6002
+                driverId: 2001
+                notificationType: NEW_TRIP
+                status: SENT
+        '400':
+          description: Dữ liệu chuyến đi không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy chuyến đi hoặc tài xế
+
+
+  # =========================================================
+  # FR-10.7 - THÔNG BÁO THAY ĐỔI CHUYẾN
+  # =========================================================
+  /api/notifications/trip-changed:
+    post:
+      tags:
+        - Thông báo
+      summary: Thông báo thay đổi chuyến
+      description: Thông báo cho các bên liên quan khi thông tin chuyến đi thay đổi
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              customerId: 1001
+              driverId: 2001
+              notificationType: TRIP_CHANGED
+              changeType: DESTINATION_CHANGED
+              oldValue: 10.7800, 106.7000
+              newValue: 10.8200, 106.6300
+              channel: APP
+              message: Thông tin chuyến đi đã được thay đổi
+      responses:
+        '200':
+          description: Gửi thông báo thay đổi chuyến thành công
+          content:
+            application/json:
+              example:
+                notificationId: 11007
+                tripId: 6001
+                notificationType: TRIP_CHANGED
+                changeType: DESTINATION_CHANGED
+                status: SENT
+        '400':
+          description: Thông tin thay đổi không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy chuyến đi
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
