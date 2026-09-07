@@ -1,1 +1,335 @@
+openapi: 3.0.3
 
+info:
+  title: API Quản lý tài khoản và phân quyền
+  description: Đặc tả API cho FR-01
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /api/auth/register:
+    post:
+      summary: FR-01.1 - Đăng ký tài khoản khách hàng
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              fullName: "Nguyễn Văn A"
+              email: "nguyenvana@gmail.com"
+              password: "Password@123"
+              phone: "0901234567"
+      responses:
+        '201':
+          description: Đăng ký thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đăng ký tài khoản thành công"
+                data:
+                  userId: 1001
+                  fullName: "Nguyễn Văn A"
+                  email: "nguyenvana@gmail.com"
+                  phone: "0901234567"
+                  role: CUSTOMER
+                  status: ACTIVE
+        '400':
+          description: Dữ liệu không hợp lệ
+        '409':
+          description: Email hoặc số điện thoại đã tồn tại
+
+
+  /api/drivers:
+    post:
+      summary: FR-01.2 - Tạo tài khoản tài xế
+      tags:
+        - Driver Management
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              fullName: "Trần Văn B"
+              email: "tranvanb@gmail.com"
+              password: "Driver@123"
+              phone: "0912345678"
+              licenseNumber: "790123456789"
+      responses:
+        '201':
+          description: Tạo tài khoản tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tạo tài khoản tài xế thành công"
+                data:
+                  userId: 1002
+                  fullName: "Trần Văn B"
+                  email: "tranvanb@gmail.com"
+                  phone: "0912345678"
+                  licenseNumber: "790123456789"
+                  role: DRIVER
+                  status: ACTIVE
+        '400':
+          description: Dữ liệu không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền tạo tài khoản tài xế
+        '409':
+          description: Tài khoản đã tồn tại
+
+
+  /api/auth/login:
+    post:
+      summary: FR-01.3 - Đăng nhập
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              email: "nguyenvana@gmail.com"
+              password: "Password@123"
+      responses:
+        '200':
+          description: Đăng nhập thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đăng nhập thành công"
+                data:
+                  accessToken: "eyJhbGciOiJIUzI1NiIs..."
+                  tokenType: "Bearer"
+                  expiresIn: 3600
+                  userId: 1001
+                  role: CUSTOMER
+                  status: ACTIVE
+        '400':
+          description: Dữ liệu không hợp lệ
+        '401':
+          description: Sai email hoặc mật khẩu
+        '403':
+          description: Tài khoản bị khóa
+
+
+  /api/auth/logout:
+    post:
+      summary: FR-01.3 - Đăng xuất
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Đăng xuất thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đăng xuất thành công"
+        '401':
+          description: Token không hợp lệ
+
+
+  /api/users/{userId}:
+    put:
+      summary: FR-01.4 - Cập nhật thông tin cá nhân
+      tags:
+        - User Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              fullName: "Nguyễn Văn A"
+              phone: "0901234567"
+              address: "123 Nguyễn Trãi, Quận 1, TP.HCM"
+      responses:
+        '200':
+          description: Cập nhật thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Cập nhật thông tin thành công"
+                data:
+                  userId: 1001
+                  fullName: "Nguyễn Văn A"
+                  email: "nguyenvana@gmail.com"
+                  phone: "0901234567"
+                  address: "123 Nguyễn Trãi, Quận 1, TP.HCM"
+                  role: CUSTOMER
+                  status: ACTIVE
+        '400':
+          description: Dữ liệu không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền cập nhật
+        '404':
+          description: Không tìm thấy người dùng
+
+
+  /api/users/{userId}/status:
+    patch:
+      summary: FR-01.5 - Khóa hoặc mở khóa tài khoản
+      tags:
+        - User Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              status: LOCKED
+      responses:
+        '200':
+          description: Cập nhật trạng thái thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Cập nhật trạng thái tài khoản thành công"
+                data:
+                  userId: 1001
+                  status: LOCKED
+        '400':
+          description: Trạng thái không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền thực hiện
+        '404':
+          description: Không tìm thấy người dùng
+
+
+  /api/users/{userId}/role:
+    patch:
+      summary: FR-01.6 - Phân quyền người dùng
+      tags:
+        - Authorization
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              role: DRIVER
+      responses:
+        '200':
+          description: Phân quyền thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Phân quyền thành công"
+                data:
+                  userId: 1001
+                  role: DRIVER
+        '400':
+          description: Vai trò không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền phân quyền
+        '404':
+          description: Không tìm thấy người dùng
+
+
+  /api/users/{userId}/permissions:
+    get:
+      summary: FR-01.7 - Kiểm soát quyền truy cập
+      tags:
+        - Authorization
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1001
+      responses:
+        '200':
+          description: Lấy quyền truy cập thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy quyền truy cập thành công"
+                data:
+                  userId: 1001
+                  role: STAFF
+                  permissions:
+                    - USER_VIEW
+                    - USER_UPDATE
+                    - DRIVER_CREATE
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền truy cập
+        '404':
+          description: Không tìm thấy người dùng
+
+
+components:
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    UserRole:
+      type: string
+      enum:
+        - CUSTOMER
+        - DRIVER
+        - STAFF
+        - MANAGER
+
+    AccountStatus:
+      type: string
+      enum:
+        - ACTIVE
+        - LOCKED
