@@ -1,1 +1,484 @@
 
+
+openapi: 3.0.3
+
+info:
+  title: API Quản lý phương tiện
+  description: Đặc tả API cho FR-04 - Quản lý phương tiện
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /api/vehicles:
+    post:
+      summary: FR-04.1 - Thêm phương tiện
+      tags:
+        - Vehicle Management
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              licensePlate: "51A-123.45"
+              vehicleTypeId: 1
+              brand: "Toyota"
+              model: "Vios"
+              color: "Trắng"
+              manufactureYear: 2024
+      responses:
+        '201':
+          description: Thêm phương tiện thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Thêm phương tiện thành công"
+                data:
+                  vehicleId: 3001
+                  licensePlate: "51A-123.45"
+                  vehicleTypeId: 1
+                  vehicleTypeName: "Xe 4 chỗ"
+                  brand: "Toyota"
+                  model: "Vios"
+                  color: "Trắng"
+                  manufactureYear: 2024
+                  status: ACTIVE
+        '400':
+          description: Dữ liệu phương tiện không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền thêm phương tiện
+        '409':
+          description: Biển số xe đã tồn tại
+
+    get:
+      summary: FR-04.2 - Xem danh sách phương tiện
+      tags:
+        - Vehicle Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          example: 0
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          example: 10
+      responses:
+        '200':
+          description: Lấy danh sách phương tiện thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy danh sách phương tiện thành công"
+                data:
+                  content:
+                    - vehicleId: 3001
+                      licensePlate: "51A-123.45"
+                      vehicleTypeId: 1
+                      vehicleTypeName: "Xe 4 chỗ"
+                      brand: "Toyota"
+                      model: "Vios"
+                      color: "Trắng"
+                      manufactureYear: 2024
+                      status: ACTIVE
+                      driverId: 2001
+                    - vehicleId: 3002
+                      licensePlate: "51B-678.90"
+                      vehicleTypeId: 2
+                      vehicleTypeName: "Xe 7 chỗ"
+                      brand: "Mitsubishi"
+                      model: "Xpander"
+                      color: "Đen"
+                      manufactureYear: 2023
+                      status: MAINTENANCE
+                      driverId: null
+                  page: 0
+                  size: 10
+                  totalElements: 2
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem danh sách phương tiện
+
+  /api/vehicles/search:
+    get:
+      summary: FR-04.3 - Tìm kiếm phương tiện
+      tags:
+        - Vehicle Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          description: Tìm kiếm theo biển số, hãng xe, mẫu xe hoặc loại xe
+          schema:
+            type: string
+          example: "51A-123.45"
+      responses:
+        '200':
+          description: Tìm kiếm phương tiện thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tìm kiếm phương tiện thành công"
+                data:
+                  - vehicleId: 3001
+                    licensePlate: "51A-123.45"
+                    vehicleTypeId: 1
+                    vehicleTypeName: "Xe 4 chỗ"
+                    brand: "Toyota"
+                    model: "Vios"
+                    color: "Trắng"
+                    manufactureYear: 2024
+                    status: ACTIVE
+                    driverId: 2001
+        '400':
+          description: Từ khóa tìm kiếm không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền tìm kiếm phương tiện
+
+  /api/vehicles/{vehicleId}:
+    get:
+      summary: FR-04.4 - Xem thông tin phương tiện
+      tags:
+        - Vehicle Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: vehicleId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 3001
+      responses:
+        '200':
+          description: Lấy thông tin phương tiện thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy thông tin phương tiện thành công"
+                data:
+                  vehicleId: 3001
+                  licensePlate: "51A-123.45"
+                  vehicleTypeId: 1
+                  vehicleTypeName: "Xe 4 chỗ"
+                  brand: "Toyota"
+                  model: "Vios"
+                  color: "Trắng"
+                  manufactureYear: 2024
+                  status: ACTIVE
+                  driverId: 2001
+                  driverName: "Trần Văn B"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem thông tin phương tiện
+        '404':
+          description: Không tìm thấy phương tiện
+
+    put:
+      summary: FR-04.5 - Cập nhật thông tin phương tiện
+      tags:
+        - Vehicle Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: vehicleId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 3001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              licensePlate: "51A-123.45"
+              vehicleTypeId: 1
+              brand: "Toyota"
+              model: "Vios"
+              color: "Bạc"
+              manufactureYear: 2024
+      responses:
+        '200':
+          description: Cập nhật thông tin phương tiện thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Cập nhật thông tin phương tiện thành công"
+                data:
+                  vehicleId: 3001
+                  licensePlate: "51A-123.45"
+                  vehicleTypeId: 1
+                  vehicleTypeName: "Xe 4 chỗ"
+                  brand: "Toyota"
+                  model: "Vios"
+                  color: "Bạc"
+                  manufactureYear: 2024
+        '400':
+          description: Dữ liệu cập nhật không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền cập nhật phương tiện
+        '404':
+          description: Không tìm thấy phương tiện
+        '409':
+          description: Biển số xe đã tồn tại
+
+  /api/vehicles/{vehicleId}/status:
+    patch:
+      summary: FR-04.6 - Cập nhật trạng thái phương tiện
+      tags:
+        - Vehicle Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: vehicleId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 3001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              status: MAINTENANCE
+      responses:
+        '200':
+          description: Cập nhật trạng thái phương tiện thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Cập nhật trạng thái phương tiện thành công"
+                data:
+                  vehicleId: 3001
+                  status: MAINTENANCE
+        '400':
+          description: Trạng thái phương tiện không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền cập nhật trạng thái phương tiện
+        '404':
+          description: Không tìm thấy phương tiện
+
+  /api/vehicles/{vehicleId}/driver:
+    patch:
+      summary: FR-04.7 - Gán phương tiện cho tài xế
+      tags:
+        - Vehicle Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: vehicleId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 3001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              driverId: 2001
+      responses:
+        '200':
+          description: Gán phương tiện cho tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Gán phương tiện cho tài xế thành công"
+                data:
+                  vehicleId: 3001
+                  licensePlate: "51A-123.45"
+                  driverId: 2001
+                  driverName: "Trần Văn B"
+        '400':
+          description: Dữ liệu gán phương tiện không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền gán phương tiện cho tài xế
+        '404':
+          description: Không tìm thấy phương tiện hoặc tài xế
+        '409':
+          description: Phương tiện hoặc tài xế đã được gán
+
+  /api/vehicle-types:
+    post:
+      summary: FR-04.8 - Thêm loại xe
+      tags:
+        - Vehicle Type Management
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              typeName: "Xe 4 chỗ"
+              description: "Phương tiện có tối đa 4 chỗ ngồi"
+              seatCapacity: 4
+      responses:
+        '201':
+          description: Thêm loại xe thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Thêm loại xe thành công"
+                data:
+                  vehicleTypeId: 1
+                  typeName: "Xe 4 chỗ"
+                  description: "Phương tiện có tối đa 4 chỗ ngồi"
+                  seatCapacity: 4
+        '400':
+          description: Dữ liệu loại xe không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền quản lý loại xe
+        '409':
+          description: Tên loại xe đã tồn tại
+
+    get:
+      summary: FR-04.8 - Xem danh sách loại xe
+      tags:
+        - Vehicle Type Management
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lấy danh sách loại xe thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy danh sách loại xe thành công"
+                data:
+                  - vehicleTypeId: 1
+                    typeName: "Xe 4 chỗ"
+                    description: "Phương tiện có tối đa 4 chỗ ngồi"
+                    seatCapacity: 4
+                  - vehicleTypeId: 2
+                    typeName: "Xe 7 chỗ"
+                    description: "Phương tiện có tối đa 7 chỗ ngồi"
+                    seatCapacity: 7
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem danh sách loại xe
+
+  /api/vehicle-types/{vehicleTypeId}:
+    put:
+      summary: FR-04.8 - Cập nhật loại xe
+      tags:
+        - Vehicle Type Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: vehicleTypeId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              typeName: "Xe 4 chỗ"
+              description: "Xe phục vụ khách hàng"
+              seatCapacity: 4
+      responses:
+        '200':
+          description: Cập nhật loại xe thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Cập nhật loại xe thành công"
+                data:
+                  vehicleTypeId: 1
+                  typeName: "Xe 4 chỗ"
+                  description: "Xe phục vụ khách hàng"
+                  seatCapacity: 4
+        '400':
+          description: Dữ liệu loại xe không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền cập nhật loại xe
+        '404':
+          description: Không tìm thấy loại xe
+        '409':
+          description: Tên loại xe đã tồn tại
+
+    delete:
+      summary: FR-04.8 - Xóa loại xe
+      tags:
+        - Vehicle Type Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: vehicleTypeId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Xóa loại xe thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Xóa loại xe thành công"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xóa loại xe
+        '404':
+          description: Không tìm thấy loại xe
+        '409':
+          description: Không thể xóa loại xe đang được sử dụng
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
