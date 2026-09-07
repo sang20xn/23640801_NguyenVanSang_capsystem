@@ -1,1 +1,450 @@
 
+openapi: 3.0.3
+
+info:
+  title: API Quản lý khách hàng
+  description: Đặc tả API cho FR-02 - Quản lý khách hàng
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # =========================================================
+  # FR-02.1 - XEM DANH SÁCH KHÁCH HÀNG
+  # =========================================================
+  /api/customers:
+    get:
+      summary: FR-02.1 - Xem danh sách khách hàng
+      tags:
+        - Customer Management
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: page
+          in: query
+          description: Số trang
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          example: 0
+
+        - name: size
+          in: query
+          description: Số khách hàng trên mỗi trang
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 10
+          example: 10
+
+      responses:
+        '200':
+          description: Lấy danh sách khách hàng thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy danh sách khách hàng thành công"
+                data:
+                  content:
+                    - customerId: 1001
+                      fullName: "Nguyễn Văn A"
+                      email: "nguyenvana@gmail.com"
+                      phone: "0901234567"
+                      address: "123 Nguyễn Trãi, Quận 1, TP.HCM"
+                      status: ACTIVE
+                    - customerId: 1002
+                      fullName: "Trần Thị B"
+                      email: "tranthib@gmail.com"
+                      phone: "0912345678"
+                      address: "456 Lê Lợi, Quận 3, TP.HCM"
+                      status: ACTIVE
+                  page: 0
+                  size: 10
+                  totalElements: 2
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        '403':
+          description: Không có quyền xem danh sách khách hàng
+
+
+  # =========================================================
+  # FR-02.2 - TÌM KIẾM KHÁCH HÀNG
+  # =========================================================
+  /api/customers/search:
+    get:
+      summary: FR-02.2 - Tìm kiếm khách hàng
+      tags:
+        - Customer Management
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          description: Từ khóa tìm kiếm theo tên, email hoặc số điện thoại
+          schema:
+            type: string
+          example: "Nguyễn Văn A"
+
+      responses:
+        '200':
+          description: Tìm kiếm khách hàng thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tìm kiếm khách hàng thành công"
+                data:
+                  - customerId: 1001
+                    fullName: "Nguyễn Văn A"
+                    email: "nguyenvana@gmail.com"
+                    phone: "0901234567"
+                    address: "123 Nguyễn Trãi, Quận 1, TP.HCM"
+                    status: ACTIVE
+
+        '400':
+          description: Từ khóa tìm kiếm không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        '403':
+          description: Không có quyền tìm kiếm khách hàng
+
+
+  # =========================================================
+  # FR-02.3 - XEM CHI TIẾT KHÁCH HÀNG
+  # =========================================================
+  /api/customers/{customerId}:
+    get:
+      summary: FR-02.3 - Xem chi tiết khách hàng
+      tags:
+        - Customer Management
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: ID khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+      responses:
+        '200':
+          description: Lấy thông tin khách hàng thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy thông tin khách hàng thành công"
+                data:
+                  customerId: 1001
+                  fullName: "Nguyễn Văn A"
+                  email: "nguyenvana@gmail.com"
+                  phone: "0901234567"
+                  address: "123 Nguyễn Trãi, Quận 1, TP.HCM"
+                  status: ACTIVE
+                  createdAt: "2026-09-01T10:30:00"
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        '403':
+          description: Không có quyền xem thông tin khách hàng
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+
+    # =======================================================
+    # FR-02.4 - CẬP NHẬT THÔNG TIN KHÁCH HÀNG
+    # =======================================================
+    put:
+      summary: FR-02.4 - Cập nhật thông tin khách hàng
+      tags:
+        - Customer Management
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: ID khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              fullName: "Nguyễn Văn A"
+              phone: "0901234567"
+              address: "789 Điện Biên Phủ, Bình Thạnh, TP.HCM"
+
+      responses:
+        '200':
+          description: Cập nhật thông tin khách hàng thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Cập nhật thông tin khách hàng thành công"
+                data:
+                  customerId: 1001
+                  fullName: "Nguyễn Văn A"
+                  email: "nguyenvana@gmail.com"
+                  phone: "0901234567"
+                  address: "789 Điện Biên Phủ, Bình Thạnh, TP.HCM"
+                  status: ACTIVE
+
+        '400':
+          description: Dữ liệu cập nhật không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        '403':
+          description: Không có quyền cập nhật thông tin khách hàng
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+
+  # =========================================================
+  # FR-02.5 - KHÓA / MỞ KHÓA KHÁCH HÀNG
+  # =========================================================
+  /api/customers/{customerId}/status:
+    patch:
+      summary: FR-02.5 - Khóa hoặc mở khóa khách hàng
+      tags:
+        - Customer Management
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: ID khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              status: LOCKED
+
+      responses:
+        '200':
+          description: Cập nhật trạng thái khách hàng thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Cập nhật trạng thái khách hàng thành công"
+                data:
+                  customerId: 1001
+                  status: LOCKED
+
+        '400':
+          description: Trạng thái không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        '403':
+          description: Không có quyền khóa hoặc mở khóa khách hàng
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+
+  # =========================================================
+  # FR-02.6 - XEM LỊCH SỬ CHUYẾN ĐI
+  # =========================================================
+  /api/customers/{customerId}/trips:
+    get:
+      summary: FR-02.6 - Xem lịch sử chuyến đi
+      tags:
+        - Customer Management
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: ID khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+      responses:
+        '200':
+          description: Lấy lịch sử chuyến đi thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy lịch sử chuyến đi thành công"
+                data:
+                  - tripId: 5001
+                    pickupLocation: "123 Nguyễn Trãi, Quận 1, TP.HCM"
+                    destination: "Sân bay Tân Sơn Nhất"
+                    driverName: "Trần Văn B"
+                    fare: 120000
+                    status: COMPLETED
+                    bookingTime: "2026-09-05T08:30:00"
+                  - tripId: 5002
+                    pickupLocation: "456 Lê Lợi, Quận 3, TP.HCM"
+                    destination: "Vincom Đồng Khởi"
+                    driverName: "Lê Văn C"
+                    fare: 85000
+                    status: COMPLETED
+                    bookingTime: "2026-09-06T14:00:00"
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        '403':
+          description: Không có quyền xem lịch sử chuyến đi
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+
+  # =========================================================
+  # FR-02.7 - TRA CỨU GIAO DỊCH
+  # =========================================================
+  /api/customers/{customerId}/transactions:
+    get:
+      summary: FR-02.7 - Tra cứu giao dịch
+      tags:
+        - Customer Management
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: ID khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Tra cứu giao dịch thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tra cứu giao dịch thành công"
+                data:
+                  - transactionId: 9001
+                    tripId: 5001
+                    amount: 120000
+                    paymentMethod: CASH
+                    transactionType: TRIP_PAYMENT
+                    status: SUCCESS
+                    transactionTime: "2026-09-05T09:00:00"
+                  - transactionId: 9002
+                    tripId: 5002
+                    amount: 85000
+                    paymentMethod: BANKING
+                    transactionType: TRIP_PAYMENT
+                    status: SUCCESS
+                    transactionTime: "2026-09-06T14:30:00"
+
+        '400':
+          description: Khoảng thời gian tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        '403':
+          description: Không có quyền tra cứu giao dịch
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+
+# ===========================================================
+# COMPONENTS
+# ===========================================================
+components:
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    CustomerStatus:
+      type: string
+      enum:
+        - ACTIVE
+        - LOCKED
+
+    PaymentMethod:
+      type: string
+      enum:
+        - CASH
+        - BANKING
+        - E_WALLET
+
+    TransactionStatus:
+      type: string
+      enum:
+        - SUCCESS
+        - FAILED
+        - PENDING
+
+    TripStatus:
+      type: string
+      enum:
+        - BOOKED
+        - IN_PROGRESS
+        - COMPLETED
+        - CANCELLED
