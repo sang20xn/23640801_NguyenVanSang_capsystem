@@ -1,0 +1,309 @@
+
+openapi: 3.0.3
+
+info:
+  title: API Quản lý cước
+  description: Đặc tả API cho FR-08 - Quản lý cước
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /api/fares/service-type:
+    post:
+      summary: FR-08.1 - Xác định loại dịch vụ
+      tags:
+        - Fare Management
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              serviceType: STANDARD
+              vehicleTypeId: 1
+      responses:
+        '200':
+          description: Xác định loại dịch vụ thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Xác định loại dịch vụ thành công"
+                data:
+                  tripId: 6001
+                  serviceType: STANDARD
+                  serviceTypeName: "Dịch vụ tiêu chuẩn"
+                  vehicleTypeId: 1
+                  vehicleTypeName: "Xe 4 chỗ"
+        '400':
+          description: Loại dịch vụ không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xác định loại dịch vụ
+        '404':
+          description: Không tìm thấy chuyến hoặc loại xe
+
+  /api/fares/trips/{tripId}/information:
+    post:
+      summary: FR-08.2 - Ghi nhận thông tin chuyến
+      tags:
+        - Fare Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+              destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+              distanceKm: 8.5
+              durationMinutes: 25
+              vehicleTypeId: 1
+              serviceType: STANDARD
+      responses:
+        '200':
+          description: Ghi nhận thông tin chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Ghi nhận thông tin chuyến thành công"
+                data:
+                  tripId: 6001
+                  pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                  destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+                  distanceKm: 8.5
+                  durationMinutes: 25
+                  vehicleTypeId: 1
+                  serviceType: STANDARD
+        '400':
+          description: Thông tin chuyến không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền ghi nhận thông tin chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/fares/trips/{tripId}/calculate:
+    post:
+      summary: FR-08.3 - Tính số tiền phải trả
+      tags:
+        - Fare Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Tính cước thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tính số tiền phải trả thành công"
+                data:
+                  tripId: 6001
+                  baseFare: 30000
+                  distanceFare: 80000
+                  serviceFee: 10000
+                  discount: 0
+                  totalFare: 120000
+                  currency: "VND"
+        '400':
+          description: Không đủ thông tin để tính cước
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền tính cước
+        '404':
+          description: Không tìm thấy chuyến hoặc bảng giá
+
+  /api/fares/trips/{tripId}:
+    get:
+      summary: FR-08.4 - Hiển thị cước cho khách hàng
+      tags:
+        - Fare Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Hiển thị thông tin cước thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy thông tin cước thành công"
+                data:
+                  tripId: 6001
+                  serviceType: STANDARD
+                  serviceTypeName: "Dịch vụ tiêu chuẩn"
+                  distanceKm: 8.5
+                  durationMinutes: 25
+                  baseFare: 30000
+                  distanceFare: 80000
+                  serviceFee: 10000
+                  discount: 0
+                  totalFare: 120000
+                  currency: "VND"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem thông tin cước
+        '404':
+          description: Không tìm thấy thông tin cước
+
+  /api/fares:
+    post:
+      summary: FR-08.5 - Lưu thông tin cước
+      tags:
+        - Fare Management
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              serviceType: STANDARD
+              distanceKm: 8.5
+              durationMinutes: 25
+              baseFare: 30000
+              distanceFare: 80000
+              serviceFee: 10000
+              discount: 0
+              totalFare: 120000
+              currency: "VND"
+      responses:
+        '201':
+          description: Lưu thông tin cước thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lưu thông tin cước thành công"
+                data:
+                  fareId: 9001
+                  tripId: 6001
+                  serviceType: STANDARD
+                  distanceKm: 8.5
+                  durationMinutes: 25
+                  baseFare: 30000
+                  distanceFare: 80000
+                  serviceFee: 10000
+                  discount: 0
+                  totalFare: 120000
+                  currency: "VND"
+                  createdAt: "2026-09-07T15:50:00"
+        '400':
+          description: Dữ liệu cước không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền lưu thông tin cước
+        '404':
+          description: Không tìm thấy chuyến
+        '409':
+          description: Chuyến đã có thông tin cước
+
+  /api/fares/search:
+    get:
+      summary: FR-08.6 - Nhân viên tra cứu cước
+      tags:
+        - Fare Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 6001
+        - name: customerId
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 1001
+        - name: fromDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+        - name: toDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+      responses:
+        '200':
+          description: Tra cứu cước thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tra cứu cước thành công"
+                data:
+                  - fareId: 9001
+                    tripId: 6001
+                    customerId: 1001
+                    customerName: "Nguyễn Văn A"
+                    serviceType: STANDARD
+                    distanceKm: 8.5
+                    totalFare: 120000
+                    currency: "VND"
+                    createdAt: "2026-09-07T15:50:00"
+                  - fareId: 9002
+                    tripId: 6002
+                    customerId: 1002
+                    customerName: "Lê Văn C"
+                    serviceType: STANDARD
+                    distanceKm: 12.3
+                    totalFare: 165000
+                    currency: "VND"
+                    createdAt: "2026-09-07T16:10:00"
+        '400':
+          description: Điều kiện tra cứu không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền tra cứu cước
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
