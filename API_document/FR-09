@@ -1,0 +1,453 @@
+
+openapi: 3.0.3
+
+info:
+  title: API Quản lý thanh toán
+  description: Đặc tả API cho FR-09 - Quản lý thanh toán
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # =========================================================
+  # FR-09.1 - THANH TOÁN TIỀN MẶT
+  # =========================================================
+  /api/payments/cash:
+    post:
+      tags:
+        - Thanh toán
+      summary: Thanh toán tiền mặt
+      description: Thực hiện thanh toán tiền mặt cho chuyến đi
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              customerId: 1001
+              amount: 120000
+              currency: VND
+              paymentMethod: CASH
+      responses:
+        '200':
+          description: Thanh toán tiền mặt thành công
+          content:
+            application/json:
+              example:
+                paymentId: 10001
+                tripId: 6001
+                paymentMethod: CASH
+                amount: 120000
+                status: SUCCESS
+        '400':
+          description: Dữ liệu thanh toán không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền thực hiện thanh toán
+        '404':
+          description: Không tìm thấy chuyến đi
+
+
+  # =========================================================
+  # FR-09.2 - THANH TOÁN ĐIỆN TỬ
+  # =========================================================
+  /api/payments/electronic:
+    post:
+      tags:
+        - Thanh toán
+      summary: Thanh toán điện tử
+      description: Khởi tạo giao dịch thanh toán điện tử
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              customerId: 1001
+              amount: 120000
+              currency: VND
+              paymentMethod: ELECTRONIC
+              provider: VNPAY
+      responses:
+        '200':
+          description: Khởi tạo thanh toán điện tử thành công
+          content:
+            application/json:
+              example:
+                paymentId: 10002
+                tripId: 6001
+                paymentMethod: ELECTRONIC
+                provider: VNPAY
+                amount: 120000
+                status: PENDING
+                paymentUrl: https://payment.example.com/transaction/10002
+        '400':
+          description: Dữ liệu thanh toán không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền thực hiện thanh toán
+        '404':
+          description: Không tìm thấy chuyến đi
+
+
+  # =========================================================
+  # FR-09.3 - KẾT NỐI NHÀ CUNG CẤP THANH TOÁN
+  # =========================================================
+  /api/payment-providers/connect:
+    post:
+      tags:
+        - Nhà cung cấp thanh toán
+      summary: Kết nối nhà cung cấp thanh toán
+      description: Kết nối hệ thống với nhà cung cấp dịch vụ thanh toán điện tử
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              provider: VNPAY
+              transactionId: TXN10002
+              paymentId: 10002
+              amount: 120000
+              currency: VND
+      responses:
+        '200':
+          description: Kết nối nhà cung cấp thanh toán thành công
+          content:
+            application/json:
+              example:
+                provider: VNPAY
+                transactionId: TXN10002
+                status: CONNECTED
+        '400':
+          description: Thông tin kết nối không hợp lệ
+        '401':
+          description: Chưa xác thực
+        '404':
+          description: Không tìm thấy nhà cung cấp thanh toán
+        '503':
+          description: Nhà cung cấp thanh toán không khả dụng
+
+
+  # =========================================================
+  # FR-09.4 - TIẾP NHẬN KẾT QUẢ GIAO DỊCH
+  # =========================================================
+  /api/payments/callback:
+    post:
+      tags:
+        - Thanh toán
+      summary: Tiếp nhận kết quả giao dịch
+      description: Tiếp nhận callback hoặc kết quả giao dịch từ nhà cung cấp thanh toán
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              paymentId: 10002
+              transactionId: TXN10002
+              provider: VNPAY
+              status: SUCCESS
+              amount: 120000
+              transactionTime: "2026-09-07T15:30:00"
+      responses:
+        '200':
+          description: Tiếp nhận kết quả giao dịch thành công
+          content:
+            application/json:
+              example:
+                paymentId: 10002
+                transactionId: TXN10002
+                status: RECEIVED
+        '400':
+          description: Kết quả giao dịch không hợp lệ
+        '404':
+          description: Không tìm thấy giao dịch
+        '409':
+          description: Giao dịch đã được xử lý
+
+
+  # =========================================================
+  # FR-09.5 - CẬP NHẬT THANH TOÁN THÀNH CÔNG
+  # =========================================================
+  /api/payments/{paymentId}/success:
+    patch:
+      tags:
+        - Thanh toán
+      summary: Cập nhật thanh toán thành công
+      description: Cập nhật trạng thái giao dịch thành thanh toán thành công
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          description: Mã thanh toán
+          schema:
+            type: integer
+          example: 10002
+      requestBody:
+        required: false
+        content:
+          application/json:
+            example:
+              transactionId: TXN10002
+              paidAt: "2026-09-07T15:30:00"
+      responses:
+        '200':
+          description: Cập nhật thanh toán thành công
+          content:
+            application/json:
+              example:
+                paymentId: 10002
+                status: SUCCESS
+        '400':
+          description: Trạng thái giao dịch không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền cập nhật
+        '404':
+          description: Không tìm thấy giao dịch
+
+
+  # =========================================================
+  # FR-09.6 - CẬP NHẬT THANH TOÁN THẤT BẠI
+  # =========================================================
+  /api/payments/{paymentId}/failed:
+    patch:
+      tags:
+        - Thanh toán
+      summary: Cập nhật thanh toán thất bại
+      description: Cập nhật trạng thái giao dịch khi thanh toán thất bại
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          description: Mã thanh toán
+          schema:
+            type: integer
+          example: 10002
+      requestBody:
+        required: false
+        content:
+          application/json:
+            example:
+              transactionId: TXN10002
+              reason: INSUFFICIENT_BALANCE
+      responses:
+        '200':
+          description: Cập nhật thanh toán thất bại thành công
+          content:
+            application/json:
+              example:
+                paymentId: 10002
+                status: FAILED
+                reason: INSUFFICIENT_BALANCE
+        '400':
+          description: Thông tin giao dịch không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền cập nhật
+        '404':
+          description: Không tìm thấy giao dịch
+
+
+  # =========================================================
+  # FR-09.7 - THÔNG BÁO KẾT QUẢ THANH TOÁN
+  # =========================================================
+  /api/payments/{paymentId}/notify:
+    post:
+      tags:
+        - Thanh toán
+      summary: Thông báo kết quả thanh toán
+      description: Gửi thông báo kết quả thanh toán cho khách hàng
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          description: Mã thanh toán
+          schema:
+            type: integer
+          example: 10002
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              notificationType: PAYMENT_RESULT
+              channel: APP
+              message: Thanh toán chuyến đi thành công
+      responses:
+        '200':
+          description: Thông báo kết quả thanh toán thành công
+          content:
+            application/json:
+              example:
+                paymentId: 10002
+                notificationStatus: SENT
+        '400':
+          description: Thông tin thông báo không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '404':
+          description: Không tìm thấy giao dịch
+
+
+  # =========================================================
+  # FR-09.8 - XỬ LÝ LẠI GIAO DỊCH THẤT BẠI
+  # =========================================================
+  /api/payments/{paymentId}/retry:
+    post:
+      tags:
+        - Thanh toán
+      summary: Xử lý lại giao dịch thất bại
+      description: Thực hiện lại giao dịch thanh toán đã thất bại
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          description: Mã thanh toán
+          schema:
+            type: integer
+          example: 10002
+      requestBody:
+        required: false
+        content:
+          application/json:
+            example:
+              paymentMethod: ELECTRONIC
+              provider: VNPAY
+      responses:
+        '200':
+          description: Xử lý lại giao dịch thành công
+          content:
+            application/json:
+              example:
+                paymentId: 10002
+                retryCount: 1
+                status: PENDING
+        '400':
+          description: Giao dịch không thể xử lý lại
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền xử lý
+        '404':
+          description: Không tìm thấy giao dịch
+        '409':
+          description: Giao dịch đang được xử lý
+
+
+  # =========================================================
+  # FR-09.9 - TRA CỨU LỊCH SỬ GIAO DỊCH
+  # =========================================================
+  /api/payments/history:
+    get:
+      tags:
+        - Thanh toán
+      summary: Tra cứu lịch sử giao dịch
+      description: Tra cứu lịch sử các giao dịch thanh toán
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: customerId
+          in: query
+          required: false
+          description: Mã khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+        - name: paymentMethod
+          in: query
+          required: false
+          description: Phương thức thanh toán
+          schema:
+            type: string
+            enum:
+              - CASH
+              - ELECTRONIC
+          example: ELECTRONIC
+
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái giao dịch
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - SUCCESS
+              - FAILED
+          example: SUCCESS
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Thời gian bắt đầu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Thời gian kết thúc
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Tra cứu lịch sử giao dịch thành công
+          content:
+            application/json:
+              example:
+                transactions:
+                  - paymentId: 10001
+                    tripId: 6001
+                    customerId: 1001
+                    paymentMethod: CASH
+                    amount: 120000
+                    status: SUCCESS
+                    transactionTime: "2026-09-07T15:30:00"
+                  - paymentId: 10002
+                    tripId: 6002
+                    customerId: 1001
+                    paymentMethod: ELECTRONIC
+                    provider: VNPAY
+                    amount: 85000
+                    status: FAILED
+                    transactionTime: "2026-09-07T15:35:00"
+        '400':
+          description: Tham số tra cứu không hợp lệ
+        '401':
+          description: Chưa đăng nhập
+        '403':
+          description: Không có quyền tra cứu
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
