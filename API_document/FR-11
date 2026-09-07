@@ -1,1 +1,324 @@
 
+openapi: 3.0.3
+
+info:
+  title: API Đánh giá tài xế
+  description: Đặc tả API cho FR-11 - Đánh giá tài xế
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # =========================================================
+  # FR-11.1 - KHÁCH HÀNG ĐÁNH GIÁ SAU CHUYẾN
+  # =========================================================
+
+  /api/ratings:
+    post:
+      tags:
+        - Đánh giá tài xế
+      summary: Khách hàng đánh giá tài xế sau chuyến
+      description: Cho phép khách hàng đánh giá tài xế sau khi chuyến đi hoàn thành
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              tripId: 6001
+              score: 5
+              comment: Tài xế thân thiện, lái xe an toàn
+
+      responses:
+        '201':
+          description: Đánh giá được tạo thành công
+          content:
+            application/json:
+              example:
+                ratingId: 12001
+                tripId: 6001
+                customerId: 1001
+                driverId: 2001
+                score: 5
+                comment: Tài xế thân thiện, lái xe an toàn
+                status: SAVED
+
+        '400':
+          description: Dữ liệu đánh giá không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền đánh giá
+
+        '404':
+          description: Không tìm thấy chuyến đi hoặc tài xế
+
+        '409':
+          description: Khách hàng đã đánh giá chuyến đi này
+
+
+    # =======================================================
+    # FR-11.5 - NHÂN VIÊN XEM ĐÁNH GIÁ
+    # =======================================================
+
+    get:
+      tags:
+        - Đánh giá tài xế
+      summary: Nhân viên xem đánh giá
+      description: Cho phép nhân viên tra cứu danh sách đánh giá tài xế
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: driverId
+          in: query
+          required: false
+          description: Mã tài xế
+          schema:
+            type: integer
+          example: 2001
+
+        - name: score
+          in: query
+          required: false
+          description: Mức điểm đánh giá
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+          example: 5
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Lấy danh sách đánh giá thành công
+          content:
+            application/json:
+              example:
+                ratings:
+                  - ratingId: 12001
+                    tripId: 6001
+                    customerId: 1001
+                    driverId: 2001
+                    score: 5
+                    comment: Tài xế thân thiện, lái xe an toàn
+                    createdAt: "2026-09-07T15:40:00"
+
+                  - ratingId: 12002
+                    tripId: 6002
+                    customerId: 1002
+                    driverId: 2001
+                    score: 4
+                    comment: Tài xế phục vụ tốt
+                    createdAt: "2026-09-07T16:10:00"
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem đánh giá
+
+
+  # =========================================================
+  # FR-11.2 - CHỌN MỨC ĐIỂM ĐÁNH GIÁ
+  # =========================================================
+
+  /api/ratings/{ratingId}/score:
+    patch:
+      tags:
+        - Đánh giá tài xế
+      summary: Chọn mức điểm đánh giá
+      description: Cập nhật mức điểm đánh giá cho tài xế
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          description: Mã đánh giá
+          schema:
+            type: integer
+          example: 12001
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              score: 5
+
+      responses:
+        '200':
+          description: Cập nhật điểm đánh giá thành công
+          content:
+            application/json:
+              example:
+                ratingId: 12001
+                score: 5
+                status: UPDATED
+
+        '400':
+          description: Điểm đánh giá không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền cập nhật đánh giá
+
+        '404':
+          description: Không tìm thấy đánh giá
+
+
+  # =========================================================
+  # FR-11.3 - NHẬP NHẬN XÉT
+  # =========================================================
+
+  /api/ratings/{ratingId}/comment:
+    patch:
+      tags:
+        - Đánh giá tài xế
+      summary: Nhập nhận xét
+      description: Cho phép khách hàng nhập hoặc cập nhật nhận xét về tài xế
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          description: Mã đánh giá
+          schema:
+            type: integer
+          example: 12001
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              comment: Tài xế phục vụ tốt, lịch sự và đúng giờ
+
+      responses:
+        '200':
+          description: Cập nhật nhận xét thành công
+          content:
+            application/json:
+              example:
+                ratingId: 12001
+                comment: Tài xế phục vụ tốt, lịch sự và đúng giờ
+                status: UPDATED
+
+        '400':
+          description: Nội dung nhận xét không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền cập nhật nhận xét
+
+        '404':
+          description: Không tìm thấy đánh giá
+
+
+  # =========================================================
+  # FR-11.4 - LƯU ĐÁNH GIÁ
+  # =========================================================
+
+  /api/ratings/{ratingId}:
+    put:
+      tags:
+        - Đánh giá tài xế
+      summary: Lưu đánh giá
+      description: Lưu thông tin đánh giá của khách hàng vào hệ thống
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          description: Mã đánh giá
+          schema:
+            type: integer
+          example: 12001
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              score: 5
+              comment: Tài xế phục vụ tốt, lịch sự và đúng giờ
+
+      responses:
+        '200':
+          description: Lưu đánh giá thành công
+          content:
+            application/json:
+              example:
+                ratingId: 12001
+                tripId: 6001
+                customerId: 1001
+                driverId: 2001
+                score: 5
+                comment: Tài xế phục vụ tốt, lịch sự và đúng giờ
+                status: SAVED
+
+        '400':
+          description: Thông tin đánh giá không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền lưu đánh giá
+
+        '404':
+          description: Không tìm thấy đánh giá
+
+        '409':
+          description: Đánh giá đã tồn tại
+
+
+# ===========================================================
+# SECURITY
+# ===========================================================
+
+components:
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
