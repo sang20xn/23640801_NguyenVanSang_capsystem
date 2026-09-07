@@ -1,0 +1,476 @@
+
+openapi: 3.0.3
+
+info:
+  title: API Quản lý và theo dõi chuyến đi
+  description: Đặc tả API cho FR-07 - Quản lý & theo dõi chuyến đi
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /api/trips/{tripId}/confirm:
+    patch:
+      summary: FR-07.1 - Tài xế xác nhận nhận chuyến
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Tài xế xác nhận nhận chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tài xế đã xác nhận nhận chuyến"
+                data:
+                  tripId: 6001
+                  driverId: 2001
+                  driverName: "Trần Văn B"
+                  status: DRIVER_CONFIRMED
+        '400':
+          description: Chuyến không ở trạng thái có thể xác nhận
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xác nhận chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/arrived:
+    patch:
+      summary: FR-07.2 - Cập nhật đã đến điểm đón
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Cập nhật đã đến điểm đón thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tài xế đã đến điểm đón"
+                data:
+                  tripId: 6001
+                  status: DRIVER_ARRIVED
+                  arrivedAt: "2026-09-07T15:20:00"
+        '400':
+          description: Chuyến không ở trạng thái phù hợp
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền cập nhật trạng thái chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/picked-up:
+    patch:
+      summary: FR-07.3 - Cập nhật đã đón khách
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Cập nhật đã đón khách thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đã cập nhật trạng thái đón khách"
+                data:
+                  tripId: 6001
+                  status: PASSENGER_PICKED_UP
+                  pickedUpAt: "2026-09-07T15:23:00"
+        '400':
+          description: Chuyến không ở trạng thái phù hợp
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền cập nhật trạng thái chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/in-progress:
+    patch:
+      summary: FR-07.4 - Cập nhật đang di chuyển
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Cập nhật chuyến đang di chuyển thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Chuyến đang di chuyển"
+                data:
+                  tripId: 6001
+                  status: IN_PROGRESS
+                  startedAt: "2026-09-07T15:24:00"
+        '400':
+          description: Chuyến chưa ở trạng thái đã đón khách
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền cập nhật trạng thái chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/complete:
+    patch:
+      summary: FR-07.5 - Cập nhật hoàn thành chuyến
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Hoàn thành chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Chuyến đi đã hoàn thành"
+                data:
+                  tripId: 6001
+                  status: COMPLETED
+                  completedAt: "2026-09-07T15:50:00"
+        '400':
+          description: Chuyến không ở trạng thái đang di chuyển
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền hoàn thành chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/status:
+    get:
+      summary: FR-07.6 - Khách hàng theo dõi trạng thái chuyến
+      tags:
+        - Trip Tracking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Lấy trạng thái chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy trạng thái chuyến thành công"
+                data:
+                  tripId: 6001
+                  status: IN_PROGRESS
+                  pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                  destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+                  currentLocation:
+                    latitude: 10.7850
+                    longitude: 106.7000
+                  estimatedArrivalTime: "2026-09-07T15:50:00"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền theo dõi chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/driver:
+    get:
+      summary: FR-07.7 - Xem thông tin tài xế
+      tags:
+        - Trip Tracking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Lấy thông tin tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy thông tin tài xế thành công"
+                data:
+                  driverId: 2001
+                  fullName: "Trần Văn B"
+                  phone: "0912345678"
+                  rating: 4.8
+                  vehicle:
+                    vehicleId: 3001
+                    licensePlate: "51A-123.45"
+                    vehicleType: "Xe 4 chỗ"
+                    brand: "Toyota"
+                    model: "Vios"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem thông tin tài xế
+        '404':
+          description: Chưa có tài xế được phân công
+
+  /api/trips/{tripId}/driver-eta:
+    get:
+      summary: FR-07.8 - Xem thời gian dự kiến tài xế đến
+      tags:
+        - Trip Tracking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Lấy thời gian dự kiến tài xế đến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy thời gian dự kiến tài xế đến thành công"
+                data:
+                  tripId: 6001
+                  driverId: 2001
+                  distanceKm: 1.8
+                  estimatedMinutes: 6
+                  estimatedArrivalTime: "2026-09-07T15:20:00"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem thời gian dự kiến
+        '404':
+          description: Không tìm thấy chuyến hoặc vị trí tài xế
+
+  /api/trips/ongoing:
+    get:
+      summary: FR-07.9 - Nhân viên xem chuyến đang diễn ra
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lấy danh sách chuyến đang diễn ra thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy danh sách chuyến đang diễn ra thành công"
+                data:
+                  - tripId: 6001
+                    customerId: 1001
+                    customerName: "Nguyễn Văn A"
+                    driverId: 2001
+                    driverName: "Trần Văn B"
+                    vehicleId: 3001
+                    licensePlate: "51A-123.45"
+                    pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                    destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+                    status: IN_PROGRESS
+                    startedAt: "2026-09-07T15:24:00"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem chuyến đang diễn ra
+
+  /api/trips/{tripId}:
+    get:
+      summary: FR-07.10 - Xem chi tiết chuyến
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Lấy chi tiết chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lấy chi tiết chuyến thành công"
+                data:
+                  tripId: 6001
+                  bookingId: 5001
+                  customerId: 1001
+                  customerName: "Nguyễn Văn A"
+                  driverId: 2001
+                  driverName: "Trần Văn B"
+                  vehicleId: 3001
+                  licensePlate: "51A-123.45"
+                  vehicleType: "Xe 4 chỗ"
+                  pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                  destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+                  status: COMPLETED
+                  fare: 120000
+                  createdAt: "2026-09-07T15:01:00"
+                  startedAt: "2026-09-07T15:24:00"
+                  completedAt: "2026-09-07T15:50:00"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xem chi tiết chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/error:
+    patch:
+      summary: FR-07.11 - Xử lý chuyến lỗi
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              errorType: DRIVER_CANCELLED
+              description: "Tài xế hủy chuyến do phương tiện gặp sự cố"
+              action: REASSIGN_DRIVER
+      responses:
+        '200':
+          description: Xử lý chuyến lỗi thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đã xử lý chuyến lỗi"
+                data:
+                  tripId: 6001
+                  status: ERROR
+                  errorType: DRIVER_CANCELLED
+                  action: REASSIGN_DRIVER
+                  processedAt: "2026-09-07T15:10:00"
+        '400':
+          description: Thông tin lỗi hoặc phương án xử lý không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xử lý chuyến lỗi
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/history:
+    post:
+      summary: FR-07.12 - Lưu lịch sử chuyến
+      tags:
+        - Trip Management
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              status: COMPLETED
+              action: "Chuyến đi hoàn thành"
+              timestamp: "2026-09-07T15:50:00"
+      responses:
+        '201':
+          description: Lưu lịch sử chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Lưu lịch sử chuyến thành công"
+                data:
+                  historyId: 8001
+                  tripId: 6001
+                  status: COMPLETED
+                  action: "Chuyến đi hoàn thành"
+                  timestamp: "2026-09-07T15:50:00"
+        '400':
+          description: Dữ liệu lịch sử không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền lưu lịch sử chuyến
+        '404':
+          description: Không tìm thấy chuyến
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
