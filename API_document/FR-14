@@ -1,0 +1,295 @@
+# =========================================================
+# FR-14 - AUDIT & KIỂM SOÁT
+# =========================================================
+
+openapi: 3.0.3
+
+info:
+  title: API Audit & Kiểm soát
+  description: Đặc tả API cho FR-14 - Audit & kiểm soát
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # ---------------------------------------------------------
+  # FR-14.1, FR-14.2, FR-14.3
+  # Ghi nhận thao tác quản trị quan trọng
+  # Ghi nhận người thực hiện
+  # Ghi nhận thời gian thao tác
+  # ---------------------------------------------------------
+  /api/audit-logs:
+    post:
+      tags:
+        - Audit & Kiểm soát
+      summary: Ghi nhận lịch sử thao tác
+      description: |
+        Ghi nhận các thao tác quản trị quan trọng trên hệ thống,
+        bao gồm người thực hiện, thời gian và nội dung thao tác.
+        Hệ thống tự động ghi nhận thời gian thực hiện.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              action: "UPDATE_DRIVER"
+              module: "Driver Management"
+              description: "Cập nhật thông tin tài xế"
+              targetId: 125
+              targetType: "DRIVER"
+              ipAddress: "192.168.1.10"
+      responses:
+        '201':
+          description: Ghi nhận lịch sử thao tác thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Audit log created successfully"
+                data:
+                  logId: 10001
+                  userId: 5
+                  username: "admin"
+                  action: "UPDATE_DRIVER"
+                  module: "Driver Management"
+                  description: "Cập nhật thông tin tài xế"
+                  targetId: 125
+                  targetType: "DRIVER"
+                  createdAt: "2026-09-07T14:30:00+07:00"
+        '400':
+          description: Dữ liệu thao tác không hợp lệ
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Invalid audit log data"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Unauthorized"
+        '403':
+          description: Không có quyền ghi nhận audit log
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Access denied"
+
+    # -------------------------------------------------------
+    # FR-14.4
+    # Tra cứu lịch sử thao tác
+    # -------------------------------------------------------
+    get:
+      tags:
+        - Audit & Kiểm soát
+      summary: Tra cứu lịch sử thao tác
+      description: Tra cứu các thao tác quản trị đã được ghi nhận trên hệ thống.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          description: Lọc theo người thực hiện
+          schema:
+            type: integer
+          example: 5
+
+        - name: action
+          in: query
+          required: false
+          description: Lọc theo loại thao tác
+          schema:
+            type: string
+          example: "UPDATE_DRIVER"
+
+        - name: module
+          in: query
+          required: false
+          description: Lọc theo chức năng
+          schema:
+            type: string
+          example: "Driver Management"
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Thời gian bắt đầu tra cứu
+          schema:
+            type: string
+            format: date-time
+          example: "2026-09-01T00:00:00+07:00"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Thời gian kết thúc tra cứu
+          schema:
+            type: string
+            format: date-time
+          example: "2026-09-07T23:59:59+07:00"
+
+        - name: page
+          in: query
+          required: false
+          description: Số trang
+          schema:
+            type: integer
+            default: 1
+          example: 1
+
+        - name: limit
+          in: query
+          required: false
+          description: Số lượng bản ghi mỗi trang
+          schema:
+            type: integer
+            default: 20
+          example: 20
+
+      responses:
+        '200':
+          description: Tra cứu lịch sử thao tác thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Audit logs retrieved successfully"
+                data:
+                  page: 1
+                  limit: 20
+                  total: 2
+                  logs:
+                    - logId: 10001
+                      userId: 5
+                      username: "admin"
+                      action: "UPDATE_DRIVER"
+                      module: "Driver Management"
+                      description: "Cập nhật thông tin tài xế"
+                      targetId: 125
+                      targetType: "DRIVER"
+                      ipAddress: "192.168.1.10"
+                      createdAt: "2026-09-07T14:30:00+07:00"
+
+                    - logId: 10002
+                      userId: 7
+                      username: "staff01"
+                      action: "APPROVE_TRIP"
+                      module: "Trip Management"
+                      description: "Duyệt chuyến đi"
+                      targetId: 2005
+                      targetType: "TRIP"
+                      ipAddress: "192.168.1.15"
+                      createdAt: "2026-09-07T15:10:00+07:00"
+        '400':
+          description: Tham số tìm kiếm không hợp lệ
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Invalid search parameters"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Unauthorized"
+        '403':
+          description: Không có quyền tra cứu lịch sử
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Access denied"
+
+
+  # ---------------------------------------------------------
+  # FR-14.5
+  # Kiểm soát truy cập dữ liệu
+  # ---------------------------------------------------------
+  /api/audit-logs/{logId}:
+    get:
+      tags:
+        - Audit & Kiểm soát
+      summary: Xem chi tiết lịch sử thao tác
+      description: |
+        Kiểm tra quyền truy cập và xem chi tiết một bản ghi
+        lịch sử thao tác cụ thể.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: logId
+          in: path
+          required: true
+          description: ID của bản ghi audit log
+          schema:
+            type: integer
+          example: 10001
+
+      responses:
+        '200':
+          description: Lấy thông tin audit log thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Audit log retrieved successfully"
+                data:
+                  logId: 10001
+                  userId: 5
+                  username: "admin"
+                  role: "ADMIN"
+                  action: "UPDATE_DRIVER"
+                  module: "Driver Management"
+                  description: "Cập nhật thông tin tài xế"
+                  targetId: 125
+                  targetType: "DRIVER"
+                  oldData:
+                    phone: "0901234567"
+                    status: "ACTIVE"
+                  newData:
+                    phone: "0912345678"
+                    status: "ACTIVE"
+                  ipAddress: "192.168.1.10"
+                  createdAt: "2026-09-07T14:30:00+07:00"
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Unauthorized"
+        '403':
+          description: Không có quyền truy cập dữ liệu audit
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Access denied"
+        '404':
+          description: Không tìm thấy bản ghi audit
+          content:
+            application/json:
+              example:
+                success: false
+                message: "Audit log not found"
+
+
+# =========================================================
+# SECURITY
+# =========================================================
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
