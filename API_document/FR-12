@@ -1,0 +1,645 @@
+openapi: 3.0.3
+
+info:
+  title: API Quản lý vận hành
+  description: Đặc tả API cho FR-12 - Quản lý vận hành
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # =========================================================
+  # FR-12.1 - THEO DÕI CHUYẾN ĐANG HOẠT ĐỘNG
+  # =========================================================
+
+  /api/operations/active-trips:
+    get:
+      tags:
+        - Quản lý vận hành
+      summary: Theo dõi chuyến đang hoạt động
+      description: Cho phép nhân viên theo dõi các chuyến đang được thực hiện
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái chuyến đi
+          schema:
+            type: string
+            enum:
+              - ACCEPTED
+              - PICKING_UP
+              - IN_PROGRESS
+          example: IN_PROGRESS
+
+        - name: driverId
+          in: query
+          required: false
+          description: Mã tài xế
+          schema:
+            type: integer
+          example: 2001
+
+      responses:
+        '200':
+          description: Lấy danh sách chuyến đang hoạt động thành công
+          content:
+            application/json:
+              example:
+                trips:
+                  - tripId: 6001
+                    customerId: 1001
+                    driverId: 2001
+                    vehicleId: 3001
+                    pickupLocation: "Đại học Công nghiệp TP.HCM"
+                    destination: "Sân bay Tân Sơn Nhất"
+                    status: IN_PROGRESS
+                    startedAt: "2026-09-07T15:20:00"
+
+                  - tripId: 6002
+                    customerId: 1002
+                    driverId: 2002
+                    vehicleId: 3002
+                    pickupLocation: "Biên Hòa"
+                    destination: "Quận 1, TP.HCM"
+                    status: PICKING_UP
+                    startedAt: "2026-09-07T15:35:00"
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền theo dõi chuyến đi
+
+
+  # =========================================================
+  # FR-12.2 - THEO DÕI TRẠNG THÁI TÀI XẾ
+  # =========================================================
+
+  /api/operations/drivers/status:
+    get:
+      tags:
+        - Quản lý vận hành
+      summary: Theo dõi trạng thái tài xế
+      description: Cho phép nhân viên theo dõi trạng thái hoạt động của tài xế
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái tài xế
+          schema:
+            type: string
+            enum:
+              - ONLINE
+              - OFFLINE
+              - BUSY
+              - AVAILABLE
+          example: AVAILABLE
+
+        - name: driverId
+          in: query
+          required: false
+          description: Mã tài xế
+          schema:
+            type: integer
+          example: 2001
+
+      responses:
+        '200':
+          description: Lấy trạng thái tài xế thành công
+          content:
+            application/json:
+              example:
+                drivers:
+                  - driverId: 2001
+                    fullName: Nguyễn Văn An
+                    phone: "0901234567"
+                    status: AVAILABLE
+                    currentTripId: null
+
+                  - driverId: 2002
+                    fullName: Trần Văn Bình
+                    phone: "0907654321"
+                    status: BUSY
+                    currentTripId: 6002
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem trạng thái tài xế
+
+
+  # =========================================================
+  # FR-12.3 - TRA CỨU KHÁCH HÀNG
+  # =========================================================
+
+  /api/customers:
+    get:
+      tags:
+        - Quản lý vận hành
+      summary: Tra cứu khách hàng
+      description: Cho phép nhân viên tra cứu thông tin khách hàng
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: customerId
+          in: query
+          required: false
+          description: Mã khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+        - name: phone
+          in: query
+          required: false
+          description: Số điện thoại khách hàng
+          schema:
+            type: string
+          example: "0901234567"
+
+        - name: fullName
+          in: query
+          required: false
+          description: Họ tên khách hàng
+          schema:
+            type: string
+          example: Nguyễn Văn An
+
+      responses:
+        '200':
+          description: Tra cứu khách hàng thành công
+          content:
+            application/json:
+              example:
+                customers:
+                  - customerId: 1001
+                    fullName: Nguyễn Văn An
+                    phone: "0901234567"
+                    email: nguyenvanan@gmail.com
+                    status: ACTIVE
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền tra cứu khách hàng
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+
+  # =========================================================
+  # FR-12.4 - TRA CỨU TÀI XẾ
+  # =========================================================
+
+  /api/drivers:
+    get:
+      tags:
+        - Quản lý vận hành
+      summary: Tra cứu tài xế
+      description: Cho phép nhân viên tra cứu thông tin tài xế
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: driverId
+          in: query
+          required: false
+          description: Mã tài xế
+          schema:
+            type: integer
+          example: 2001
+
+        - name: fullName
+          in: query
+          required: false
+          description: Họ tên tài xế
+          schema:
+            type: string
+          example: Nguyễn Văn An
+
+        - name: phone
+          in: query
+          required: false
+          description: Số điện thoại tài xế
+          schema:
+            type: string
+          example: "0901234567"
+
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái tài xế
+          schema:
+            type: string
+            enum:
+              - ACTIVE
+              - INACTIVE
+          example: ACTIVE
+
+      responses:
+        '200':
+          description: Tra cứu tài xế thành công
+          content:
+            application/json:
+              example:
+                drivers:
+                  - driverId: 2001
+                    fullName: Nguyễn Văn An
+                    phone: "0901234567"
+                    licenseNumber: "79A123456"
+                    status: ACTIVE
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền tra cứu tài xế
+
+        '404':
+          description: Không tìm thấy tài xế
+
+
+  # =========================================================
+  # FR-12.5 - TRA CỨU PHƯƠNG TIỆN
+  # =========================================================
+
+  /api/vehicles:
+    get:
+      tags:
+        - Quản lý vận hành
+      summary: Tra cứu phương tiện
+      description: Cho phép nhân viên tra cứu thông tin phương tiện
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: vehicleId
+          in: query
+          required: false
+          description: Mã phương tiện
+          schema:
+            type: integer
+          example: 3001
+
+        - name: licensePlate
+          in: query
+          required: false
+          description: Biển số xe
+          schema:
+            type: string
+          example: "51A-12345"
+
+        - name: driverId
+          in: query
+          required: false
+          description: Mã tài xế đang sử dụng phương tiện
+          schema:
+            type: integer
+          example: 2001
+
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái phương tiện
+          schema:
+            type: string
+            enum:
+              - AVAILABLE
+              - IN_USE
+              - MAINTENANCE
+              - INACTIVE
+          example: AVAILABLE
+
+      responses:
+        '200':
+          description: Tra cứu phương tiện thành công
+          content:
+            application/json:
+              example:
+                vehicles:
+                  - vehicleId: 3001
+                    licensePlate: "51A-12345"
+                    brand: Toyota
+                    model: Vios
+                    driverId: 2001
+                    status: AVAILABLE
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền tra cứu phương tiện
+
+        '404':
+          description: Không tìm thấy phương tiện
+
+
+  # =========================================================
+  # FR-12.6 - TRA CỨU CHUYẾN ĐI
+  # =========================================================
+
+  /api/trips:
+    get:
+      tags:
+        - Quản lý vận hành
+      summary: Tra cứu chuyến đi
+      description: Cho phép nhân viên tra cứu thông tin chuyến đi
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: tripId
+          in: query
+          required: false
+          description: Mã chuyến đi
+          schema:
+            type: integer
+          example: 6001
+
+        - name: customerId
+          in: query
+          required: false
+          description: Mã khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+        - name: driverId
+          in: query
+          required: false
+          description: Mã tài xế
+          schema:
+            type: integer
+          example: 2001
+
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái chuyến đi
+          schema:
+            type: string
+          example: COMPLETED
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Tra cứu chuyến đi thành công
+          content:
+            application/json:
+              example:
+                trips:
+                  - tripId: 6001
+                    customerId: 1001
+                    driverId: 2001
+                    vehicleId: 3001
+                    pickupLocation: "Biên Hòa"
+                    destination: "Quận 1, TP.HCM"
+                    status: COMPLETED
+                    fare: 150000
+                    createdAt: "2026-09-07T15:00:00"
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền tra cứu chuyến đi
+
+        '404':
+          description: Không tìm thấy chuyến đi
+
+
+  # =========================================================
+  # FR-12.7 - TRA CỨU GIAO DỊCH
+  # =========================================================
+
+  /api/transactions:
+    get:
+      tags:
+        - Quản lý vận hành
+      summary: Tra cứu giao dịch
+      description: Cho phép nhân viên tra cứu các giao dịch thanh toán
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: transactionId
+          in: query
+          required: false
+          description: Mã giao dịch
+          schema:
+            type: integer
+          example: 7001
+
+        - name: tripId
+          in: query
+          required: false
+          description: Mã chuyến đi
+          schema:
+            type: integer
+          example: 6001
+
+        - name: customerId
+          in: query
+          required: false
+          description: Mã khách hàng
+          schema:
+            type: integer
+          example: 1001
+
+        - name: paymentMethod
+          in: query
+          required: false
+          description: Phương thức thanh toán
+          schema:
+            type: string
+            enum:
+              - CASH
+              - BANKING
+              - MOMO
+              - VNPAY
+          example: MOMO
+
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái giao dịch
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - SUCCESS
+              - FAILED
+              - REFUNDED
+          example: SUCCESS
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc tra cứu
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Tra cứu giao dịch thành công
+          content:
+            application/json:
+              example:
+                transactions:
+                  - transactionId: 7001
+                    tripId: 6001
+                    customerId: 1001
+                    amount: 150000
+                    paymentMethod: MOMO
+                    status: SUCCESS
+                    transactionDate: "2026-09-07T15:30:00"
+
+                  - transactionId: 7002
+                    tripId: 6002
+                    customerId: 1002
+                    amount: 120000
+                    paymentMethod: CASH
+                    status: SUCCESS
+                    transactionDate: "2026-09-07T16:00:00"
+
+        '400':
+          description: Tham số tra cứu không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền tra cứu giao dịch
+
+        '404':
+          description: Không tìm thấy giao dịch
+
+
+  # =========================================================
+  # FR-12.8 - XỬ LÝ CHUYẾN LỖI
+  # =========================================================
+
+  /api/operations/trips/{tripId}/error:
+    patch:
+      tags:
+        - Quản lý vận hành
+      summary: Xử lý chuyến lỗi
+      description: Cho phép nhân viên xử lý chuyến đi gặp lỗi hoặc sự cố
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          description: Mã chuyến đi cần xử lý
+          schema:
+            type: integer
+          example: 6001
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              errorType: DRIVER_CANCELLED
+              reason: Tài xế không thể tiếp tục chuyến đi
+              action: REASSIGN_DRIVER
+
+      responses:
+        '200':
+          description: Xử lý chuyến lỗi thành công
+          content:
+            application/json:
+              example:
+                tripId: 6001
+                status: REASSIGNED
+                newDriverId: 2003
+                action: REASSIGN_DRIVER
+                message: Đã phân công tài xế mới cho chuyến đi
+
+        '400':
+          description: Thông tin xử lý chuyến lỗi không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xử lý chuyến lỗi
+
+        '404':
+          description: Không tìm thấy chuyến đi
+
+        '409':
+          description: Chuyến đi không ở trạng thái có thể xử lý
+
+
+# ===========================================================
+# SECURITY
+# ===========================================================
+
+components:
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
