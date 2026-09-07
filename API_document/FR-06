@@ -1,0 +1,504 @@
+
+openapi: 3.0.3
+
+info:
+  title: API Tìm kiếm và phân công tài xế
+  description: Đặc tả API cho FR-06 - Tìm kiếm & phân công tài xế
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /api/trips/{tripId}/available-drivers:
+    get:
+      summary: FR-06.1 - Tìm tài xế đang sẵn sàng
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Tìm danh sách tài xế đang sẵn sàng thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tìm tài xế đang sẵn sàng thành công"
+                data:
+                  - driverId: 2001
+                    fullName: "Trần Văn B"
+                    activityStatus: ONLINE
+                    availability: AVAILABLE
+                  - driverId: 2002
+                    fullName: "Lê Văn C"
+                    activityStatus: ONLINE
+                    availability: AVAILABLE
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền tìm tài xế
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/compatible-drivers:
+    get:
+      summary: FR-06.2 - Kiểm tra loại xe phù hợp
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Kiểm tra tài xế có loại xe phù hợp thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tìm tài xế có loại xe phù hợp thành công"
+                data:
+                  vehicleTypeId: 1
+                  vehicleTypeName: "Xe 4 chỗ"
+                  drivers:
+                    - driverId: 2001
+                      fullName: "Trần Văn B"
+                      vehicleId: 3001
+                      licensePlate: "51A-123.45"
+                      vehicleTypeId: 1
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền thực hiện thao tác
+        '404':
+          description: Không tìm thấy chuyến hoặc loại xe phù hợp
+
+  /api/trips/{tripId}/driver-distances:
+    get:
+      summary: FR-06.3 - Xác định khoảng cách tài xế đến điểm đón
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Xác định khoảng cách thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Xác định khoảng cách tài xế đến điểm đón thành công"
+                data:
+                  pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                  drivers:
+                    - driverId: 2001
+                      fullName: "Trần Văn B"
+                      distanceKm: 1.2
+                    - driverId: 2002
+                      fullName: "Lê Văn C"
+                      distanceKm: 2.8
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền thực hiện thao tác
+        '404':
+          description: Không tìm thấy chuyến hoặc dữ liệu vị trí tài xế
+
+  /api/trips/{tripId}/rank-drivers:
+    get:
+      summary: FR-06.4 - Ưu tiên tài xế phù hợp và gần khách
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Xếp hạng tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Xếp hạng tài xế phù hợp thành công"
+                data:
+                  - driverId: 2001
+                    fullName: "Trần Văn B"
+                    distanceKm: 1.2
+                    vehicleCompatible: true
+                    priorityScore: 95
+                  - driverId: 2002
+                    fullName: "Lê Văn C"
+                    distanceKm: 2.8
+                    vehicleCompatible: true
+                    priorityScore: 82
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền thực hiện thao tác
+        '404':
+          description: Không tìm thấy chuyến hoặc tài xế phù hợp
+
+  /api/trips/{tripId}/driver-requests:
+    post:
+      summary: FR-06.5 - Gửi yêu cầu nhận chuyến
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              driverId: 2001
+      responses:
+        '201':
+          description: Gửi yêu cầu nhận chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đã gửi yêu cầu nhận chuyến cho tài xế"
+                data:
+                  requestId: 7001
+                  tripId: 6001
+                  driverId: 2001
+                  status: PENDING
+                  sentAt: "2026-09-07T15:05:00"
+        '400':
+          description: Chuyến hoặc tài xế không ở trạng thái phù hợp
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền gửi yêu cầu
+        '404':
+          description: Không tìm thấy chuyến hoặc tài xế
+        '409':
+          description: Tài xế đã nhận yêu cầu cho chuyến này
+
+  /api/trips/{tripId}/driver-requests/{requestId}/accept:
+    patch:
+      summary: FR-06.6 - Tài xế chấp nhận chuyến
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 7001
+      responses:
+        '200':
+          description: Tài xế chấp nhận chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tài xế đã chấp nhận chuyến"
+                data:
+                  requestId: 7001
+                  tripId: 6001
+                  driverId: 2001
+                  status: ACCEPTED
+        '400':
+          description: Yêu cầu nhận chuyến không còn hiệu lực
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền chấp nhận chuyến
+        '404':
+          description: Không tìm thấy yêu cầu nhận chuyến
+        '409':
+          description: Chuyến đã được tài xế khác nhận
+
+  /api/trips/{tripId}/driver-requests/{requestId}/reject:
+    patch:
+      summary: FR-06.7 - Tài xế từ chối chuyến
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 7001
+      requestBody:
+        required: false
+        content:
+          application/json:
+            example:
+              reason: "Đang bận"
+      responses:
+        '200':
+          description: Tài xế từ chối chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tài xế đã từ chối chuyến"
+                data:
+                  requestId: 7001
+                  tripId: 6001
+                  driverId: 2001
+                  status: REJECTED
+                  reason: "Đang bận"
+        '400':
+          description: Yêu cầu nhận chuyến không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền từ chối chuyến
+        '404':
+          description: Không tìm thấy yêu cầu nhận chuyến
+
+  /api/trips/{tripId}/driver-requests/{requestId}/timeout:
+    patch:
+      summary: FR-06.8 - Xử lý tài xế không phản hồi
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 7001
+      responses:
+        '200':
+          description: Xử lý tài xế không phản hồi thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Yêu cầu nhận chuyến đã hết thời gian phản hồi"
+                data:
+                  requestId: 7001
+                  tripId: 6001
+                  driverId: 2001
+                  status: TIMEOUT
+        '400':
+          description: Yêu cầu chưa hết thời gian phản hồi
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xử lý yêu cầu
+        '404':
+          description: Không tìm thấy yêu cầu nhận chuyến
+
+  /api/trips/{tripId}/next-driver:
+    post:
+      summary: FR-06.9 - Tự động tìm tài xế tiếp theo
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Tìm tài xế tiếp theo thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đã chuyển sang tìm tài xế tiếp theo"
+                data:
+                  tripId: 6001
+                  nextDriverId: 2002
+                  nextDriverName: "Lê Văn C"
+                  status: SEARCHING_DRIVER
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền thực hiện thao tác
+        '404':
+          description: Không còn tài xế phù hợp
+
+  /api/trips/{tripId}/assign-driver:
+    patch:
+      summary: FR-06.10 - Gán chuyến cho tài xế
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              driverId: 2001
+              vehicleId: 3001
+      responses:
+        '200':
+          description: Gán chuyến cho tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Gán chuyến cho tài xế thành công"
+                data:
+                  tripId: 6001
+                  driverId: 2001
+                  driverName: "Trần Văn B"
+                  vehicleId: 3001
+                  licensePlate: "51A-123.45"
+                  status: DRIVER_ASSIGNED
+        '400':
+          description: Tài xế hoặc phương tiện không phù hợp
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền gán chuyến
+        '404':
+          description: Không tìm thấy chuyến, tài xế hoặc phương tiện
+        '409':
+          description: Tài xế đang nhận chuyến khác
+
+  /api/trips/{tripId}/driver-notification:
+    post:
+      summary: FR-06.11 - Thông báo khi có tài xế
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Gửi thông báo tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đã thông báo cho khách hàng về tài xế"
+                data:
+                  tripId: 6001
+                  driverId: 2001
+                  driverName: "Trần Văn B"
+                  vehicle:
+                    licensePlate: "51A-123.45"
+                    vehicleType: "Xe 4 chỗ"
+                  notificationStatus: SENT
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy chuyến hoặc tài xế
+
+  /api/trips/{tripId}/no-driver-notification:
+    post:
+      summary: FR-06.12 - Thông báo khi không tìm được tài xế
+      tags:
+        - Driver Assignment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Gửi thông báo không tìm được tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Đã thông báo không tìm được tài xế"
+                data:
+                  tripId: 6001
+                  notificationStatus: SENT
+                  tripStatus: NO_DRIVER_FOUND
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền gửi thông báo
+        '404':
+          description: Không tìm thấy chuyến
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
