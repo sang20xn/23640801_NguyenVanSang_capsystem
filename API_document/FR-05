@@ -1,0 +1,264 @@
+
+openapi: 3.0.3
+
+info:
+  title: API Đặt xe
+  description: Đặc tả API cho FR-05 - Đặt xe
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /api/bookings/estimate:
+    post:
+      summary: FR-05.1, FR-05.2, FR-05.3 - Nhập điểm đón, điểm đến và chọn loại xe
+      tags:
+        - Booking
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+              pickupLatitude: 10.7731
+              pickupLongitude: 106.7030
+              destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+              destinationLatitude: 10.8188
+              destinationLongitude: 106.6519
+              vehicleTypeId: 1
+      responses:
+        '200':
+          description: Xác nhận thông tin đặt xe và tính toán chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Thông tin đặt xe hợp lệ"
+                data:
+                  pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                  destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+                  vehicleTypeId: 1
+                  vehicleTypeName: "Xe 4 chỗ"
+                  estimatedDistance: 8.5
+                  estimatedDuration: 25
+                  estimatedFare: 120000
+        '400':
+          description: Điểm đón, điểm đến hoặc loại xe không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '404':
+          description: Không tìm thấy loại xe
+
+  /api/bookings:
+    post:
+      summary: FR-05.4 - Gửi yêu cầu đặt xe
+      tags:
+        - Booking
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+              pickupLatitude: 10.7731
+              pickupLongitude: 106.7030
+              destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+              destinationLatitude: 10.8188
+              destinationLongitude: 106.6519
+              vehicleTypeId: 1
+              note: "Đón tại cổng chính"
+      responses:
+        '201':
+          description: Gửi yêu cầu đặt xe thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Gửi yêu cầu đặt xe thành công"
+                data:
+                  bookingId: 5001
+                  customerId: 1001
+                  pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                  destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+                  vehicleTypeId: 1
+                  status: PENDING
+                  createdAt: "2026-09-07T15:00:00"
+        '400':
+          description: Dữ liệu đặt xe không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '409':
+          description: Khách hàng đang có chuyến chưa hoàn thành
+
+  /api/bookings/{bookingId}:
+    post:
+      summary: FR-05.5 - Tạo chuyến từ yêu cầu đặt xe
+      tags:
+        - Booking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 5001
+      responses:
+        '201':
+          description: Tạo chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Tạo chuyến thành công"
+                data:
+                  tripId: 6001
+                  bookingId: 5001
+                  customerId: 1001
+                  vehicleTypeId: 1
+                  pickupLocation: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+                  destination: "Sân bay Tân Sơn Nhất, TP.HCM"
+                  status: CREATED
+                  createdAt: "2026-09-07T15:01:00"
+        '400':
+          description: Yêu cầu đặt xe không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền tạo chuyến
+        '404':
+          description: Không tìm thấy yêu cầu đặt xe
+        '409':
+          description: Yêu cầu đặt xe đã được tạo thành chuyến
+
+  /api/bookings/{bookingId}/confirm:
+    patch:
+      summary: FR-05.6 - Xác nhận yêu cầu đặt xe
+      tags:
+        - Booking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 5001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              confirmed: true
+      responses:
+        '200':
+          description: Xác nhận yêu cầu đặt xe thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Xác nhận yêu cầu đặt xe thành công"
+                data:
+                  bookingId: 5001
+                  status: CONFIRMED
+        '400':
+          description: Yêu cầu đặt xe không ở trạng thái có thể xác nhận
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền xác nhận yêu cầu đặt xe
+        '404':
+          description: Không tìm thấy yêu cầu đặt xe
+
+  /api/trips/{tripId}/search-driver:
+    patch:
+      summary: FR-05.7 - Chuyển chuyến sang trạng thái tìm tài xế
+      tags:
+        - Trip
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      responses:
+        '200':
+          description: Chuyển chuyến sang trạng thái tìm tài xế thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Chuyến đã chuyển sang trạng thái tìm tài xế"
+                data:
+                  tripId: 6001
+                  status: SEARCHING_DRIVER
+        '400':
+          description: Chuyến không ở trạng thái phù hợp để tìm tài xế
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền thực hiện thao tác
+        '404':
+          description: Không tìm thấy chuyến
+
+  /api/trips/{tripId}/cancel:
+    patch:
+      summary: FR-05.8 - Hủy chuyến theo chính sách
+      tags:
+        - Trip
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 6001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              reason: "Có việc đột xuất"
+      responses:
+        '200':
+          description: Hủy chuyến thành công
+          content:
+            application/json:
+              example:
+                success: true
+                message: "Hủy chuyến thành công theo chính sách"
+                data:
+                  tripId: 6001
+                  status: CANCELLED
+                  cancellationFee: 0
+                  cancellationReason: "Có việc đột xuất"
+        '400':
+          description: Không thể hủy chuyến hoặc lý do hủy không hợp lệ
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        '403':
+          description: Không có quyền hủy chuyến
+        '404':
+          description: Không tìm thấy chuyến
+        '409':
+          description: Chuyến đã bắt đầu hoặc đã hoàn thành, không thể hủy
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
