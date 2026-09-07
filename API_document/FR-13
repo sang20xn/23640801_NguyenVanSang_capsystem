@@ -1,0 +1,451 @@
+openapi: 3.0.3
+
+info:
+  title: API Dashboard & Báo cáo
+  description: Đặc tả API cho FR-13 - Dashboard & báo cáo
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # =========================================================
+  # FR-13.1 - THỐNG KÊ TỔNG SỐ CHUYẾN
+  # =========================================================
+
+  /api/dashboard/trips/total:
+    get:
+      tags:
+        - Dashboard & Báo cáo
+      summary: Thống kê tổng số chuyến
+      description: Cho phép nhân viên xem tổng số chuyến trong khoảng thời gian
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Thống kê tổng số chuyến thành công
+          content:
+            application/json:
+              example:
+                fromDate: "2026-09-01"
+                toDate: "2026-09-07"
+                totalTrips: 1250
+
+        '400':
+          description: Khoảng thời gian thống kê không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem báo cáo
+
+
+  # =========================================================
+  # FR-13.2 - THỐNG KÊ CHUYẾN HOÀN THÀNH
+  # =========================================================
+
+  /api/dashboard/trips/completed:
+    get:
+      tags:
+        - Dashboard & Báo cáo
+      summary: Thống kê chuyến hoàn thành
+      description: Cho phép nhân viên xem số lượng chuyến đã hoàn thành
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Thống kê chuyến hoàn thành thành công
+          content:
+            application/json:
+              example:
+                fromDate: "2026-09-01"
+                toDate: "2026-09-07"
+                completedTrips: 1100
+
+        '400':
+          description: Khoảng thời gian thống kê không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem báo cáo
+
+
+  # =========================================================
+  # FR-13.3 - THỐNG KÊ CHUYẾN HỦY
+  # =========================================================
+
+  /api/dashboard/trips/cancelled:
+    get:
+      tags:
+        - Dashboard & Báo cáo
+      summary: Thống kê chuyến hủy
+      description: Cho phép nhân viên xem số lượng chuyến đã bị hủy
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+        - name: cancelledBy
+          in: query
+          required: false
+          description: Đối tượng hủy chuyến
+          schema:
+            type: string
+            enum:
+              - CUSTOMER
+              - DRIVER
+              - SYSTEM
+          example: DRIVER
+
+      responses:
+        '200':
+          description: Thống kê chuyến hủy thành công
+          content:
+            application/json:
+              example:
+                fromDate: "2026-09-01"
+                toDate: "2026-09-07"
+                cancelledTrips: 150
+                customerCancelled: 70
+                driverCancelled: 60
+                systemCancelled: 20
+
+        '400':
+          description: Tham số thống kê không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem báo cáo
+
+
+  # =========================================================
+  # FR-13.4 - THỐNG KÊ DOANH THU
+  # =========================================================
+
+  /api/dashboard/revenue:
+    get:
+      tags:
+        - Dashboard & Báo cáo
+      summary: Thống kê doanh thu
+      description: Cho phép nhân viên xem tổng doanh thu trong khoảng thời gian
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+        - name: paymentMethod
+          in: query
+          required: false
+          description: Phương thức thanh toán
+          schema:
+            type: string
+            enum:
+              - CASH
+              - BANKING
+              - MOMO
+              - VNPAY
+          example: MOMO
+
+      responses:
+        '200':
+          description: Thống kê doanh thu thành công
+          content:
+            application/json:
+              example:
+                fromDate: "2026-09-01"
+                toDate: "2026-09-07"
+                totalRevenue: 187500000
+                completedTrips: 1100
+                averageRevenuePerTrip: 170455
+                currency: VND
+
+        '400':
+          description: Tham số thống kê không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem doanh thu
+
+
+  # =========================================================
+  # FR-13.5 - TỶ LỆ HOÀN THÀNH
+  # =========================================================
+
+  /api/dashboard/completion-rate:
+    get:
+      tags:
+        - Dashboard & Báo cáo
+      summary: Thống kê tỷ lệ hoàn thành
+      description: Tính tỷ lệ chuyến hoàn thành trên tổng số chuyến
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Tính tỷ lệ hoàn thành thành công
+          content:
+            application/json:
+              example:
+                fromDate: "2026-09-01"
+                toDate: "2026-09-07"
+                totalTrips: 1250
+                completedTrips: 1100
+                completionRate: 88.0
+
+        '400':
+          description: Khoảng thời gian thống kê không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem báo cáo
+
+
+  # =========================================================
+  # FR-13.6 - TỶ LỆ HỦY
+  # =========================================================
+
+  /api/dashboard/cancellation-rate:
+    get:
+      tags:
+        - Dashboard & Báo cáo
+      summary: Thống kê tỷ lệ hủy
+      description: Tính tỷ lệ chuyến bị hủy trên tổng số chuyến
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Tính tỷ lệ hủy thành công
+          content:
+            application/json:
+              example:
+                fromDate: "2026-09-01"
+                toDate: "2026-09-07"
+                totalTrips: 1250
+                cancelledTrips: 150
+                cancellationRate: 12.0
+
+        '400':
+          description: Khoảng thời gian thống kê không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem báo cáo
+
+
+  # =========================================================
+  # FR-13.7 - HIỆU QUẢ TÀI XẾ
+  # =========================================================
+
+  /api/dashboard/drivers/performance:
+    get:
+      tags:
+        - Dashboard & Báo cáo
+      summary: Thống kê hiệu quả tài xế
+      description: Cho phép nhân viên xem các chỉ số hiệu quả hoạt động của tài xế
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: driverId
+          in: query
+          required: false
+          description: Mã tài xế
+          schema:
+            type: integer
+          example: 2001
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Ngày bắt đầu thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-01"
+
+        - name: toDate
+          in: query
+          required: false
+          description: Ngày kết thúc thống kê
+          schema:
+            type: string
+            format: date
+          example: "2026-09-07"
+
+      responses:
+        '200':
+          description: Lấy thống kê hiệu quả tài xế thành công
+          content:
+            application/json:
+              example:
+                drivers:
+                  - driverId: 2001
+                    fullName: Nguyễn Văn An
+                    totalTrips: 150
+                    completedTrips: 140
+                    cancelledTrips: 10
+                    completionRate: 93.33
+                    cancellationRate: 6.67
+                    averageRating: 4.8
+                    totalRevenue: 22500000
+
+                  - driverId: 2002
+                    fullName: Trần Văn Bình
+                    totalTrips: 130
+                    completedTrips: 120
+                    cancelledTrips: 10
+                    completionRate: 92.31
+                    cancellationRate: 7.69
+                    averageRating: 4.6
+                    totalRevenue: 19800000
+
+        '400':
+          description: Tham số thống kê không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+        '403':
+          description: Không có quyền xem hiệu quả tài xế
+
+        '404':
+          description: Không tìm thấy tài xế
+
+
+# ===========================================================
+# SECURITY
+# ===========================================================
+
+components:
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
