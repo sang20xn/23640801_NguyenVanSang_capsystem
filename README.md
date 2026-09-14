@@ -890,6 +890,7 @@ UC66 -.->|"<<include>>"| UC72
 3. **Actor:** Xác nhận hủy.
 4. **Hệ thống:** Hủy thao tác và không thay đổi dữ liệu.
 5. Kết thúc Use Case.
+
 UC-04 – Quản lý tài khoản & phân quyền
 Thành phần	Nội dung
 Tên Use Case	Quản lý tài khoản & phân quyền
