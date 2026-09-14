@@ -656,2417 +656,802 @@ UC66 -.->|"<<include>>"| UC72
 
 # 11. Đặc tả use case 
 # Danh sách Use Case – CAB System
-
-## 1. Nhóm khách hàng
-
-| Mã | Use Case | Mức độ |
+## 11.1. Ma trận Use Case – Functional Requirements
+| Use Case | Functional Requirement | Các FR chi tiết được kiểm thử |
 |---|---|---|
-| UC01 | Đăng ký tài khoản | Chính |
-| UC02 | Đăng nhập | Chính |
-| UC03 | Cập nhật thông tin cá nhân | Chính |
-| UC04 | Đặt xe | Rất quan trọng |
-| UC05 | Theo dõi chuyến đi | Rất quan trọng |
-| UC06 | Thanh toán chuyến đi | Rất quan trọng |
-| UC07 | Xem lịch sử chuyến đi | Chính |
-| UC08 | Đánh giá tài xế | Chính |
+| **UC-01 Đăng ký tài khoản** | FR-01 | FR-01.1 |
+| **UC-02 Đăng nhập** | FR-01 | FR-01.3, FR-01.7 |
+| **UC-03 Cập nhật thông tin cá nhân** | FR-01 | FR-01.4 |
+| **UC-04 Quản lý tài khoản & phân quyền** | FR-01 | FR-01.5, FR-01.6, FR-01.7 |
+| **UC-05 Quản lý khách hàng** | FR-02 | FR-02.1 → FR-02.7 |
+| **UC-06 Quản lý tài xế** | FR-03 | FR-03.1 → FR-03.8 |
+| **UC-07 Quản lý phương tiện** | FR-04 | FR-04.1 → FR-04.8 |
+| **UC-08 Tạo yêu cầu đặt xe** | FR-05 | FR-05.1 → FR-05.8 |
+| **UC-09 Tìm kiếm & phân công tài xế** | FR-06 | FR-06.1 → FR-06.12 |
+| **UC-10 Tài xế nhận/từ chối chuyến** | FR-06 | FR-06.5 → FR-06.10 |
+| **UC-11 Theo dõi chuyến đi** | FR-07 | FR-07.6 → FR-07.10 |
+| **UC-12 Cập nhật trạng thái chuyến** | FR-07 | FR-07.1 → FR-07.5 |
+| **UC-13 Tính cước chuyến đi** | FR-08 | FR-08.1 → FR-08.6 |
+| **UC-14 Thanh toán chuyến đi** | FR-09 | FR-09.1 → FR-09.9 |
+| **UC-15 Quản lý thông báo** | FR-10 | FR-10.1 → FR-10.7 |
+| **UC-16 Đánh giá tài xế** | FR-11 | FR-11.1 → FR-11.5 |
+| **UC-17 Quản lý vận hành chuyến đi** | FR-12 | FR-12.1 → FR-12.7 |
+| **UC-18 Xử lý chuyến lỗi** | FR-12 | FR-12.8 |
+| **UC-19 Dashboard & báo cáo** | FR-13 | FR-13.1 → FR-13.7 |
+| **UC-20 Audit & kiểm soát** | FR-14 | FR-14.1 → FR-14.5 |
+# UC-01 – Đăng ký tài khoản
 
-# ĐẶC TẢ USE CASE – NHÓM KHÁCH HÀNG
-
----
-
-# UC01 – Đăng ký tài khoản
-
-| Thành phần | Nội dung |
+| **Thành phần** | **Nội dung** |
 |---|---|
 | **Tên Use Case** | Đăng ký tài khoản |
-| **Mã** | UC01 |
+| **Tiền điều kiện** | Người dùng chưa có tài khoản trên hệ thống |
+| **Hậu điều kiện** | Nếu đăng ký thành công, thông tin tài khoản được lưu vào CSDL. Tài khoản được tạo với vai trò phù hợp, mặc định là **Khách hàng** đối với đăng ký từ phía khách hàng. |
 | **Actor chính** | Khách hàng |
-| **Mục tiêu** | Cho phép khách hàng tạo tài khoản để sử dụng các chức năng yêu cầu xác thực |
-| **Điều kiện trước** | Khách hàng chưa có tài khoản |
-| **Điều kiện sau** | Tài khoản khách hàng được tạo thành công |
-| **Kích hoạt** | Khách hàng chọn chức năng "Đăng ký" |
+| **Actor phụ** | Không |
 
-## Luồng chính
+## Basic Flow
 
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Khách hàng chọn **Đăng ký tài khoản**. | |
-| 2 | | Hệ thống hiển thị biểu mẫu đăng ký. |
-| 3 | Khách hàng nhập thông tin cá nhân cần thiết. | |
-| 4 | | Hệ thống kiểm tra tính hợp lệ của thông tin. |
-| 5 | | Hệ thống kiểm tra tài khoản đã tồn tại hay chưa. |
-| 6 | | Hệ thống tạo tài khoản mới. |
-| 7 | | Hệ thống thông báo đăng ký thành công. |
-| 8 | Khách hàng có thể sử dụng tài khoản để đăng nhập. | |
+| **Khách hàng** | **Hệ thống** |
+|---|---|
+| **1.** Chọn chức năng **Đăng ký tài khoản**. | |
+| | **2.** Hiển thị trang **Đăng ký tài khoản**. |
+| **3.** Nhập thông tin đăng ký gồm họ tên, số điện thoại/email và mật khẩu. | |
+| | **4.** Kiểm tra dữ liệu nhập. |
+| | **5.** Kiểm tra số điện thoại/email đã tồn tại trong hệ thống hay chưa. |
+| | **6.** Hiển thị thông tin xác nhận đăng ký. |
+| **7.** Xác nhận đăng ký tài khoản. | |
+| | **8.** Lưu thông tin tài khoản vào CSDL. |
+| | **9.** Gán vai trò **Khách hàng** cho tài khoản. |
+| | **10.** Thông báo đăng ký tài khoản thành công. |
 
-## Luồng thay thế / ngoại lệ
+## Alternative Flow
 
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Thông tin nhập không hợp lệ | Hệ thống thông báo lỗi và yêu cầu nhập lại. |
-| A2 | Tài khoản đã tồn tại | Hệ thống thông báo tài khoản đã tồn tại. |
-| A3 | Lỗi hệ thống | Hệ thống thông báo không thể đăng ký và không tạo tài khoản. |
+### 3.1 – Người dùng đã có tài khoản
 
----
+1. **Khách hàng:** Nhập số điện thoại/email đã được đăng ký.
+2. **Hệ thống:** Thông báo số điện thoại/email đã tồn tại.
+3. **Khách hàng:** Chọn **Đăng nhập**.
+4. **Hệ thống:** Chuyển đến trang đăng nhập.
+5. Kết thúc Use Case.
 
-# UC02 – Đăng nhập
+### 4.1 – Họ tên không hợp lệ
 
-| Thành phần | Nội dung |
+1. **Hệ thống:** Phát hiện họ tên chứa ký tự không hợp lệ.
+2. **Hệ thống:** Thông báo lỗi và yêu cầu nhập lại họ tên.
+3. **Khách hàng:** Nhập lại họ tên.
+4. Quay lại **bước 4**.
+
+### 4.2 – Số điện thoại không hợp lệ
+
+1. **Hệ thống:** Phát hiện số điện thoại chứa ký tự không phải số hoặc không đúng định dạng.
+2. **Hệ thống:** Thông báo lỗi và yêu cầu nhập lại số điện thoại.
+3. **Khách hàng:** Nhập lại số điện thoại.
+4. Quay lại **bước 4**.
+
+### 4.3 – Email không hợp lệ
+
+1. **Hệ thống:** Phát hiện email sai cú pháp.
+2. **Hệ thống:** Thông báo lỗi và yêu cầu nhập lại email.
+3. **Khách hàng:** Nhập lại email.
+4. Quay lại **bước 4**.
+
+### 4.4 – Mật khẩu không hợp lệ
+
+1. **Hệ thống:** Kiểm tra và phát hiện mật khẩu không đáp ứng quy tắc bảo mật.
+2. **Hệ thống:** Thông báo lỗi.
+3. **Khách hàng:** Nhập lại mật khẩu.
+4. Quay lại **bước 4**.
+
+## Exception
+
+### 8.1 – Không thể lưu tài khoản
+
+1. **Hệ thống:** Phát sinh lỗi khi lưu thông tin tài khoản vào CSDL.
+2. **Hệ thống:** Thông báo đăng ký thất bại.
+3. **Hệ thống:** Không tạo tài khoản.
+4. Kết thúc Use Case.
+
+### 7.1 – Người dùng không muốn tiếp tục đăng ký
+
+1. **Khách hàng:** Chọn **Hủy đăng ký**.
+2. **Hệ thống:** Hiển thị thông báo xác nhận hủy.
+3. **Khách hàng:** Xác nhận hủy.
+4. **Hệ thống:** Hủy thao tác đăng ký.
+5. Kết thúc Use Case.
+
+# UC-02 – Đăng nhập
+
+| **Thành phần** | **Nội dung** |
 |---|---|
 | **Tên Use Case** | Đăng nhập |
-| **Mã** | UC02 |
-| **Actor chính** | Khách hàng |
-| **Mục tiêu** | Cho phép khách hàng xác thực và truy cập hệ thống |
-| **Điều kiện trước** | Khách hàng đã có tài khoản |
-| **Điều kiện sau** | Khách hàng đăng nhập thành công |
-| **Kích hoạt** | Khách hàng chọn "Đăng nhập" |
+| **Tiền điều kiện** | Người dùng đã có tài khoản trên hệ thống và tài khoản đang ở trạng thái được phép đăng nhập. |
+| **Hậu điều kiện** | Nếu đăng nhập thành công, hệ thống tạo phiên đăng nhập và cho phép người dùng truy cập các chức năng theo quyền được cấp. |
+| **Actor chính** | Khách hàng / Tài xế / Nhân viên vận hành / Quản trị viên |
+| **Actor phụ** | Không |
 
-## Luồng chính
+### Basic Flow
 
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Khách hàng nhập thông tin đăng nhập. | |
-| 2 | | Hệ thống tiếp nhận thông tin. |
-| 3 | | Hệ thống kiểm tra thông tin tài khoản. |
-| 4 | | Hệ thống xác thực người dùng. |
-| 5 | | Hệ thống tạo phiên đăng nhập. |
-| 6 | | Hệ thống chuyển khách hàng vào giao diện chính. |
+| **Actor** | **Hệ thống** |
+|---|---|
+| **1.** Chọn chức năng **Đăng nhập**. | |
+| | **2.** Hiển thị trang Đăng nhập. |
+| **3.** Nhập số điện thoại/email và mật khẩu. | |
+| | **4.** Kiểm tra dữ liệu đăng nhập. |
+| | **5.** Kiểm tra tài khoản tồn tại và trạng thái tài khoản. |
+| | **6.** Xác thực thông tin đăng nhập. |
+| | **7.** Xác định vai trò và quyền của tài khoản. |
+| | **8.** Tạo phiên đăng nhập. |
+| | **9.** Hiển thị giao diện phù hợp với vai trò của người dùng. |
 
-## Luồng thay thế / ngoại lệ
+### Alternative Flow
 
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Sai thông tin đăng nhập | Thông báo tài khoản hoặc mật khẩu không chính xác. |
-| A2 | Tài khoản bị khóa | Thông báo tài khoản không thể đăng nhập. |
-| A3 | Lỗi hệ thống | Thông báo đăng nhập thất bại. |
+#### 3.1 – Người dùng chọn “Quên mật khẩu”
 
----
+1. **Actor:** Chọn chức năng **Quên mật khẩu**.
+2. **Hệ thống:** Hiển thị giao diện khôi phục mật khẩu.
+3. **Actor:** Nhập số điện thoại/email tài khoản.
+4. **Hệ thống:** Kiểm tra thông tin tài khoản.
+5. **Hệ thống:** Thực hiện quy trình xác minh và khôi phục mật khẩu.
+6. Quay lại **bước 3** của luồng chính.
 
-# UC03 – Cập nhật thông tin cá nhân
+#### 4.1 – Người dùng nhập thiếu thông tin
 
-| Thành phần | Nội dung |
+1. **Hệ thống:** Phát hiện thiếu số điện thoại/email hoặc mật khẩu.
+2. **Hệ thống:** Thông báo yêu cầu nhập đầy đủ thông tin.
+3. **Actor:** Bổ sung thông tin.
+4. Quay lại **bước 4**.
+
+### Exception
+
+#### 6.1 – Sai thông tin đăng nhập
+
+1. **Hệ thống:** Xác định số điện thoại/email hoặc mật khẩu không chính xác.
+2. **Hệ thống:** Thông báo đăng nhập thất bại.
+3. **Actor:** Nhập lại thông tin đăng nhập.
+4. Quay lại **bước 4**.
+
+#### 5.1 – Tài khoản bị khóa
+
+1. **Hệ thống:** Phát hiện tài khoản đang ở trạng thái **Bị khóa**.
+2. **Hệ thống:** Từ chối đăng nhập.
+3. **Hệ thống:** Thông báo tài khoản bị khóa.
+4. Kết thúc Use Case.
+
+#### 6.2 – Lỗi hệ thống
+
+1. **Hệ thống:** Không thể xác thực tài khoản do lỗi hệ thống.
+2. **Hệ thống:** Thông báo tạm thời không thể đăng nhập.
+3. Kết thúc Use Case.
+
+# UC-03 – Cập nhật thông tin cá nhân
+
+| **Thành phần** | **Nội dung** |
 |---|---|
 | **Tên Use Case** | Cập nhật thông tin cá nhân |
-| **Mã** | UC03 |
+| **Tiền điều kiện** | Người dùng đã đăng nhập thành công. |
+| **Hậu điều kiện** | Nếu cập nhật thành công, thông tin cá nhân mới được lưu vào CSDL. |
+| **Actor chính** | Khách hàng / Tài xế / Nhân viên vận hành |
+| **Actor phụ** | Không |
+
+### Basic Flow
+
+| **Actor** | **Hệ thống** |
+|---|---|
+| **1.** Chọn chức năng **Thông tin cá nhân**. | |
+| | **2.** Hiển thị thông tin cá nhân hiện tại. |
+| **3.** Chọn thông tin cần cập nhật. | |
+| **4.** Nhập thông tin cá nhân mới. | |
+| | **5.** Kiểm tra dữ liệu nhập. |
+| | **6.** Hiển thị thông tin đã thay đổi để xác nhận. |
+| **7.** Xác nhận cập nhật thông tin. | |
+| | **8.** Lưu thông tin mới vào CSDL. |
+| | **9.** Thông báo cập nhật thông tin thành công. |
+| | **10.** Hiển thị thông tin cá nhân sau khi cập nhật. |
+
+### Alternative Flow
+
+#### 4.1 – Cập nhật số điện thoại
+
+1. **Actor:** Nhập số điện thoại mới.
+2. **Hệ thống:** Kiểm tra định dạng số điện thoại.
+3. **Hệ thống:** Kiểm tra số điện thoại đã được sử dụng bởi tài khoản khác hay chưa.
+4. **Hệ thống:** Yêu cầu xác minh nếu chính sách doanh nghiệp yêu cầu.
+5. **Actor:** Thực hiện xác minh.
+6. **Hệ thống:** Xác minh thành công.
+7. Quay lại **bước 6** của luồng chính.
+
+#### 4.2 – Cập nhật email
+
+1. **Actor:** Nhập email mới.
+2. **Hệ thống:** Kiểm tra cú pháp email.
+3. **Hệ thống:** Kiểm tra email đã tồn tại hay chưa.
+4. Quay lại **bước 6**.
+
+### Exception
+
+#### 5.1 – Thông tin không hợp lệ
+
+1. **Hệ thống:** Phát hiện thông tin nhập không hợp lệ.
+2. **Hệ thống:** Thông báo lỗi và yêu cầu nhập lại.
+3. **Actor:** Nhập lại thông tin.
+4. Quay lại **bước 5**.
+
+#### 8.1 – Không thể lưu thông tin
+
+1. **Hệ thống:** Phát sinh lỗi khi lưu dữ liệu.
+2. **Hệ thống:** Thông báo cập nhật thất bại.
+3. **Hệ thống:** Giữ nguyên thông tin cũ.
+4. Kết thúc Use Case.
+
+#### 7.1 – Actor không muốn cập nhật
+
+1. **Actor:** Chọn hủy cập nhật.
+2. **Hệ thống:** Hiển thị thông báo xác nhận.
+3. **Actor:** Xác nhận hủy.
+4. **Hệ thống:** Hủy thao tác và không thay đổi dữ liệu.
+5. Kết thúc Use Case.
+UC-04 – Quản lý tài khoản & phân quyền
+Thành phần	Nội dung
+Tên Use Case	Quản lý tài khoản & phân quyền
+Tiền điều kiện	Nhân viên vận hành hoặc quản trị viên đã đăng nhập và có quyền quản lý tài khoản.
+Hậu điều kiện	Thông tin tài khoản, trạng thái hoặc quyền được cập nhật thành công và các thao tác quan trọng được lưu vết.
+Actor chính	Quản trị viên hệ thống
+Actor phụ	Nhân viên vận hành
+Basic Flow
+Actor	Hệ thống
+1. Chọn chức năng Quản lý tài khoản & phân quyền.	
+	2. Kiểm tra quyền truy cập của actor.
+	3. Hiển thị danh sách tài khoản.
+4. Tìm kiếm và chọn tài khoản cần quản lý.	
+	5. Hiển thị thông tin chi tiết tài khoản.
+6. Chọn thao tác quản lý tài khoản.	
+	7. Hiển thị chức năng tương ứng.
+8. Thực hiện thay đổi thông tin, trạng thái hoặc quyền tài khoản.	
+	9. Kiểm tra dữ liệu và quyền thực hiện thao tác.
+	10. Lưu thay đổi vào CSDL.
+	11. Ghi nhận thao tác vào nhật ký hệ thống.
+	12. Thông báo thao tác thành công.
+Alternative Flow
+
+6.1 – Khóa tài khoản
+
+Actor: Chọn Khóa tài khoản.
+Hệ thống: Hiển thị thông báo xác nhận.
+Actor: Xác nhận khóa tài khoản.
+Hệ thống: Cập nhật trạng thái tài khoản thành Bị khóa.
+Quay lại bước 11.
+
+6.2 – Mở khóa tài khoản
+
+Actor: Chọn Mở khóa tài khoản.
+Hệ thống: Hiển thị thông báo xác nhận.
+Actor: Xác nhận mở khóa.
+Hệ thống: Cập nhật trạng thái tài khoản thành Hoạt động.
+Quay lại bước 11.
+
+6.3 – Phân quyền tài khoản
+
+Actor: Chọn chức năng Phân quyền.
+Hệ thống: Hiển thị các vai trò được phép gán.
+Actor: Chọn vai trò cần gán.
+Hệ thống: Kiểm tra quyền của actor.
+Hệ thống: Cập nhật vai trò cho tài khoản.
+Quay lại bước 11.
+Exception
+
+E1 – Actor không có quyền
+
+Hệ thống: Phát hiện actor không có quyền quản lý tài khoản.
+Hệ thống: Từ chối truy cập.
+Hệ thống: Ghi nhận sự kiện truy cập bị từ chối.
+Kết thúc Use Case.
+
+E2 – Không tìm thấy tài khoản
+
+Hệ thống: Không tìm thấy tài khoản theo điều kiện tìm kiếm.
+Hệ thống: Thông báo không tìm thấy tài khoản.
+Actor: Thực hiện tìm kiếm lại hoặc kết thúc.
+Kết thúc hoặc quay lại bước 4.
+
+E3 – Không thể lưu thay đổi
+
+Hệ thống: Phát sinh lỗi khi cập nhật CSDL.
+Hệ thống: Thông báo thao tác thất bại.
+Hệ thống: Không thay đổi dữ liệu tài khoản.
+Kết thúc Use Case.
+# UC-05 – Quản lý khách hàng
+
+| **Thành phần** | **Nội dung** |
+|---|---|
+| **Tên Use Case** | Quản lý khách hàng |
+| **Tiền điều kiện** | Nhân viên vận hành hoặc quản trị viên đã đăng nhập và có quyền quản lý khách hàng. |
+| **Hậu điều kiện** | Thông tin khách hàng được xem/cập nhật thành công; các thao tác quan trọng được lưu vết. |
+| **Actor chính** | Nhân viên vận hành |
+| **Actor phụ** | Quản trị viên hệ thống |
+
+### Basic Flow
+
+| **Actor** | **Hệ thống** |
+|---|---|
+| **1.** Chọn chức năng **Quản lý khách hàng**. | |
+| | **2.** Kiểm tra quyền truy cập. |
+| | **3.** Hiển thị danh sách khách hàng. |
+| **4.** Nhập điều kiện tìm kiếm khách hàng. | |
+| | **5.** Kiểm tra điều kiện tìm kiếm. |
+| | **6.** Hiển thị danh sách khách hàng phù hợp. |
+| **7.** Chọn một khách hàng cần quản lý. | |
+| | **8.** Hiển thị thông tin chi tiết khách hàng. |
+| **9.** Chọn thao tác cần thực hiện. | |
+| | **10.** Hiển thị giao diện tương ứng với thao tác. |
+| **11.** Thực hiện cập nhật hoặc thao tác quản lý. | |
+| | **12.** Kiểm tra dữ liệu và quyền thực hiện thao tác. |
+| | **13.** Lưu thay đổi vào CSDL. |
+| | **14.** Ghi nhận thao tác quan trọng vào nhật ký hệ thống. |
+| | **15.** Thông báo kết quả thao tác. |
+
+### Alternative Flow
+
+#### 9.1 – Xem lịch sử chuyến đi
+
+1. **Actor:** Chọn **Lịch sử chuyến đi**.
+2. **Hệ thống:** Truy xuất lịch sử chuyến đi của khách hàng.
+3. **Hệ thống:** Hiển thị danh sách các chuyến đi.
+4. **Actor:** Chọn một chuyến đi.
+5. **Hệ thống:** Hiển thị chi tiết chuyến đi.
+6. Kết thúc luồng thay thế.
+
+#### 9.2 – Cập nhật thông tin khách hàng
+
+1. **Actor:** Chọn **Cập nhật thông tin**.
+2. **Hệ thống:** Hiển thị thông tin có thể cập nhật.
+3. **Actor:** Nhập thông tin mới.
+4. **Hệ thống:** Kiểm tra dữ liệu.
+5. **Hệ thống:** Lưu thông tin mới.
+6. **Hệ thống:** Thông báo cập nhật thành công.
+7. Quay lại **bước 14**.
+
+#### 9.3 – Khóa tài khoản khách hàng
+
+1. **Actor:** Chọn **Khóa tài khoản**.
+2. **Hệ thống:** Hiển thị yêu cầu xác nhận.
+3. **Actor:** Xác nhận khóa tài khoản.
+4. **Hệ thống:** Cập nhật trạng thái khách hàng thành **Bị khóa**.
+5. **Hệ thống:** Ghi nhận thao tác.
+6. Kết thúc luồng thay thế.
+
+#### 9.4 – Mở khóa tài khoản khách hàng
+
+1. **Actor:** Chọn **Mở khóa tài khoản**.
+2. **Hệ thống:** Hiển thị yêu cầu xác nhận.
+3. **Actor:** Xác nhận mở khóa.
+4. **Hệ thống:** Cập nhật trạng thái khách hàng thành **Hoạt động**.
+5. **Hệ thống:** Ghi nhận thao tác.
+6. Kết thúc luồng thay thế.
+
+### Exception
+
+#### E1 – Không có quyền quản lý khách hàng
+
+1. **Hệ thống:** Phát hiện Actor không có quyền truy cập.
+2. **Hệ thống:** Từ chối truy cập chức năng.
+3. **Hệ thống:** Ghi nhận sự kiện truy cập bị từ chối.
+4. Kết thúc Use Case.
+
+#### E2 – Không tìm thấy khách hàng
+
+1. **Hệ thống:** Không tìm thấy khách hàng theo điều kiện tìm kiếm.
+2. **Hệ thống:** Thông báo không tìm thấy khách hàng.
+3. **Actor:** Nhập lại điều kiện tìm kiếm.
+4. Quay lại **bước 5**.
+
+#### E3 – Dữ liệu cập nhật không hợp lệ
+
+1. **Hệ thống:** Phát hiện dữ liệu khách hàng không hợp lệ.
+2. **Hệ thống:** Thông báo lỗi và yêu cầu nhập lại.
+3. **Actor:** Sửa lại thông tin.
+4. Quay lại **bước 12**.
+
+#### E4 – Không thể lưu dữ liệu
+
+1. **Hệ thống:** Phát sinh lỗi khi lưu thông tin khách hàng.
+2. **Hệ thống:** Thông báo thao tác thất bại.
+3. **Hệ thống:** Giữ nguyên dữ liệu trước đó.
+4. Kết thúc Use Case.
+
+#### E5 – Không thể truy xuất lịch sử chuyến đi
+
+1. **Hệ thống:** Không thể truy xuất dữ liệu lịch sử chuyến đi.
+2. **Hệ thống:** Thông báo tạm thời không thể tải dữ liệu.
+3. **Actor:** Chọn **Thử lại**.
+4. **Hệ thống:** Thực hiện truy xuất lại dữ liệu.
+# UC-06 – Quản lý tài xế
+
+| **Thành phần** | **Nội dung** |
+|---|---|
+| **Tên Use Case** | Quản lý tài xế |
+| **Tiền điều kiện** | Nhân viên vận hành hoặc Quản trị viên hệ thống đã đăng nhập và có quyền quản lý tài xế. |
+| **Hậu điều kiện** | Thông tin tài xế được xem, thêm mới, cập nhật, khóa/mở khóa hoặc thay đổi trạng thái thành công và được lưu vào CSDL. Các thao tác quản lý quan trọng được ghi nhận vào nhật ký hệ thống. |
+| **Actor chính** | Nhân viên vận hành |
+| **Actor phụ** | Quản trị viên hệ thống |
+
+### Basic Flow
+
+| **Actor** | **Hệ thống** |
+|---|---|
+| **1. Nhân viên vận hành** chọn chức năng **Quản lý tài xế**. | **2. Hệ thống** kiểm tra quyền quản lý tài xế của người dùng. |
+| | **3. Hệ thống** hiển thị danh sách tài xế và các chức năng quản lý. |
+| **4. Nhân viên vận hành** nhập thông tin tìm kiếm tài xế hoặc chọn một tài xế trong danh sách. | **5. Hệ thống** kiểm tra và xử lý thông tin tìm kiếm. |
+| | **6. Hệ thống** hiển thị thông tin chi tiết tài xế. |
+| **7. Nhân viên vận hành** chọn thao tác quản lý tài xế. | **8. Hệ thống** hiển thị giao diện tương ứng với thao tác được chọn. |
+| **9. Nhân viên vận hành** nhập hoặc thay đổi thông tin tài xế. | **10. Hệ thống** kiểm tra tính hợp lệ của thông tin. |
+| **11. Nhân viên vận hành** xác nhận thao tác. | **12. Hệ thống** lưu thông tin tài xế vào CSDL. |
+| | **13. Hệ thống** ghi nhận thao tác quản lý tài xế vào nhật ký. |
+| | **14. Hệ thống** thông báo thao tác thành công và cập nhật danh sách tài xế. |
+
+### Alternative Flow
+
+#### 4.1 – Tìm kiếm tài xế theo thông tin
+
+1. **Actor:** Nhập thông tin tìm kiếm tài xế.
+2. **Hệ thống:** Tìm kiếm các tài xế phù hợp.
+3. **Hệ thống:** Hiển thị danh sách kết quả.
+4. **Actor:** Chọn tài xế cần quản lý.
+5. **Hệ thống:** Hiển thị thông tin chi tiết tài xế.
+6. Quay lại **bước 7**.
+
+#### 7.1 – Thêm tài xế mới
+
+1. **Actor:** Chọn **Thêm tài xế**.
+2. **Hệ thống:** Hiển thị biểu mẫu nhập thông tin tài xế.
+3. **Actor:** Nhập thông tin tài xế.
+4. **Hệ thống:** Kiểm tra thông tin.
+5. **Actor:** Xác nhận thêm tài xế.
+6. **Hệ thống:** Tạo tài khoản và lưu thông tin tài xế vào CSDL.
+7. **Hệ thống:** Thông báo thêm tài xế thành công.
+8. Kết thúc luồng thay thế.
+
+#### 7.2 – Khóa tài xế
+
+1. **Actor:** Chọn chức năng **Khóa tài xế**.
+2. **Hệ thống:** Hiển thị yêu cầu xác nhận.
+3. **Actor:** Xác nhận khóa tài xế.
+4. **Hệ thống:** Cập nhật trạng thái tài xế thành **Khóa**.
+5. **Hệ thống:** Ghi nhận thao tác.
+6. Quay lại **bước 13**.
+
+#### 7.3 – Mở khóa tài xế
+
+1. **Actor:** Chọn chức năng **Mở khóa tài xế**.
+2. **Hệ thống:** Hiển thị yêu cầu xác nhận.
+3. **Actor:** Xác nhận mở khóa.
+4. **Hệ thống:** Cập nhật trạng thái tài xế thành **Hoạt động**.
+5. **Hệ thống:** Ghi nhận thao tác.
+6. Quay lại **bước 13**.
+
+#### 7.4 – Cập nhật trạng thái hoạt động của tài xế
+
+1. **Actor:** Chọn trạng thái cần cập nhật.
+2. **Hệ thống:** Hiển thị các trạng thái phù hợp.
+3. **Actor:** Chọn trạng thái mới.
+4. **Hệ thống:** Cập nhật trạng thái tài xế.
+5. Quay lại **bước 13**.
+
+### Exception Flow
+
+#### E1 – Không có quyền quản lý tài xế
+
+1. **Hệ thống:** Phát hiện người dùng không có quyền thực hiện chức năng.
+2. **Hệ thống:** Từ chối thao tác.
+3. **Hệ thống:** Thông báo **Không có quyền thực hiện chức năng**.
+4. Kết thúc Use Case.
+
+#### E2 – Thông tin tài xế không hợp lệ
+
+1. **Hệ thống:** Phát hiện thông tin tài xế không hợp lệ hoặc còn thiếu.
+2. **Hệ thống:** Thông báo thông tin cần chỉnh sửa.
+3. **Actor:** Nhập lại thông tin.
+4. Quay lại **bước 10**.
+
+#### E3 – Không thể lưu thông tin tài xế
+
+1. **Hệ thống:** Phát hiện lỗi khi lưu dữ liệu.
+2. **Hệ thống:** Thông báo thao tác thất bại.
+3. **Hệ thống:** Giữ nguyên thông tin trước đó.
+4. Kết thúc Use Case.
+# UC-07 – Quản lý phương tiện
+
+| **Thành phần** | **Nội dung** |
+|---|---|
+| **Tên Use Case** | Quản lý phương tiện |
+| **Tiền điều kiện** | Nhân viên vận hành hoặc Quản trị viên hệ thống đã đăng nhập và có quyền quản lý phương tiện. |
+| **Hậu điều kiện** | Thông tin phương tiện được thêm mới, xem, cập nhật hoặc thay đổi trạng thái thành công và được lưu vào CSDL. |
+| **Actor chính** | Nhân viên vận hành |
+| **Actor phụ** | Quản trị viên hệ thống |
+
+### Basic Flow
+
+| **Actor** | **Hệ thống** |
+|---|---|
+| **1. Nhân viên vận hành** chọn chức năng **Quản lý phương tiện**. | **2. Hệ thống** kiểm tra quyền quản lý phương tiện. |
+| | **3. Hệ thống** hiển thị danh sách phương tiện. |
+| **4. Nhân viên vận hành** nhập tiêu chí tìm kiếm hoặc chọn phương tiện. | **5. Hệ thống** tìm kiếm và hiển thị phương tiện phù hợp. |
+| **6. Nhân viên vận hành** chọn phương tiện cần quản lý. | **7. Hệ thống** hiển thị thông tin chi tiết phương tiện và tài xế đang được liên kết nếu có. |
+| **8. Nhân viên vận hành** chọn thao tác thêm mới, cập nhật hoặc thay đổi trạng thái phương tiện. | **9. Hệ thống** hiển thị giao diện tương ứng. |
+| **10. Nhân viên vận hành** nhập hoặc thay đổi thông tin phương tiện. | **11. Hệ thống** kiểm tra tính hợp lệ của thông tin. |
+| **12. Nhân viên vận hành** xác nhận thao tác. | **13. Hệ thống** lưu thông tin phương tiện vào CSDL. |
+| | **14. Hệ thống** ghi nhận thao tác quản lý. |
+| | **15. Hệ thống** thông báo thao tác thành công. |
+
+### Alternative Flow
+
+#### 8.1 – Thêm phương tiện
+
+1. **Actor:** Chọn **Thêm phương tiện**.
+2. **Hệ thống:** Hiển thị biểu mẫu thông tin phương tiện.
+3. **Actor:** Nhập thông tin phương tiện.
+4. **Hệ thống:** Kiểm tra thông tin.
+5. **Actor:** Xác nhận thêm.
+6. **Hệ thống:** Lưu phương tiện vào CSDL.
+7. **Hệ thống:** Thông báo thêm phương tiện thành công.
+8. Kết thúc luồng thay thế.
+
+#### 8.2 – Cập nhật phương tiện
+
+1. **Actor:** Chọn **Cập nhật phương tiện**.
+2. **Hệ thống:** Hiển thị thông tin hiện tại.
+3. **Actor:** Thay đổi thông tin.
+4. **Hệ thống:** Kiểm tra thông tin.
+5. **Actor:** Xác nhận cập nhật.
+6. **Hệ thống:** Cập nhật dữ liệu phương tiện.
+7. Quay lại **bước 14**.
+
+#### 8.3 – Thay đổi trạng thái phương tiện
+
+1. **Actor:** Chọn trạng thái mới cho phương tiện.
+2. **Hệ thống:** Hiển thị yêu cầu xác nhận.
+3. **Actor:** Xác nhận thay đổi.
+4. **Hệ thống:** Cập nhật trạng thái phương tiện.
+5. Quay lại **bước 14**.
+
+#### 8.4 – Gán phương tiện cho tài xế
+
+1. **Actor:** Chọn chức năng **Gán tài xế**.
+2. **Hệ thống:** Hiển thị danh sách tài xế phù hợp.
+3. **Actor:** Chọn tài xế.
+4. **Hệ thống:** Kiểm tra thông tin liên kết.
+5. **Hệ thống:** Cập nhật quan hệ tài xế – phương tiện.
+6. Quay lại **bước 14**.
+
+### Exception Flow
+
+#### E1 – Thông tin phương tiện không hợp lệ
+
+1. **Hệ thống:** Phát hiện thông tin phương tiện không hợp lệ.
+2. **Hệ thống:** Thông báo lỗi.
+3. **Actor:** Chỉnh sửa thông tin.
+4. Quay lại **bước 11**.
+
+#### E2 – Phương tiện đã tồn tại
+
+1. **Hệ thống:** Phát hiện phương tiện đã tồn tại trong CSDL.
+2. **Hệ thống:** Thông báo phương tiện đã tồn tại.
+3. **Actor:** Nhập lại thông tin hoặc hủy thao tác.
+4. Quay lại **bước 10** hoặc kết thúc Use Case.
+
+#### E3 – Không thể lưu dữ liệu
+
+1. **Hệ thống:** Phát hiện lỗi CSDL.
+2. **Hệ thống:** Thông báo không thể thực hiện thao tác.
+3. Kết thúc Use Case.
+# UC-08 – Tạo yêu cầu đặt xe
+
+| **Thành phần** | **Nội dung** |
+|---|---|
+| **Tên Use Case** | Tạo yêu cầu đặt xe |
+| **Tiền điều kiện** | Khách hàng đã đăng nhập và tài khoản đang được phép sử dụng dịch vụ. |
+| **Hậu điều kiện** | Yêu cầu đặt xe được tạo và lưu vào CSDL với trạng thái **Đang tìm tài xế**. |
 | **Actor chính** | Khách hàng |
-| **Mục tiêu** | Cho phép khách hàng cập nhật thông tin cá nhân |
-| **Điều kiện trước** | Khách hàng đã đăng nhập |
-| **Điều kiện sau** | Thông tin cá nhân được cập nhật |
-| **Kích hoạt** | Khách hàng chọn chức năng quản lý thông tin cá nhân |
+| **Actor phụ** | Không |
 
-## Luồng chính
+### Basic Flow
 
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Khách hàng đăng nhập hệ thống. | |
-| 2 | Khách hàng mở thông tin cá nhân. | |
-| 3 | | Hệ thống hiển thị thông tin hiện tại. |
-| 4 | Khách hàng chỉnh sửa thông tin. | |
-| 5 | Khách hàng xác nhận cập nhật. | |
-| 6 | | Hệ thống kiểm tra dữ liệu. |
-| 7 | | Hệ thống lưu thông tin mới. |
-| 8 | | Hệ thống thông báo cập nhật thành công. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Dữ liệu không hợp lệ | Hệ thống yêu cầu nhập lại. |
-| A2 | Khách hàng hủy cập nhật | Hệ thống giữ nguyên dữ liệu cũ. |
-| A3 | Lỗi lưu dữ liệu | Hệ thống thông báo cập nhật thất bại. |
-
----
-
-# UC04 – Đặt xe
-
-| Thành phần | Nội dung |
+| **Actor** | **Hệ thống** |
 |---|---|
-| **Tên Use Case** | Đặt xe |
-| **Mã** | UC04 |
-| **Actor chính** | Khách hàng |
-| **Actor phụ** | Hệ thống thông báo |
-| **Mục tiêu** | Cho phép khách hàng tạo yêu cầu đặt xe và hệ thống tìm tài xế phù hợp |
-| **Điều kiện trước** | Khách hàng đã đăng nhập |
-| **Điều kiện sau** | Yêu cầu được tiếp nhận và tài xế được phân công hoặc khách hàng được thông báo không tìm được tài xế |
-| **Kích hoạt** | Khách hàng yêu cầu đặt xe |
+| **1. Khách hàng** chọn chức năng **Đặt xe**. | **2. Hệ thống** hiển thị giao diện tạo yêu cầu đặt xe. |
+| **3. Khách hàng** nhập điểm đón và điểm đến. | **4. Hệ thống** kiểm tra thông tin địa điểm. |
+| **5. Khách hàng** chọn loại hình/phương tiện cần sử dụng. | **6. Hệ thống** ghi nhận loại phương tiện được chọn. |
+| **7. Khách hàng** kiểm tra thông tin chuyến đi. | **8. Hệ thống** hiển thị thông tin yêu cầu đặt xe để khách hàng xác nhận. |
+| **9. Khách hàng** xác nhận đặt xe. | **10. Hệ thống** tạo yêu cầu đặt xe. |
+| | **11. Hệ thống** lưu thông tin yêu cầu vào CSDL. |
+| | **12. Hệ thống** đặt trạng thái yêu cầu là **Đang tìm tài xế**. |
+| | **13. Hệ thống** chuyển yêu cầu sang chức năng **Tìm kiếm & phân công tài xế**. |
+| | **14. Hệ thống** thông báo yêu cầu đặt xe đã được tiếp nhận. |
 
-## Luồng chính
+### Alternative Flow
 
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Khách hàng chọn **Đặt xe**. | |
-| 2 | | Hệ thống yêu cầu nhập điểm đón. |
-| 3 | Khách hàng nhập điểm đón. | |
-| 4 | | Hệ thống yêu cầu nhập điểm đến. |
-| 5 | Khách hàng nhập điểm đến. | |
-| 6 | Khách hàng lựa chọn loại xe/dịch vụ. | |
-| 7 | | Hệ thống hiển thị thông tin yêu cầu đặt xe. |
-| 8 | Khách hàng xác nhận yêu cầu. | |
-| 9 | | Hệ thống tiếp nhận yêu cầu. |
-| 10 | | Hệ thống tìm các tài xế phù hợp. |
-| 11 | | Hệ thống xác định tài xế gần khách hàng. |
-| 12 | | Hệ thống kiểm tra trạng thái sẵn sàng của tài xế. |
-| 13 | | Hệ thống ưu tiên tài xế phù hợp. |
-| 14 | | Hệ thống gửi yêu cầu chuyến đến tài xế. |
-| 15 | Tài xế chấp nhận chuyến. | |
-| 16 | | Hệ thống xác nhận tài xế cho khách hàng. |
-| 17 | | Hệ thống gửi thông báo cho khách hàng. |
+#### 3.1 – Khách hàng chọn vị trí hiện tại làm điểm đón
 
-## Luồng thay thế / ngoại lệ
+1. **Actor:** Chọn sử dụng vị trí hiện tại.
+2. **Hệ thống:** Lấy thông tin vị trí hiện tại của khách hàng.
+3. **Hệ thống:** Hiển thị điểm đón trên giao diện.
+4. Quay lại **bước 5**.
 
-### A1 – Không tìm thấy tài xế
+#### 7.1 – Khách hàng thay đổi thông tin chuyến đi
 
-| Bước | Actor/Hệ thống | Nội dung |
-|---:|---|---|
-| 1 | Hệ thống | Không tìm được tài xế phù hợp. |
-| 2 | Hệ thống | Tiếp tục tìm tài xế khác. |
-| 3 | Hệ thống | Nếu vẫn không có tài xế, thông báo cho khách hàng. |
-| 4 | Hệ thống | Kết thúc yêu cầu đặt xe. |
+1. **Actor:** Chọn thông tin cần thay đổi.
+2. **Hệ thống:** Cho phép chỉnh sửa thông tin.
+3. **Actor:** Nhập thông tin mới.
+4. **Hệ thống:** Kiểm tra thông tin.
+5. Quay lại **bước 7**.
 
-### A2 – Tài xế từ chối
+#### 9.1 – Khách hàng hủy tạo yêu cầu
 
-| Bước | Actor/Hệ thống | Nội dung |
-|---:|---|---|
-| 1 | Tài xế | Từ chối yêu cầu. |
-| 2 | Hệ thống | Ghi nhận việc từ chối. |
-| 3 | Hệ thống | Tiếp tục tìm tài xế khác. |
-| 4 | Hệ thống | Khách hàng không cần tạo lại yêu cầu. |
+1. **Actor:** Chọn **Hủy**.
+2. **Hệ thống:** Hiển thị yêu cầu xác nhận hủy.
+3. **Actor:** Xác nhận hủy.
+4. **Hệ thống:** Hủy thao tác tạo yêu cầu.
+5. Kết thúc Use Case.
 
-### A3 – Tài xế không phản hồi
+### Exception Flow
 
-| Bước | Actor/Hệ thống | Nội dung |
-|---:|---|---|
-| 1 | Hệ thống | Gửi yêu cầu cho tài xế. |
-| 2 | Hệ thống | Xác định tài xế không phản hồi trong thời gian quy định. |
-| 3 | Hệ thống | Chuyển sang tài xế khác. |
-| 4 | Hệ thống | Tiếp tục quá trình tìm kiếm. |
+#### E1 – Điểm đón hoặc điểm đến không hợp lệ
 
-### A4 – Thông tin đặt xe không hợp lệ
+1. **Hệ thống:** Phát hiện địa điểm không hợp lệ.
+2. **Hệ thống:** Thông báo cho khách hàng.
+3. **Actor:** Nhập lại địa điểm.
+4. Quay lại **bước 4**.
 
-| Trường hợp | Xử lý |
+#### E2 – Không thể tạo yêu cầu đặt xe
+
+1. **Hệ thống:** Phát hiện lỗi khi tạo yêu cầu.
+2. **Hệ thống:** Thông báo yêu cầu đặt xe chưa được tạo.
+3. **Hệ thống:** Không tạo bản ghi yêu cầu không hoàn chỉnh.
+4. Kết thúc Use Case.
+
+#### E3 – Mất kết nối trong quá trình đặt xe
+
+1. **Hệ thống:** Phát hiện mất kết nối.
+2. **Hệ thống:** Thông báo khách hàng kiểm tra kết nối.
+3. **Actor:** Thực hiện lại thao tác.
+4. Quay lại **bước 9**.
+# UC-09 – Tìm kiếm & phân công tài xế
+
+| **Thành phần** | **Nội dung** |
 |---|---|
-| Thông tin đặt xe không hợp lệ | Hệ thống thông báo lỗi và yêu cầu khách hàng nhập lại. |
+| **Tên Use Case** | Tìm kiếm & phân công tài xế |
+| **Tiền điều kiện** | Có yêu cầu đặt xe hợp lệ với trạng thái **Đang tìm tài xế**. Thông tin vị trí và trạng thái hoạt động của tài xế có sẵn trên hệ thống. |
+| **Hậu điều kiện** | Nếu tìm được tài xế phù hợp, yêu cầu đặt xe được gán cho tài xế và trạng thái yêu cầu được cập nhật. Nếu không có tài xế phù hợp, khách hàng được thông báo. |
+| **Actor chính** | Hệ thống |
+| **Actor phụ** | Khách hàng, Tài xế |
 
----
+### Basic Flow
 
-# UC05 – Theo dõi chuyến đi
-
-| Thành phần | Nội dung |
+| **Actor** | **Hệ thống** |
 |---|---|
-| **Tên Use Case** | Theo dõi chuyến đi |
-| **Mã** | UC05 |
-| **Actor chính** | Khách hàng |
-| **Mục tiêu** | Cho phép khách hàng theo dõi trạng thái và vị trí chuyến đi |
-| **Điều kiện trước** | Khách hàng đã đăng nhập và có chuyến đang hoạt động |
-| **Điều kiện sau** | Khách hàng xem được thông tin mới nhất của chuyến |
-| **Kích hoạt** | Khách hàng mở chuyến đang thực hiện |
+| | **1. Hệ thống** tiếp nhận yêu cầu đặt xe ở trạng thái **Đang tìm tài xế**. |
+| | **2. Hệ thống** lấy thông tin điểm đón, loại phương tiện và các thông tin liên quan của yêu cầu. |
+| | **3. Hệ thống** tìm các tài xế đang hoạt động và phù hợp với yêu cầu. |
+| | **4. Hệ thống** xác định các tài xế phù hợp dựa trên vị trí, trạng thái sẵn sàng và tiêu chí điều phối. |
+| | **5. Hệ thống** lựa chọn tài xế phù hợp để gửi yêu cầu chuyến đi. |
+| | **6. Hệ thống** gửi thông báo chuyến đi đến tài xế được lựa chọn. |
+| | **7. Hệ thống** cập nhật trạng thái yêu cầu thành **Chờ tài xế phản hồi**. |
+| **8. Tài xế** phản hồi yêu cầu chuyến đi. | |
+| | **9. Hệ thống** tiếp nhận phản hồi của tài xế. |
+| | **10. Hệ thống** cập nhật kết quả phân công và trạng thái chuyến đi. |
+| | **11. Hệ thống** thông báo thông tin tài xế cho khách hàng nếu tài xế nhận chuyến. |
 
-## Luồng chính
+### Alternative Flow
 
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Khách hàng chọn chuyến đang thực hiện. | |
-| 2 | | Hệ thống xác định chuyến tương ứng. |
-| 3 | | Hệ thống hiển thị tài xế đã nhận chuyến. |
-| 4 | | Hệ thống hiển thị thông tin tài xế. |
-| 5 | | Hệ thống hiển thị thời gian dự kiến tài xế đến. |
-| 6 | | Hệ thống hiển thị trạng thái hiện tại của chuyến. |
-| 7 | | Hệ thống cập nhật vị trí tài xế. |
-| 8 | Khách hàng theo dõi chuyến cho đến khi hoàn thành. | |
+#### 5.1 – Có nhiều tài xế phù hợp
 
-## Luồng thay thế / ngoại lệ
+1. **Hệ thống:** Xác định có nhiều tài xế đáp ứng yêu cầu.
+2. **Hệ thống:** Sắp xếp tài xế theo các tiêu chí điều phối của hệ thống.
+3. **Hệ thống:** Chọn tài xế phù hợp để gửi yêu cầu.
+4. Quay lại **bước 6**.
 
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không nhận được vị trí tài xế | Hiển thị vị trí gần nhất và thông báo dữ liệu vị trí chưa được cập nhật. |
-| A2 | Mất kết nối mạng | Hệ thống hiển thị dữ liệu gần nhất. |
-| A3 | Chuyến đã hoàn thành | Hệ thống chuyển sang thông tin chuyến đã hoàn thành. |
+#### 9.1 – Tài xế từ chối hoặc không phản hồi
 
----
+1. **Hệ thống:** Nhận kết quả tài xế từ chối hoặc không phản hồi.
+2. **Hệ thống:** Cập nhật tài xế hiện tại không nhận chuyến.
+3. **Hệ thống:** Tiếp tục tìm tài xế phù hợp khác.
+4. **Hệ thống:** Gửi yêu cầu đến tài xế tiếp theo.
+5. Quay lại **bước 7**.
 
-# UC06 – Thanh toán chuyến đi
+#### 3.1 – Tiếp tục tìm tài xế khác
 
-| Thành phần | Nội dung |
+1. **Hệ thống:** Xác định tài xế trước đó không thể nhận chuyến.
+2. **Hệ thống:** Loại tài xế đó khỏi danh sách đang xét cho yêu cầu hiện tại.
+3. **Hệ thống:** Tìm tài xế phù hợp tiếp theo.
+4. Quay lại **bước 4**.
+
+### Exception Flow
+
+#### E1 – Không tìm thấy tài xế phù hợp
+
+1. **Hệ thống:** Xác định không có tài xế phù hợp.
+2. **Hệ thống:** Cập nhật trạng thái yêu cầu theo trạng thái không tìm được tài xế.
+3. **Hệ thống:** Thông báo cho khách hàng rằng hiện chưa tìm được tài xế.
+4. Kết thúc Use Case.
+
+#### E2 – Không thể gửi thông báo cho tài xế
+
+1. **Hệ thống:** Phát hiện lỗi khi gửi yêu cầu chuyến đi.
+2. **Hệ thống:** Ghi nhận lỗi.
+3. **Hệ thống:** Tiếp tục xử lý theo cơ chế tìm tài xế khác.
+4. Quay lại **bước 5**.
+
+#### E3 – Không thể cập nhật trạng thái phân công
+
+1. **Hệ thống:** Phát hiện lỗi khi lưu kết quả phân công.
+2. **Hệ thống:** Thông báo lỗi xử lý.
+3. **Hệ thống:** Không xác nhận phân công thành công.
+4. Kết thúc Use Case.
+# UC-10 – Tài xế nhận/từ chối chuyến
+
+| **Thành phần** | **Nội dung** |
 |---|---|
-| **Tên Use Case** | Thanh toán chuyến đi |
-| **Mã** | UC06 |
-| **Actor chính** | Khách hàng |
-| **Actor phụ** | Hệ thống thanh toán bên ngoài |
-| **Mục tiêu** | Cho phép khách hàng thanh toán số tiền của chuyến đi |
-| **Điều kiện trước** | Chuyến đi đã hoàn thành và hệ thống đã tính cước |
-| **Điều kiện sau** | Giao dịch được ghi nhận thành công hoặc thất bại |
-| **Kích hoạt** | Chuyến đi hoàn thành |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống xác định chuyến đã hoàn thành. |
-| 2 | | Hệ thống tính cước chuyến đi. |
-| 3 | | Hệ thống xác định số tiền khách hàng phải trả. |
-| 4 | | Hệ thống hiển thị số tiền. |
-| 5 | Khách hàng lựa chọn phương thức thanh toán. | |
-| 6 | Khách hàng xác nhận thanh toán. | |
-| 7 | | Hệ thống xử lý thanh toán. |
-| 8 | | Nếu thanh toán điện tử, hệ thống gửi yêu cầu đến nhà cung cấp thanh toán. |
-| 9 | | Nhà cung cấp trả kết quả giao dịch. |
-| 10 | | Hệ thống ghi nhận kết quả. |
-| 11 | | Hệ thống thông báo kết quả thanh toán cho khách hàng. |
-
-## Luồng thay thế / ngoại lệ
-
-### A1 – Thanh toán tiền mặt
-
-| Bước | Actor/Hệ thống | Nội dung |
-|---:|---|---|
-| 1 | Hệ thống | Ghi nhận phương thức thanh toán là tiền mặt. |
-| 2 | Hệ thống | Cập nhật trạng thái thanh toán theo quy trình doanh nghiệp. |
-
-### A2 – Thanh toán điện tử thất bại
-
-| Bước | Actor/Hệ thống | Nội dung |
-|---:|---|---|
-| 1 | Nhà cung cấp thanh toán | Trả kết quả giao dịch thất bại. |
-| 2 | Hệ thống | Thông báo cho khách hàng. |
-| 3 | Hệ thống | Ghi nhận giao dịch thất bại. |
-| 4 | Khách hàng | Có thể thực hiện thanh toán lại theo chính sách. |
-
-### A3 – Nhà cung cấp thanh toán không phản hồi
-
-| Trường hợp | Xử lý |
-|---|---|
-| Nhà cung cấp thanh toán không phản hồi | Hệ thống thông báo giao dịch chưa xác định và xử lý theo chính sách đối soát. |
-
-> **Lưu ý:** CAB System không lưu thông tin nhạy cảm của thẻ/tài khoản thanh toán; thông tin này được xử lý bởi nhà cung cấp thanh toán bên ngoài.
-
----
-
-# UC07 – Xem lịch sử chuyến đi
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Xem lịch sử chuyến đi |
-| **Mã** | UC07 |
-| **Actor chính** | Khách hàng |
-| **Mục tiêu** | Cho phép khách hàng tra cứu các chuyến đã thực hiện |
-| **Điều kiện trước** | Khách hàng đã đăng nhập |
-| **Điều kiện sau** | Danh sách lịch sử chuyến được hiển thị |
-| **Kích hoạt** | Khách hàng chọn "Lịch sử chuyến đi" |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Khách hàng chọn **Lịch sử chuyến đi**. | |
-| 2 | | Hệ thống xác thực khách hàng. |
-| 3 | | Hệ thống lấy danh sách chuyến của khách hàng. |
-| 4 | | Hệ thống hiển thị danh sách chuyến. |
-| 5 | Khách hàng chọn một chuyến. | |
-| 6 | | Hệ thống hiển thị thông tin chi tiết. |
-| 7 | | Hệ thống hiển thị số tiền phải trả. |
-| 8 | Khách hàng xem thông tin chuyến. | |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không có lịch sử chuyến | Hệ thống thông báo chưa có chuyến nào. |
-| A2 | Không tìm thấy chuyến | Hệ thống thông báo dữ liệu không tồn tại. |
-| A3 | Lỗi hệ thống | Hệ thống thông báo không thể tải lịch sử. |
-
----
-
-# UC08 – Đánh giá tài xế
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Đánh giá tài xế |
-| **Mã** | UC08 |
-| **Actor chính** | Khách hàng |
-| **Mục tiêu** | Cho phép khách hàng đánh giá tài xế sau khi hoàn thành chuyến |
-| **Điều kiện trước** | Khách hàng đã đăng nhập và chuyến đi đã hoàn thành |
-| **Điều kiện sau** | Đánh giá được lưu vào hệ thống |
-| **Kích hoạt** | Khách hàng chọn đánh giá tài xế |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Khách hàng mở chuyến đã hoàn thành. | |
-| 2 | | Hệ thống kiểm tra chuyến đã hoàn thành. |
-| 3 | | Hệ thống hiển thị chức năng đánh giá. |
-| 4 | Khách hàng chọn mức đánh giá. | |
-| 5 | Khách hàng có thể nhập nhận xét. | |
-| 6 | Khách hàng gửi đánh giá. | |
-| 7 | | Hệ thống kiểm tra dữ liệu đánh giá. |
-| 8 | | Hệ thống lưu đánh giá. |
-| 9 | | Hệ thống thông báo đánh giá thành công. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Chuyến chưa hoàn thành | Không cho phép đánh giá. |
-| A2 | Khách hàng đã đánh giá | Không cho phép đánh giá lại hoặc xử lý theo chính sách. |
-| A3 | Dữ liệu đánh giá không hợp lệ | Yêu cầu khách hàng nhập lại. |
-| A4 | Lỗi hệ thống | Thông báo không thể lưu đánh giá. |
-
----
-
-## 2. Nhóm tài xế
-
-| Mã | Use Case | Mức độ |
-|---|---|---|
-| UC09 | Quản lý hồ sơ tài xế | Chính |
-| UC10 | Quản lý thông tin phương tiện | Chính |
-| UC11 | Cập nhật trạng thái hoạt động | Chính |
-| UC12 | Nhận chuyến | Rất quan trọng |
-| UC13 | Chấp nhận chuyến | Rất quan trọng |
-| UC14 | Từ chối chuyến | Rất quan trọng |
-| UC15 | Cập nhật vị trí | Chính |
-| UC16 | Cập nhật trạng thái chuyến | Rất quan trọng |
-
-# ĐẶC TẢ USE CASE – NHÓM TÀI XẾ
-
----
-
-# UC09 – Quản lý hồ sơ tài xế
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Quản lý hồ sơ tài xế |
-| **Mã** | UC09 |
+| **Tên Use Case** | Tài xế nhận/từ chối chuyến |
+| **Tiền điều kiện** | Tài xế đã đăng nhập, đang ở trạng thái có thể nhận chuyến và hệ thống đã gửi yêu cầu chuyến đi đến tài xế. |
+| **Hậu điều kiện** | Nếu tài xế nhận chuyến, chuyến đi được gán cho tài xế và khách hàng được thông báo. Nếu tài xế từ chối, yêu cầu tiếp tục được tìm kiếm tài xế khác. |
 | **Actor chính** | Tài xế |
-| **Mục tiêu** | Cho phép tài xế xem và cập nhật thông tin hồ sơ cá nhân |
-| **Điều kiện trước** | Tài xế đã đăng nhập |
-| **Điều kiện sau** | Hồ sơ tài xế được cập nhật thành công |
-| **Kích hoạt** | Tài xế chọn chức năng quản lý hồ sơ |
+| **Actor phụ** | Hệ thống, Khách hàng |
 
-## Luồng chính
+### Basic Flow
 
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế đăng nhập vào hệ thống. | |
-| 2 | Tài xế chọn **Quản lý hồ sơ**. | |
-| 3 | | Hệ thống xác thực tài xế. |
-| 4 | | Hệ thống hiển thị thông tin hồ sơ hiện tại. |
-| 5 | Tài xế chỉnh sửa các thông tin được phép cập nhật. | |
-| 6 | Tài xế chọn **Lưu**. | |
-| 7 | | Hệ thống kiểm tra tính hợp lệ của dữ liệu. |
-| 8 | | Hệ thống cập nhật hồ sơ. |
-| 9 | | Hệ thống thông báo cập nhật thành công. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Thông tin không hợp lệ | Hệ thống thông báo lỗi và yêu cầu nhập lại. |
-| A2 | Tài xế hủy cập nhật | Hệ thống không thay đổi dữ liệu. |
-| A3 | Lỗi hệ thống | Hệ thống thông báo cập nhật thất bại. |
-
----
-
-# UC10 – Quản lý thông tin phương tiện
-
-| Thành phần | Nội dung |
+| **Actor** | **Hệ thống** |
 |---|---|
-| **Tên Use Case** | Quản lý thông tin phương tiện |
-| **Mã** | UC10 |
-| **Actor chính** | Tài xế |
-| **Actor phụ** | Nhân viên vận hành |
-| **Mục tiêu** | Cho phép quản lý thông tin phương tiện mà tài xế sử dụng |
-| **Điều kiện trước** | Tài xế đã đăng nhập |
-| **Điều kiện sau** | Thông tin phương tiện được cập nhật |
-| **Kích hoạt** | Tài xế chọn quản lý phương tiện |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế chọn **Thông tin phương tiện**. | |
-| 2 | | Hệ thống hiển thị thông tin phương tiện hiện tại. |
-| 3 | Tài xế nhập hoặc chỉnh sửa thông tin phương tiện. | |
-| 4 | Tài xế gửi thông tin. | |
-| 5 | | Hệ thống kiểm tra tính hợp lệ. |
-| 6 | | Hệ thống lưu thông tin phương tiện. |
-| 7 | | Hệ thống thông báo cập nhật thành công. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Thông tin phương tiện không hợp lệ | Hệ thống yêu cầu nhập lại. |
-| A2 | Phương tiện không thuộc tài xế | Hệ thống từ chối cập nhật. |
-| A3 | Lỗi hệ thống | Hệ thống không lưu dữ liệu. |
-
----
-
-# UC11 – Cập nhật trạng thái hoạt động
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Cập nhật trạng thái hoạt động |
-| **Mã** | UC11 |
-| **Actor chính** | Tài xế |
-| **Mục tiêu** | Cho phép tài xế thay đổi trạng thái sẵn sàng nhận chuyến |
-| **Điều kiện trước** | Tài xế đã đăng nhập và đủ điều kiện hoạt động |
-| **Điều kiện sau** | Trạng thái hoạt động mới được lưu |
-| **Kích hoạt** | Tài xế bật/tắt trạng thái hoạt động |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế đăng nhập. | |
-| 2 | Tài xế mở trạng thái hoạt động. | |
-| 3 | | Hệ thống hiển thị trạng thái hiện tại. |
-| 4 | Tài xế chọn **Sẵn sàng nhận chuyến**. | |
-| 5 | | Hệ thống kiểm tra điều kiện hoạt động. |
-| 6 | | Hệ thống cập nhật trạng thái tài xế thành **Sẵn sàng**. |
-| 7 | | Hệ thống cho phép tài xế nhận các yêu cầu chuyến phù hợp. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Tài xế chưa đủ điều kiện | Hệ thống thông báo tài xế chưa thể chuyển sang trạng thái sẵn sàng. |
-| A2 | Tài xế đang có chuyến | Hệ thống không cho chuyển sang trạng thái nhận chuyến mới. |
-| A3 | Tài xế tắt trạng thái | Hệ thống chuyển tài xế về trạng thái không sẵn sàng. |
-
----
-
-# UC12 – Nhận chuyến
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Nhận chuyến |
-| **Mã** | UC12 |
-| **Actor chính** | Tài xế |
-| **Actor phụ** | Hệ thống thông báo |
-| **Mục tiêu** | Cho phép tài xế nhận và xem các yêu cầu chuyến phù hợp |
-| **Điều kiện trước** | Tài xế đang ở trạng thái sẵn sàng |
-| **Điều kiện sau** | Yêu cầu chuyến được hiển thị cho tài xế |
-| **Kích hoạt** | Hệ thống tìm được tài xế phù hợp |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống xác định tài xế phù hợp. |
-| 2 | | Hệ thống gửi thông báo chuyến mới. |
-| 3 | Tài xế nhận thông báo. | |
-| 4 | | Hệ thống hiển thị thông tin chuyến. |
-| 5 | Tài xế xem điểm đón, điểm đến và thông tin liên quan. | |
-| 6 | Tài xế lựa chọn **Chấp nhận** hoặc **Từ chối**. | |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Tài xế không phản hồi | Hết thời gian phản hồi, hệ thống xem như tài xế không nhận chuyến và tiếp tục tìm tài xế khác. |
-| A2 | Chuyến đã được tài xế khác nhận | Hệ thống thông báo chuyến không còn khả dụng. |
-
----
-
-# UC13 – Chấp nhận chuyến
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Chấp nhận chuyến |
-| **Mã** | UC13 |
-| **Actor chính** | Tài xế |
-| **Mục tiêu** | Cho phép tài xế nhận một yêu cầu đặt xe |
-| **Điều kiện trước** | Tài xế nhận được yêu cầu và chuyến vẫn còn khả dụng |
-| **Điều kiện sau** | Tài xế được phân công cho chuyến |
-| **Kích hoạt** | Tài xế chọn **Chấp nhận chuyến** |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế nhận yêu cầu chuyến. | |
-| 2 | Tài xế xem thông tin chuyến. | |
-| 3 | Tài xế chọn **Chấp nhận**. | |
-| 4 | | Hệ thống kiểm tra chuyến còn khả dụng. |
-| 5 | | Hệ thống phân công chuyến cho tài xế. |
-| 6 | | Hệ thống cập nhật trạng thái chuyến. |
-| 7 | | Hệ thống thông báo cho khách hàng tài xế đã nhận chuyến. |
-| 8 | | Hệ thống ngừng gửi yêu cầu chuyến này cho tài xế khác. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Chuyến đã được tài xế khác nhận | Hệ thống thông báo chuyến không còn khả dụng. |
-| A2 | Tài xế không còn ở trạng thái sẵn sàng | Hệ thống không cho phép nhận chuyến. |
-| A3 | Lỗi hệ thống | Hệ thống không phân công chuyến và thông báo lỗi. |
-
----
-
-# UC14 – Từ chối chuyến
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Từ chối chuyến |
-| **Mã** | UC14 |
-| **Actor chính** | Tài xế |
-| **Mục tiêu** | Cho phép tài xế từ chối yêu cầu chuyến không phù hợp |
-| **Điều kiện trước** | Tài xế đã nhận được yêu cầu chuyến |
-| **Điều kiện sau** | Yêu cầu được ghi nhận là bị từ chối và hệ thống tiếp tục tìm tài xế khác |
-| **Kích hoạt** | Tài xế chọn **Từ chối chuyến** |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế nhận yêu cầu chuyến. | |
-| 2 | Tài xế xem thông tin chuyến. | |
-| 3 | Tài xế chọn **Từ chối**. | |
-| 4 | | Hệ thống ghi nhận việc từ chối. |
-| 5 | | Hệ thống cập nhật trạng thái yêu cầu. |
-| 6 | | Hệ thống tiếp tục tìm tài xế khác. |
-| 7 | | Khách hàng không cần tạo lại yêu cầu. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Yêu cầu đã hết hạn | Hệ thống thông báo chuyến không còn khả dụng. |
-| A2 | Lỗi hệ thống | Hệ thống ghi nhận lỗi và xử lý theo cơ chế dự phòng. |
-
----
-
-# UC15 – Cập nhật vị trí
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Cập nhật vị trí |
-| **Mã** | UC15 |
-| **Actor chính** | Tài xế |
-| **Mục tiêu** | Cập nhật vị trí hiện tại của tài xế cho hệ thống |
-| **Điều kiện trước** | Tài xế đã đăng nhập và cho phép hệ thống truy cập vị trí |
-| **Điều kiện sau** | Vị trí mới được cập nhật |
-| **Kích hoạt** | Tài xế di chuyển hoặc hệ thống yêu cầu cập nhật vị trí |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế đăng nhập. | |
-| 2 | | Hệ thống xác định quyền truy cập vị trí. |
-| 3 | Tài xế cho phép chia sẻ vị trí. | |
-| 4 | | Hệ thống nhận dữ liệu vị trí. |
-| 5 | | Hệ thống kiểm tra dữ liệu. |
-| 6 | | Hệ thống lưu/cập nhật vị trí mới. |
-| 7 | | Vị trí được sử dụng để hỗ trợ tìm tài xế và dự kiến thời gian đến. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không cấp quyền vị trí | Hệ thống thông báo cần cấp quyền vị trí. |
-| A2 | Mất kết nối mạng | Hệ thống giữ vị trí gần nhất và cập nhật lại khi có kết nối. |
-| A3 | Dữ liệu vị trí không hợp lệ | Hệ thống bỏ qua dữ liệu và chờ lần cập nhật tiếp theo. |
-
----
-
-# UC16 – Cập nhật trạng thái chuyến
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Cập nhật trạng thái chuyến |
-| **Mã** | UC16 |
-| **Actor chính** | Tài xế |
-| **Actor phụ** | Khách hàng |
-| **Mục tiêu** | Cho phép tài xế cập nhật tiến trình thực hiện chuyến |
-| **Điều kiện trước** | Tài xế đã được phân công chuyến |
-| **Điều kiện sau** | Trạng thái chuyến được cập nhật |
-| **Kích hoạt** | Tài xế thực hiện một bước trong chuyến |
-
-## Các trạng thái chính
-
-| STT | Trạng thái |
-|---:|---|
-| 1 | Đã nhận chuyến |
-| 2 | Đã đến điểm đón |
-| 3 | Đã đón khách |
-| 4 | Đang di chuyển |
-| 5 | Hoàn thành chuyến |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế mở chuyến đang thực hiện. | |
-| 2 | | Hệ thống hiển thị trạng thái hiện tại. |
-| 3 | Tài xế cập nhật trạng thái **Đã đến điểm đón**. | |
-| 4 | | Hệ thống lưu trạng thái. |
-| 5 | | Hệ thống thông báo cho khách hàng. |
-| 6 | Tài xế cập nhật **Đã đón khách**. | |
-| 7 | | Hệ thống lưu trạng thái. |
-| 8 | Tài xế cập nhật **Đang di chuyển**. | |
-| 9 | | Hệ thống lưu trạng thái. |
-| 10 | Khi đến điểm trả, tài xế chọn **Hoàn thành chuyến**. | |
-| 11 | | Hệ thống cập nhật chuyến thành **Hoàn thành**. |
-| 12 | | Hệ thống kích hoạt quy trình tính cước/thanh toán. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Cập nhật trạng thái không đúng thứ tự | Hệ thống từ chối cập nhật và yêu cầu thực hiện đúng trình tự. |
-| A2 | Mất kết nối mạng | Hệ thống lưu trạng thái tạm thời trên thiết bị và đồng bộ khi có mạng theo chính sách doanh nghiệp. |
-| A3 | Tài xế cố hoàn thành chuyến khi chưa đủ điều kiện | Hệ thống từ chối và thông báo lý do. |
-| A4 | Lỗi hệ thống | Hệ thống ghi log và thông báo cho bộ phận vận hành xử lý. |
-
----
-## 3. Nhóm tìm và phân công tài xế
-
-> Đây là nhóm quan trọng của hệ thống vì CAB System yêu cầu tự động tìm và phân công tài xế phù hợp cho khách hàng.
-
-| Mã | Use Case | Mức độ |
-|---|---|---|
-| UC17 | Tìm tài xế phù hợp | Rất quan trọng |
-| UC18 | Xác định tài xế gần khách | Chính |
-| UC19 | Kiểm tra trạng thái tài xế | Chính |
-| UC20 | Ưu tiên tài xế phù hợp | Chính |
-| UC21 | Gửi yêu cầu cho tài xế | Chính |
-| UC22 | Xử lý tài xế không phản hồi | Quan trọng |
-| UC23 | Xử lý tài xế từ chối | Quan trọng |
-| UC24 | Tiếp tục tìm tài xế khác | Quan trọng |
-| UC25 | Thông báo không tìm được tài xế | Chính |
-
-# ĐẶC TẢ USE CASE – NHÓM TÌM VÀ PHÂN CÔNG TÀI XẾ
-
----
-
-# UC17 – Tìm tài xế phù hợp
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Tìm tài xế phù hợp |
-| **Mã** | UC17 |
-| **Actor chính** | Hệ thống CAB |
-| **Actor liên quan** | Khách hàng, Tài xế |
-| **Mục tiêu** | Tự động tìm và lựa chọn tài xế phù hợp cho yêu cầu đặt xe |
-| **Điều kiện trước** | Khách hàng đã tạo và xác nhận yêu cầu đặt xe |
-| **Điều kiện sau** | Một tài xế được phân công hoặc hệ thống xác định không tìm được tài xế |
-| **Kích hoạt** | Yêu cầu đặt xe được hệ thống tiếp nhận |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống tiếp nhận yêu cầu đặt xe. |
-| 2 | | Hệ thống lấy thông tin điểm đón, điểm đến và loại xe. |
-| 3 | | Hệ thống xác định các tài xế đang hoạt động. |
-| 4 | | Hệ thống xác định các tài xế ở gần điểm đón. |
-| 5 | | Hệ thống kiểm tra trạng thái sẵn sàng của tài xế. |
-| 6 | | Hệ thống áp dụng các tiêu chí ưu tiên tài xế. |
-| 7 | | Hệ thống lựa chọn tài xế phù hợp nhất. |
-| 8 | | Hệ thống gửi yêu cầu chuyến cho tài xế. |
-| 9 | | Hệ thống chờ phản hồi. |
-| 10 | Tài xế chấp nhận chuyến. | Hệ thống phân công tài xế cho chuyến. |
-| 11 | | Hệ thống thông báo cho khách hàng. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không có tài xế phù hợp | Hệ thống thông báo không tìm được tài xế cho khách hàng. |
-| A2 | Tài xế không phản hồi | Hệ thống xử lý tài xế không phản hồi và tiếp tục tìm tài xế khác. |
-| A3 | Tài xế từ chối | Hệ thống ghi nhận từ chối và tiếp tục tìm tài xế khác. |
-| A4 | Không tìm được tài xế sau nhiều lần thử | Hệ thống kết thúc việc tìm kiếm và thông báo cho khách hàng. |
-
----
-
-# UC18 – Xác định tài xế gần khách
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Xác định tài xế gần khách |
-| **Mã** | UC18 |
-| **Actor chính** | Hệ thống CAB |
-| **Actor liên quan** | Tài xế |
-| **Mục tiêu** | Xác định các tài xế có vị trí phù hợp với điểm đón |
-| **Điều kiện trước** | Có yêu cầu đặt xe và thông tin vị trí tài xế |
-| **Điều kiện sau** | Danh sách tài xế gần điểm đón được xác định |
-| **Kích hoạt** | Hệ thống yêu cầu tìm tài xế |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống lấy tọa độ điểm đón. |
-| 2 | | Hệ thống lấy vị trí gần nhất của các tài xế. |
-| 3 | | Hệ thống tính khoảng cách giữa tài xế và điểm đón. |
-| 4 | | Hệ thống lọc các tài xế nằm trong phạm vi phù hợp. |
-| 5 | | Hệ thống trả danh sách tài xế cho quá trình tìm tài xế. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không có dữ liệu vị trí tài xế | Hệ thống bỏ qua tài xế đó. |
-| A2 | Vị trí đã quá cũ | Hệ thống không sử dụng vị trí hoặc xử lý theo chính sách doanh nghiệp. |
-| A3 | Không có tài xế trong phạm vi | Hệ thống trả về danh sách rỗng. |
-
----
-
-# UC19 – Kiểm tra trạng thái tài xế
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Kiểm tra trạng thái tài xế |
-| **Mã** | UC19 |
-| **Actor chính** | Hệ thống CAB |
-| **Mục tiêu** | Xác định tài xế có đang sẵn sàng nhận chuyến hay không |
-| **Điều kiện trước** | Có danh sách tài xế tiềm năng |
-| **Điều kiện sau** | Danh sách tài xế sẵn sàng được xác định |
-| **Kích hoạt** | Hệ thống yêu cầu kiểm tra trạng thái tài xế |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống lấy trạng thái của các tài xế. |
-| 2 | | Hệ thống kiểm tra trạng thái hoạt động. |
-| 3 | | Hệ thống kiểm tra tài xế có đang thực hiện chuyến hay không. |
-| 4 | | Hệ thống loại bỏ tài xế không sẵn sàng. |
-| 5 | | Hệ thống trả danh sách tài xế đủ điều kiện. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Tài xế đang thực hiện chuyến | Không đưa tài xế vào danh sách. |
-| A2 | Tài xế offline | Không đưa tài xế vào danh sách. |
-| A3 | Tài xế bị khóa/tạm ngưng | Không đưa tài xế vào danh sách. |
-
----
-
-# UC20 – Ưu tiên tài xế phù hợp
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Ưu tiên tài xế phù hợp |
-| **Mã** | UC20 |
-| **Actor chính** | Hệ thống CAB |
-| **Mục tiêu** | Xếp hạng tài xế dựa trên các tiêu chí vận hành |
-| **Điều kiện trước** | Có danh sách tài xế đủ điều kiện |
-| **Điều kiện sau** | Danh sách tài xế được sắp xếp theo mức độ phù hợp |
-| **Kích hoạt** | Sau khi hệ thống kiểm tra tài xế |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống nhận danh sách tài xế. |
-| 2 | | Hệ thống lấy các tiêu chí ưu tiên đã được cấu hình. |
-| 3 | | Hệ thống đánh giá mức độ phù hợp. |
-| 4 | | Hệ thống tính thứ tự ưu tiên. |
-| 5 | | Hệ thống sắp xếp tài xế. |
-| 6 | | Hệ thống chọn tài xế có mức ưu tiên cao nhất. |
-
-## Các tiêu chí có thể sử dụng
-
-| STT | Tiêu chí |
-|---:|---|
-| 1 | Khoảng cách đến khách hàng |
-| 2 | Trạng thái sẵn sàng |
-| 3 | Loại phương tiện |
-| 4 | Khu vực hoạt động |
-| 5 | Các tiêu chí vận hành khác |
-
-> **Business Rule:** Doanh nghiệp chưa chốt tiêu chí ưu tiên tài xế. Các tiêu chí và thuật toán xếp hạng cần được xác nhận với khách hàng trước khi triển khai.
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không có tiêu chí ưu tiên được cấu hình | Hệ thống sử dụng quy tắc mặc định đã được doanh nghiệp phê duyệt. |
-| A2 | Các tài xế có mức độ phù hợp tương đương | Hệ thống áp dụng quy tắc phân hạng tiếp theo hoặc quy tắc mặc định. |
-
----
-
-# UC21 – Gửi yêu cầu cho tài xế
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Gửi yêu cầu cho tài xế |
-| **Mã** | UC21 |
-| **Actor chính** | Hệ thống CAB |
-| **Actor phụ** | Tài xế |
-| **Mục tiêu** | Gửi thông tin yêu cầu chuyến đến tài xế được lựa chọn |
-| **Điều kiện trước** | Đã xác định tài xế phù hợp |
-| **Điều kiện sau** | Tài xế nhận được yêu cầu hoặc hệ thống xác định gửi thất bại |
-| **Kích hoạt** | Hệ thống chọn được tài xế |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống chọn tài xế có mức ưu tiên cao nhất. |
-| 2 | | Hệ thống tạo yêu cầu chuyến. |
-| 3 | | Hệ thống gửi thông tin chuyến đến tài xế. |
-| 4 | Tài xế nhận thông báo. | |
-| 5 | | Hệ thống bắt đầu thời gian chờ phản hồi. |
-| 6 | Tài xế phản hồi. | |
-| 7 | | Hệ thống xử lý kết quả phản hồi. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không gửi được thông báo | Hệ thống thực hiện gửi lại theo cơ chế dự phòng. |
-| A2 | Tài xế không phản hồi | Hệ thống xử lý trường hợp tài xế không phản hồi. |
-| A3 | Tài xế từ chối | Hệ thống ghi nhận từ chối và tiếp tục tìm tài xế khác. |
-
----
-
-# UC22 – Xử lý tài xế không phản hồi
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Xử lý tài xế không phản hồi |
-| **Mã** | UC22 |
-| **Actor chính** | Hệ thống CAB |
-| **Mục tiêu** | Xử lý trường hợp tài xế không phản hồi yêu cầu trong thời gian quy định |
-| **Điều kiện trước** | Yêu cầu đã được gửi cho tài xế |
-| **Điều kiện sau** | Hệ thống chuyển sang tìm tài xế khác |
-| **Kích hoạt** | Tài xế không phản hồi trong thời gian quy định |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống gửi yêu cầu chuyến. |
-| 2 | | Hệ thống bắt đầu bộ đếm thời gian phản hồi. |
-| 3 | | Hệ thống chờ phản hồi. |
-| 4 | | Hết thời gian nhưng không nhận được phản hồi. |
-| 5 | | Hệ thống đánh dấu yêu cầu là **Không phản hồi**. |
-| 6 | | Hệ thống giải phóng tài xế khỏi yêu cầu. |
-| 7 | | Hệ thống chuyển sang tìm tài xế khác. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Tài xế phản hồi trước thời hạn | Hệ thống tiếp tục xử lý chấp nhận hoặc từ chối. |
-| A2 | Lỗi hệ thống | Hệ thống ghi nhận lỗi và xử lý theo chính sách dự phòng. |
-
----
-
-# UC23 – Xử lý tài xế từ chối
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Xử lý tài xế từ chối |
-| **Mã** | UC23 |
-| **Actor chính** | Hệ thống CAB |
-| **Actor liên quan** | Tài xế |
-| **Mục tiêu** | Xử lý việc tài xế từ chối chuyến và tìm tài xế khác |
-| **Điều kiện trước** | Yêu cầu đã được gửi cho tài xế |
-| **Điều kiện sau** | Yêu cầu được chuyển sang tài xế khác hoặc kết thúc nếu không còn tài xế |
-| **Kích hoạt** | Tài xế chọn từ chối |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | Tài xế từ chối yêu cầu. | |
-| 2 | | Hệ thống nhận kết quả từ chối. |
-| 3 | | Hệ thống ghi nhận lý do từ chối nếu có. |
-| 4 | | Hệ thống cập nhật trạng thái yêu cầu. |
-| 5 | | Hệ thống loại tài xế khỏi vòng tìm kiếm hiện tại. |
-| 6 | | Hệ thống tiếp tục tìm tài xế khác. |
-| 7 | | Khách hàng không phải tạo lại yêu cầu. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không còn tài xế phù hợp | Hệ thống thông báo cho khách hàng không tìm được tài xế. |
-| A2 | Lỗi hệ thống | Hệ thống ghi log và thông báo cho bộ phận vận hành. |
-
----
-
-# UC24 – Tiếp tục tìm tài xế khác
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Tiếp tục tìm tài xế khác |
-| **Mã** | UC24 |
-| **Actor chính** | Hệ thống CAB |
-| **Mục tiêu** | Tìm tài xế mới khi tài xế trước không phản hồi hoặc từ chối |
-| **Điều kiện trước** | Tài xế trước đã từ chối hoặc không phản hồi |
-| **Điều kiện sau** | Tài xế mới được gửi yêu cầu hoặc hệ thống kết luận không có tài xế |
-| **Kích hoạt** | Hệ thống xác định tài xế hiện tại không nhận chuyến |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống xác định tài xế hiện tại không nhận chuyến. |
-| 2 | | Hệ thống loại tài xế đó khỏi danh sách hiện tại. |
-| 3 | | Hệ thống lấy danh sách tài xế còn lại. |
-| 4 | | Hệ thống kiểm tra trạng thái tài xế. |
-| 5 | | Hệ thống xác định tài xế gần khách. |
-| 6 | | Hệ thống áp dụng tiêu chí ưu tiên. |
-| 7 | | Hệ thống chọn tài xế tiếp theo. |
-| 8 | | Hệ thống gửi yêu cầu cho tài xế mới. |
-| 9 | | Hệ thống chờ phản hồi. |
-| 10 | | Nếu tài xế tiếp tục không phản hồi hoặc từ chối, hệ thống lặp lại quá trình tìm kiếm. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không còn tài xế | Hệ thống chuyển sang thông báo không tìm được tài xế. |
-| A2 | Danh sách tài xế không còn hợp lệ | Hệ thống thực hiện tìm kiếm lại theo dữ liệu hiện tại. |
-
----
-
-# UC25 – Thông báo không tìm được tài xế
-
-| Thành phần | Nội dung |
-|---|---|
-| **Tên Use Case** | Thông báo không tìm được tài xế |
-| **Mã** | UC25 |
-| **Actor chính** | Hệ thống CAB |
-| **Actor phụ** | Khách hàng, Nhà cung cấp thông báo |
-| **Mục tiêu** | Thông báo rõ ràng cho khách hàng khi hệ thống không tìm được tài xế |
-| **Điều kiện trước** | Hệ thống đã thử tìm tài xế nhưng không có tài xế phù hợp |
-| **Điều kiện sau** | Khách hàng nhận được thông báo |
-| **Kích hoạt** | Không còn tài xế phù hợp |
-
-## Luồng chính
-
-| STT | Actor | Hệ thống |
-|---:|---|---|
-| 1 | | Hệ thống xác định không còn tài xế phù hợp. |
-| 2 | | Hệ thống cập nhật trạng thái yêu cầu. |
-| 3 | | Hệ thống tạo thông báo. |
-| 4 | | Hệ thống gửi thông báo cho khách hàng. |
-| 5 | Khách hàng nhận thông báo. | |
-| 6 | | Hệ thống kết thúc yêu cầu tìm tài xế. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp | Xử lý |
-|---|---|---|
-| A1 | Không gửi được thông báo | Hệ thống ghi nhận lỗi và thử gửi lại theo chính sách. |
-| A2 | Khách hàng không nhận được thông báo | Hệ thống hiển thị thông báo trực tiếp trên ứng dụng khi có thể. |
-
----
-## 4. Nhóm tính cước và thanh toán
-
-| Mã | Use Case | Mức độ |
-|---|---|---|
-| UC26 | Tính cước chuyến đi | Rất quan trọng |
-| UC27 | Thanh toán chuyến đi | Rất quan trọng |
-| UC28 | Thanh toán tiền mặt | Chính |
-| UC29 | Thanh toán điện tử | Chính |
-| UC30 | Xử lý thanh toán | Rất quan trọng |
-| UC31 | Xử lý thanh toán thất bại | Quan trọng |
-| UC32 | Xử lý thanh toán lại | Chính |
-
-# 4. NHÓM TÍNH CƯỚC VÀ THANH TOÁN
-
----
-
-# UC26 – Tính cước chuyến đi ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                          |
-| ------------------- | ----------------------------------------------------------------- |
-| **Tên Use Case**    | Tính cước chuyến đi                                               |
-| **Mã**              | UC26                                                              |
-| **Actor chính**     | Hệ thống CAB                                                      |
-| **Actor phụ**       | Khách hàng                                                        |
-| **Mục tiêu**        | Xác định số tiền khách hàng phải trả sau khi chuyến đi hoàn thành |
-| **Điều kiện trước** | Chuyến đi đã hoàn thành                                           |
-| **Điều kiện sau**   | Hệ thống xác định và lưu số tiền phải thanh toán                  |
-| **Kích hoạt**       | Chuyến đi chuyển sang trạng thái hoàn thành                       |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                         |
-| --: | ---------- | ------------------------------------------------ |
-|   1 |            | Hệ thống nhận thông tin chuyến đi đã hoàn thành. |
-|   2 |            | Hệ thống xác định loại dịch vụ/loại xe.          |
-|   3 |            | Hệ thống lấy thông tin cần thiết của chuyến đi.  |
-|   4 |            | Hệ thống áp dụng quy tắc tính cước.              |
-|   5 |            | Hệ thống tính tổng số tiền khách hàng phải trả.  |
-|   6 |            | Hệ thống lưu kết quả tính cước.                  |
-|   7 | Khách hàng | Khách hàng xem số tiền phải thanh toán.          |
-|   8 |            | Hệ thống chuyển sang bước thanh toán.            |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                       | Xử lý                                                         |
-| -- | -------------------------------- | ------------------------------------------------------------- |
-| A1 | Thiếu thông tin chuyến đi        | Hệ thống không thể tính cước và thông báo lỗi.                |
-| A2 | Không xác định được loại dịch vụ | Hệ thống yêu cầu xử lý/xác nhận theo chính sách doanh nghiệp. |
-| A3 | Lỗi tính cước                    | Hệ thống ghi log lỗi và chuyển cho bộ phận vận hành xử lý.    |
-
-> **Business Rule:** Cách tính cước cụ thể chưa được khách hàng chốt, cần BA xác nhận với khách hàng trước khi triển khai.
-
----
-
-# UC27 – Thanh toán chuyến đi ⭐⭐⭐
-
-| Thành phần          | Nội dung                                             |
-| ------------------- | ---------------------------------------------------- |
-| **Tên Use Case**    | Thanh toán chuyến đi                                 |
-| **Mã**              | UC27                                                 |
-| **Actor chính**     | Khách hàng                                           |
-| **Actor phụ**       | Hệ thống CAB                                         |
-| **Mục tiêu**        | Cho phép khách hàng thanh toán số tiền của chuyến đi |
-| **Điều kiện trước** | Chuyến đi đã hoàn thành và đã có số tiền phải trả    |
-| **Điều kiện sau**   | Thanh toán thành công hoặc được ghi nhận thất bại    |
-| **Kích hoạt**       | Khách hàng thực hiện thanh toán                      |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                                              |
-| --: | ---------- | --------------------------------------------------------------------- |
-|   1 |            | Hệ thống hiển thị số tiền khách hàng phải trả.                        |
-|   2 | Khách hàng | Khách hàng chọn phương thức thanh toán.                               |
-|   3 |            | Hệ thống xác định phương thức thanh toán.                             |
-|   4 | Khách hàng | Nếu chọn tiền mặt, khách hàng thực hiện thanh toán tiền mặt.          |
-|   5 | Khách hàng | Nếu chọn thanh toán điện tử, khách hàng thực hiện thanh toán điện tử. |
-|   6 |            | Hệ thống xử lý giao dịch.                                             |
-|   7 |            | Hệ thống nhận kết quả thanh toán.                                     |
-|   8 |            | Hệ thống cập nhật trạng thái thanh toán.                              |
-|   9 | Khách hàng | Khách hàng nhận thông báo kết quả thanh toán.                         |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                               | Xử lý                                                                         |
-| -- | ---------------------------------------- | ----------------------------------------------------------------------------- |
-| A1 | Thanh toán điện tử thất bại              | Hệ thống ghi nhận giao dịch thất bại và thông báo cho khách hàng.             |
-| A2 | Khách hàng muốn thanh toán lại           | Hệ thống kiểm tra giao dịch trước và cho phép thanh toán lại theo chính sách. |
-| A3 | Không xác định được trạng thái giao dịch | Hệ thống kiểm tra lại giao dịch trước khi cho phép thanh toán mới.            |
-
----
-
-# UC28 – Thanh toán tiền mặt
-
-| Thành phần          | Nội dung                                          |
-| ------------------- | ------------------------------------------------- |
-| **Tên Use Case**    | Thanh toán tiền mặt                               |
-| **Mã**              | UC28                                              |
-| **Actor chính**     | Khách hàng                                        |
-| **Actor phụ**       | Tài xế                                            |
-| **Mục tiêu**        | Ghi nhận việc khách hàng thanh toán bằng tiền mặt |
-| **Điều kiện trước** | Chuyến đi hoàn thành và có số tiền phải trả       |
-| **Điều kiện sau**   | Hệ thống ghi nhận thanh toán tiền mặt             |
-| **Kích hoạt**       | Khách hàng chọn phương thức tiền mặt              |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                         |
-| --: | ---------- | ------------------------------------------------ |
-|   1 | Khách hàng | Khách hàng chọn phương thức **tiền mặt**.        |
-|   2 |            | Hệ thống hiển thị số tiền cần thanh toán.        |
-|   3 | Khách hàng | Khách hàng thanh toán tiền mặt cho tài xế.       |
-|   4 | Tài xế     | Tài xế xác nhận đã nhận tiền.                    |
-|   5 |            | Hệ thống ghi nhận giao dịch.                     |
-|   6 |            | Hệ thống cập nhật trạng thái thanh toán.         |
-|   7 | Khách hàng | Khách hàng nhận thông báo thanh toán thành công. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                 | Xử lý                                                          |
-| -- | -------------------------- | -------------------------------------------------------------- |
-| A1 | Khách hàng chưa thanh toán | Hệ thống giữ giao dịch ở trạng thái chưa hoàn tất.             |
-| A2 | Tài xế không xác nhận      | Hệ thống ghi nhận vấn đề và chuyển cho bộ phận vận hành xử lý. |
-| A3 | Lỗi hệ thống               | Hệ thống ghi nhận lỗi và xử lý theo cơ chế dự phòng.           |
-
----
-
-# UC29 – Thanh toán điện tử
-
-| Thành phần          | Nội dung                                                     |
-| ------------------- | ------------------------------------------------------------ |
-| **Tên Use Case**    | Thanh toán điện tử                                           |
-| **Mã**              | UC29                                                         |
-| **Actor chính**     | Khách hàng                                                   |
-| **Actor phụ**       | Hệ thống thanh toán bên ngoài                                |
-| **Mục tiêu**        | Cho phép khách hàng thanh toán thông qua phương thức điện tử |
-| **Điều kiện trước** | Có số tiền phải thanh toán                                   |
-| **Điều kiện sau**   | Giao dịch được gửi đến hệ thống thanh toán                   |
-| **Kích hoạt**       | Khách hàng chọn thanh toán điện tử                           |
-
-## Luồng chính
-
-| STT | Actor                         | Hệ thống                                                        |
-| --: | ----------------------------- | --------------------------------------------------------------- |
-|   1 | Khách hàng                    | Khách hàng chọn **Thanh toán điện tử**.                         |
-|   2 |                               | Hệ thống CAB tạo yêu cầu thanh toán.                            |
-|   3 |                               | Hệ thống kết nối/chuyển khách hàng đến nhà cung cấp thanh toán. |
-|   4 | Khách hàng                    | Khách hàng thực hiện thanh toán.                                |
-|   5 | Hệ thống thanh toán bên ngoài | Nhà cung cấp thanh toán xử lý giao dịch.                        |
-|   6 | Hệ thống thanh toán bên ngoài | Nhà cung cấp trả kết quả về CAB.                                |
-|   7 |                               | CAB cập nhật trạng thái giao dịch.                              |
-|   8 | Khách hàng                    | Khách hàng nhận thông báo kết quả thanh toán.                   |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                             | Xử lý                                                                        |
-| -- | -------------------------------------- | ---------------------------------------------------------------------------- |
-| A1 | Giao dịch thất bại                     | Hệ thống chuyển sang quy trình xử lý thanh toán thất bại.                    |
-| A2 | Mất kết nối                            | Hệ thống kiểm tra trạng thái giao dịch trước khi cho phép thực hiện lại.     |
-| A3 | Nhà cung cấp thanh toán không khả dụng | Hệ thống thông báo lỗi và cho phép khách hàng thực hiện lại theo chính sách. |
-
-> **Bảo mật:** CAB không lưu trực tiếp thông tin nhạy cảm của thẻ/tài khoản thanh toán. Các thông tin này được xử lý bởi nhà cung cấp thanh toán bên ngoài.
-
----
-
-# UC30 – Xử lý thanh toán ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                 |
-| ------------------- | -------------------------------------------------------- |
-| **Tên Use Case**    | Xử lý thanh toán                                         |
-| **Mã**              | UC30                                                     |
-| **Actor chính**     | Hệ thống CAB                                             |
-| **Actor phụ**       | Hệ thống thanh toán bên ngoài                            |
-| **Mục tiêu**        | Thực hiện và kiểm tra giao dịch thanh toán               |
-| **Điều kiện trước** | Có yêu cầu thanh toán                                    |
-| **Điều kiện sau**   | Giao dịch có kết quả thành công, thất bại hoặc chờ xử lý |
-| **Kích hoạt**       | Hệ thống yêu cầu xử lý thanh toán                        |
-
-## Luồng chính
-
-| STT | Actor                         | Hệ thống                                       |
-| --: | ----------------------------- | ---------------------------------------------- |
-|   1 |                               | CAB tạo yêu cầu giao dịch.                     |
-|   2 |                               | CAB gửi yêu cầu đến nhà cung cấp thanh toán.   |
-|   3 | Hệ thống thanh toán bên ngoài | Nhà cung cấp tiếp nhận giao dịch.              |
-|   4 | Hệ thống thanh toán bên ngoài | Nhà cung cấp xử lý giao dịch.                  |
-|   5 | Hệ thống thanh toán bên ngoài | Nhà cung cấp trả kết quả về CAB.               |
-|   6 |                               | CAB xác thực kết quả giao dịch.                |
-|   7 |                               | CAB cập nhật trạng thái giao dịch.             |
-|   8 |                               | CAB lưu thông tin giao dịch cần thiết.         |
-|   9 |                               | CAB thông báo kết quả cho hệ thống/khách hàng. |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                               | Xử lý                                                       |
-| -- | ---------------------------------------- | ----------------------------------------------------------- |
-| A1 | Giao dịch thất bại                       | Chuyển sang quy trình xử lý thanh toán thất bại.            |
-| A2 | Không nhận được phản hồi                 | Hệ thống kiểm tra trạng thái giao dịch trước khi xử lý lại. |
-| A3 | Nhà cung cấp thanh toán không khả dụng   | Hệ thống thông báo lỗi và xử lý theo chính sách.            |
-| A4 | Không xác định được trạng thái giao dịch | Giao dịch được giữ ở trạng thái chờ xử lý để đối soát.      |
-
-> **Bảo mật:** CAB không lưu trực tiếp thông tin nhạy cảm của thẻ/tài khoản thanh toán.
-
----
-
-# UC31 – Xử lý thanh toán thất bại
-
-| Thành phần          | Nội dung                                            |
-| ------------------- | --------------------------------------------------- |
-| **Tên Use Case**    | Xử lý thanh toán thất bại                           |
-| **Mã**              | UC31                                                |
-| **Actor chính**     | Hệ thống CAB                                        |
-| **Actor phụ**       | Khách hàng                                          |
-| **Mục tiêu**        | Xử lý trường hợp giao dịch điện tử không thành công |
-| **Điều kiện trước** | Hệ thống nhận kết quả thanh toán thất bại           |
-| **Điều kiện sau**   | Khách hàng được thông báo và có thể thanh toán lại  |
-| **Kích hoạt**       | Giao dịch thanh toán thất bại                       |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                                 |
-| --: | ---------- | -------------------------------------------------------- |
-|   1 |            | Hệ thống nhận kết quả thanh toán thất bại.               |
-|   2 |            | Hệ thống xác định trạng thái giao dịch.                  |
-|   3 |            | Hệ thống ghi nhận giao dịch thất bại.                    |
-|   4 | Khách hàng | Khách hàng nhận thông báo thanh toán thất bại.           |
-|   5 |            | Hệ thống hiển thị nguyên nhân nếu nhà cung cấp cung cấp. |
-|   6 | Khách hàng | Khách hàng có thể chọn thực hiện thanh toán lại.         |
-|   7 |            | Hệ thống cho phép thanh toán lại theo chính sách.        |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                               | Xử lý                                                                            |
-| -- | ---------------------------------------- | -------------------------------------------------------------------------------- |
-| A1 | Không xác định được trạng thái giao dịch | Hệ thống không cho phép tạo giao dịch mới ngay và thực hiện kiểm tra trạng thái. |
-| A2 | Nhà cung cấp không phản hồi              | Hệ thống ghi nhận giao dịch ở trạng thái chờ xử lý.                              |
-| A3 | Lỗi hệ thống                             | Hệ thống ghi log và chuyển cho bộ phận vận hành xử lý.                           |
-
----
-
-# UC32 – Xử lý thanh toán lại
-
-| Thành phần          | Nội dung                                                                |
-| ------------------- | ----------------------------------------------------------------------- |
-| **Tên Use Case**    | Xử lý thanh toán lại                                                    |
-| **Mã**              | UC32                                                                    |
-| **Actor chính**     | Khách hàng                                                              |
-| **Actor phụ**       | Hệ thống CAB                                                            |
-| **Mục tiêu**        | Cho phép khách hàng thực hiện lại thanh toán sau khi giao dịch thất bại |
-| **Điều kiện trước** | Giao dịch trước đó thất bại hoặc chưa hoàn tất                          |
-| **Điều kiện sau**   | Giao dịch mới thành công hoặc tiếp tục thất bại                         |
-| **Kích hoạt**       | Khách hàng chọn **Thanh toán lại**                                      |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                                                   |
-| --: | ---------- | -------------------------------------------------------------------------- |
-|   1 | Khách hàng | Khách hàng nhận thông báo thanh toán thất bại.                             |
-|   2 | Khách hàng | Khách hàng chọn **Thanh toán lại**.                                        |
-|   3 |            | Hệ thống kiểm tra trạng thái giao dịch trước.                              |
-|   4 |            | Nếu giao dịch trước thực sự thất bại, hệ thống tạo yêu cầu thanh toán mới. |
-|   5 | Khách hàng | Khách hàng chọn/thực hiện phương thức thanh toán.                          |
-|   6 |            | Hệ thống xử lý giao dịch.                                                  |
-|   7 |            | Hệ thống nhận kết quả thanh toán.                                          |
-|   8 |            | Nếu thành công, hệ thống cập nhật trạng thái thanh toán.                   |
-|   9 | Khách hàng | Khách hàng nhận thông báo kết quả thanh toán.                              |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                       | Xử lý                                                                            |
-| -- | -------------------------------- | -------------------------------------------------------------------------------- |
-| A1 | Giao dịch cũ đang chờ            | Hệ thống không tạo giao dịch mới và chờ xác nhận trạng thái.                     |
-| A2 | Thanh toán lại tiếp tục thất bại | Hệ thống giữ trạng thái thất bại và cho phép xử lý theo chính sách doanh nghiệp. |
-| A3 | Vượt quá số lần thanh toán lại   | Hệ thống không cho phép tiếp tục và chuyển cho bộ phận vận hành xử lý.           |
-| A4 | Lỗi hệ thống                     | Hệ thống ghi log và thông báo cho khách hàng.                                    |
-
-## 5. Nhóm thông báo
-
-| Mã | Use Case | Mức độ |
-|---|---|---|
-| UC33 | Gửi thông báo | Quan trọng |
-| UC34 | Thông báo tiếp nhận yêu cầu | Chính |
-| UC35 | Thông báo tài xế nhận chuyến | Chính |
-| UC36 | Thông báo tài xế đến | Chính |
-| UC37 | Thông báo hoàn thành chuyến | Chính |
-| UC38 | Thông báo kết quả thanh toán | Chính |
-
-# 5. NHÓM THÔNG BÁO
-
-# UC33 – Gửi thông báo
-
-| Thành phần          | Nội dung                                                                |
-| ------------------- | ----------------------------------------------------------------------- |
-| **Tên Use Case**    | Gửi thông báo                                                           |
-| **Mã**              | UC33                                                                    |
-| **Actor chính**     | Hệ thống CAB                                                            |
-| **Actor phụ**       | Nhà cung cấp thông báo                                                  |
-| **Đối tượng nhận**  | Khách hàng, Tài xế                                                      |
-| **Mục tiêu**        | Gửi thông báo đến đúng người dùng khi xảy ra các sự kiện trong hệ thống |
-| **Điều kiện trước** | Có sự kiện cần gửi thông báo                                            |
-| **Điều kiện sau**   | Thông báo được gửi thành công hoặc hệ thống ghi nhận lỗi                |
-| **Kích hoạt**       | Một sự kiện nghiệp vụ yêu cầu gửi thông báo                             |
-
-## Luồng chính
-
-| STT | Actor                  | Hệ thống                                         |
-| --: | ---------------------- | ------------------------------------------------ |
-|   1 |                        | Hệ thống phát sinh một sự kiện cần thông báo.    |
-|   2 |                        | Hệ thống xác định người nhận.                    |
-|   3 |                        | Hệ thống xác định nội dung thông báo.            |
-|   4 |                        | Hệ thống xác định loại thông báo.                |
-|   5 |                        | Hệ thống gửi yêu cầu đến nhà cung cấp thông báo. |
-|   6 | Nhà cung cấp thông báo | Nhà cung cấp thực hiện gửi thông báo.            |
-|   7 |                        | Hệ thống nhận kết quả gửi.                       |
-|   8 |                        | Hệ thống ghi nhận trạng thái thông báo.          |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                              | Xử lý                                                                     |
-| -- | --------------------------------------- | ------------------------------------------------------------------------- |
-| A1 | Gửi thông báo thất bại                  | Hệ thống ghi nhận lỗi và thực hiện gửi lại theo chính sách.               |
-| A2 | Nhà cung cấp thông báo không khả dụng   | Hệ thống ghi nhận lỗi, không làm ảnh hưởng đến chức năng nghiệp vụ chính. |
-| A3 | Người dùng không bật một kênh thông báo | Hệ thống sử dụng kênh thay thế nếu có.                                    |
-
----
-
-# UC34 – Thông báo tiếp nhận yêu cầu
-
-| Thành phần          | Nội dung                                                                |
-| ------------------- | ----------------------------------------------------------------------- |
-| **Tên Use Case**    | Thông báo tiếp nhận yêu cầu                                             |
-| **Mã**              | UC34                                                                    |
-| **Actor chính**     | Hệ thống CAB                                                            |
-| **Actor phụ**       | Nhà cung cấp thông báo                                                  |
-| **Đối tượng nhận**  | Khách hàng                                                              |
-| **Mục tiêu**        | Thông báo cho khách hàng rằng yêu cầu đặt xe đã được hệ thống tiếp nhận |
-| **Điều kiện trước** | Khách hàng đã gửi yêu cầu đặt xe thành công                             |
-| **Điều kiện sau**   | Khách hàng nhận được thông báo                                          |
-| **Kích hoạt**       | Hệ thống tiếp nhận yêu cầu đặt xe                                       |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                            |
-| --: | ---------- | --------------------------------------------------- |
-|   1 | Khách hàng | Khách hàng gửi yêu cầu đặt xe.                      |
-|   2 |            | Hệ thống xác nhận yêu cầu hợp lệ.                   |
-|   3 |            | Hệ thống tạo sự kiện **Yêu cầu đã được tiếp nhận**. |
-|   4 |            | Hệ thống xác định khách hàng nhận thông báo.        |
-|   5 |            | Hệ thống gửi thông báo.                             |
-|   6 | Khách hàng | Khách hàng nhận thông báo.                          |
-|   7 |            | Hệ thống ghi nhận trạng thái gửi.                   |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                             | Xử lý                                  |
-| -- | -------------------------------------- | -------------------------------------- |
-| A1 | Không gửi được thông báo               | Hệ thống ghi nhận lỗi và thử lại.      |
-| A2 | Nhà cung cấp thông báo không hoạt động | Hệ thống sử dụng kênh thay thế nếu có. |
-
----
-
-# UC35 – Thông báo tài xế nhận chuyến
-
-| Thành phần          | Nội dung                                           |
-| ------------------- | -------------------------------------------------- |
-| **Tên Use Case**    | Thông báo tài xế nhận chuyến                       |
-| **Mã**              | UC35                                               |
-| **Actor chính**     | Hệ thống CAB                                       |
-| **Actor phụ**       | Nhà cung cấp thông báo                             |
-| **Đối tượng nhận**  | Khách hàng                                         |
-| **Mục tiêu**        | Thông báo cho khách hàng khi tài xế đã nhận chuyến |
-| **Điều kiện trước** | Tài xế đã chấp nhận yêu cầu                        |
-| **Điều kiện sau**   | Khách hàng được thông báo tài xế đã nhận chuyến    |
-| **Kích hoạt**       | Tài xế chấp nhận chuyến                            |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                    |
-| --: | ---------- | ------------------------------------------- |
-|   1 | Tài xế     | Tài xế chấp nhận chuyến.                    |
-|   2 |            | Hệ thống cập nhật tài xế cho chuyến đi.     |
-|   3 |            | Hệ thống tạo sự kiện tài xế đã nhận chuyến. |
-|   4 |            | Hệ thống lấy thông tin tài xế.              |
-|   5 |            | Hệ thống gửi thông báo cho khách hàng.      |
-|   6 | Khách hàng | Khách hàng nhận thông báo.                  |
-|   7 |            | Hệ thống ghi nhận kết quả gửi.              |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                     | Xử lý                                       |
-| -- | ------------------------------ | ------------------------------------------- |
-| A1 | Gửi thông báo thất bại         | Hệ thống thực hiện gửi lại.                 |
-| A2 | Không xác định được khách hàng | Hệ thống ghi log để bộ phận vận hành xử lý. |
-
----
-
-# UC36 – Thông báo tài xế đến
-
-| Thành phần          | Nội dung                                            |
-| ------------------- | --------------------------------------------------- |
-| **Tên Use Case**    | Thông báo tài xế đến                                |
-| **Mã**              | UC36                                                |
-| **Actor chính**     | Hệ thống CAB                                        |
-| **Actor phụ**       | Nhà cung cấp thông báo                              |
-| **Đối tượng nhận**  | Khách hàng                                          |
-| **Mục tiêu**        | Thông báo cho khách hàng khi tài xế đã đến điểm đón |
-| **Điều kiện trước** | Tài xế đã đến điểm đón                              |
-| **Điều kiện sau**   | Khách hàng được thông báo                           |
-| **Kích hoạt**       | Tài xế cập nhật trạng thái **Đã đến điểm đón**      |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                               |
-| --: | ---------- | -------------------------------------- |
-|   1 | Tài xế     | Tài xế đến điểm đón.                   |
-|   2 | Tài xế     | Tài xế cập nhật trạng thái.            |
-|   3 |            | Hệ thống xác nhận trạng thái.          |
-|   4 |            | Hệ thống tạo sự kiện thông báo.        |
-|   5 |            | Hệ thống gửi thông báo đến khách hàng. |
-|   6 | Khách hàng | Khách hàng nhận thông báo.             |
-|   7 |            | Hệ thống ghi nhận kết quả gửi.         |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                     | Xử lý                                                 |
-| -- | ------------------------------ | ----------------------------------------------------- |
-| A1 | Không gửi được thông báo       | Hệ thống thử gửi lại.                                 |
-| A2 | Tài xế cập nhật sai trạng thái | Hệ thống cho phép bộ phận vận hành kiểm tra và xử lý. |
-
----
-
-# UC37 – Thông báo hoàn thành chuyến
-
-| Thành phần          | Nội dung                                                          |
-| ------------------- | ----------------------------------------------------------------- |
-| **Tên Use Case**    | Thông báo hoàn thành chuyến                                       |
-| **Mã**              | UC37                                                              |
-| **Actor chính**     | Hệ thống CAB                                                      |
-| **Actor phụ**       | Nhà cung cấp thông báo                                            |
-| **Đối tượng nhận**  | Khách hàng                                                        |
-| **Mục tiêu**        | Thông báo cho khách hàng khi chuyến đi đã hoàn thành              |
-| **Điều kiện trước** | Tài xế cập nhật chuyến là hoàn thành                              |
-| **Điều kiện sau**   | Khách hàng nhận thông báo và có thể thực hiện thanh toán/đánh giá |
-| **Kích hoạt**       | Chuyến đi chuyển sang trạng thái hoàn thành                       |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                             |
-| --: | ---------- | ---------------------------------------------------- |
-|   1 | Tài xế     | Tài xế cập nhật trạng thái hoàn thành chuyến.        |
-|   2 |            | Hệ thống xác nhận chuyến đã hoàn thành.              |
-|   3 |            | Hệ thống tạo sự kiện hoàn thành.                     |
-|   4 |            | Hệ thống gửi thông báo đến khách hàng.               |
-|   5 | Khách hàng | Khách hàng nhận thông báo.                           |
-|   6 |            | Hệ thống tiếp tục quy trình tính cước và thanh toán. |
-|   7 |            | Hệ thống ghi nhận trạng thái thông báo.              |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                     | Xử lý                                         |
-| -- | ------------------------------ | --------------------------------------------- |
-| A1 | Không gửi được thông báo       | Hệ thống gửi lại theo chính sách.             |
-| A2 | Trạng thái chuyến không hợp lệ | Hệ thống không gửi thông báo và chuyển xử lý. |
-
----
-
-# UC38 – Thông báo kết quả thanh toán
-
-| Thành phần          | Nội dung                                              |
-| ------------------- | ----------------------------------------------------- |
-| **Tên Use Case**    | Thông báo kết quả thanh toán                          |
-| **Mã**              | UC38                                                  |
-| **Actor chính**     | Hệ thống CAB                                          |
-| **Actor phụ**       | Nhà cung cấp thông báo                                |
-| **Đối tượng nhận**  | Khách hàng                                            |
-| **Mục tiêu**        | Thông báo kết quả giao dịch thanh toán cho khách hàng |
-| **Điều kiện trước** | Hệ thống đã nhận kết quả giao dịch                    |
-| **Điều kiện sau**   | Khách hàng biết thanh toán thành công/thất bại        |
-| **Kích hoạt**       | Giao dịch thanh toán có kết quả                       |
-
-## Luồng chính
-
-| STT | Actor      | Hệ thống                                |
-| --: | ---------- | --------------------------------------- |
-|   1 |            | Hệ thống nhận kết quả thanh toán.       |
-|   2 |            | Hệ thống xác định trạng thái giao dịch. |
-|   3 |            | Hệ thống tạo nội dung thông báo.        |
-|   4 |            | Hệ thống gửi thông báo đến khách hàng.  |
-|   5 | Khách hàng | Khách hàng nhận thông báo.              |
-|   6 |            | Hệ thống lưu trạng thái thông báo.      |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                        | Xử lý                                                                                             |
-| -- | --------------------------------- | ------------------------------------------------------------------------------------------------- |
-| A1 | Thanh toán thành công             | Hệ thống gửi thông báo **Thanh toán thành công**.                                                 |
-| A2 | Thanh toán thất bại               | Hệ thống gửi thông báo **Thanh toán thất bại** và hướng dẫn khách hàng xử lý lại theo chính sách. |
-| A3 | Không gửi được thông báo          | Hệ thống thử gửi lại theo chính sách.                                                             |
-| A4 | Không nhận được kết quả giao dịch | Hệ thống không thông báo thành công/thất bại khi trạng thái giao dịch chưa rõ.                    |
-
-## 6. Nhóm nhân viên vận hành
-
-| Mã | Use Case | Mức độ |
-|---|---|---|
-| UC39 | Quản lý khách hàng | Chính |
-| UC40 | Quản lý tài xế | Chính |
-| UC41 | Tạo tài khoản tài xế | Chính |
-| UC42 | Quản lý phương tiện | Chính |
-| UC43 | Quản lý chuyến đi | Quan trọng |
-| UC44 | Theo dõi chuyến đang diễn ra | Quan trọng |
-| UC45 | Kiểm tra trạng thái tài xế | Chính |
-| UC46 | Xử lý chuyến lỗi | Quan trọng |
-| UC47 | Tra cứu lịch sử giao dịch | Chính |
-
-# 6. NHÓM NHÂN VIÊN VẬN HÀNH
-
-# UC39 – Quản lý khách hàng ⭐⭐⭐
-
-| Thành phần            | Nội dung                                                                |
-| --------------------- | ----------------------------------------------------------------------- |
-| **Tên Use Case**      | Quản lý khách hàng                                                      |
-| **Mã**                | UC39                                                                    |
-| **Actor chính**       | Nhân viên vận hành                                                      |
-| **Actor phụ**         | Hệ thống CAB                                                            |
-| **Đối tượng quản lý** | Khách hàng                                                              |
-| **Mục tiêu**          | Quản lý thông tin, trạng thái và hoạt động của khách hàng trên hệ thống |
-| **Điều kiện trước**   | Nhân viên vận hành đã đăng nhập và có quyền quản lý khách hàng          |
-| **Điều kiện sau**     | Thông tin khách hàng được cập nhật hoặc hệ thống ghi nhận kết quả xử lý |
-| **Kích hoạt**         | Nhân viên vận hành truy cập chức năng quản lý khách hàng                |
-
-## Luồng chính
-
-| STT | Actor                                                         | Hệ thống                                         |
-| --: | ------------------------------------------------------------- | ------------------------------------------------ |
-|   1 | Nhân viên vận hành truy cập chức năng **Quản lý khách hàng**. |                                                  |
-|   2 |                                                               | Hệ thống hiển thị danh sách khách hàng.          |
-|   3 | Nhân viên tìm kiếm hoặc lọc khách hàng.                       |                                                  |
-|   4 |                                                               | Hệ thống hiển thị thông tin chi tiết khách hàng. |
-|   5 | Nhân viên xem, cập nhật hoặc thay đổi trạng thái khách hàng.  |                                                  |
-|   6 |                                                               | Hệ thống kiểm tra thông tin thay đổi.            |
-|   7 |                                                               | Hệ thống lưu thông tin khách hàng.               |
-|   8 |                                                               | Hệ thống ghi nhận lịch sử thao tác.              |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                      | Xử lý                                           |
-| -- | ------------------------------- | ----------------------------------------------- |
-| A1 | Không tìm thấy khách hàng       | Hệ thống thông báo không có khách hàng phù hợp. |
-| A2 | Thông tin cập nhật không hợp lệ | Hệ thống thông báo lỗi và yêu cầu nhập lại.     |
-| A3 | Khách hàng không tồn tại        | Hệ thống từ chối thao tác và ghi nhận lỗi.      |
-
----
-
-# UC40 – Quản lý tài xế ⭐⭐⭐
-
-| Thành phần            | Nội dung                                                   |
-| --------------------- | ---------------------------------------------------------- |
-| **Tên Use Case**      | Quản lý tài xế                                             |
-| **Mã**                | UC40                                                       |
-| **Actor chính**       | Nhân viên vận hành                                         |
-| **Actor phụ**         | Hệ thống CAB                                               |
-| **Đối tượng quản lý** | Tài xế                                                     |
-| **Mục tiêu**          | Quản lý thông tin, trạng thái hoạt động và hồ sơ tài xế    |
-| **Điều kiện trước**   | Nhân viên vận hành đã đăng nhập và có quyền quản lý tài xế |
-| **Điều kiện sau**     | Thông tin hoặc trạng thái tài xế được cập nhật             |
-| **Kích hoạt**         | Nhân viên vận hành truy cập chức năng quản lý tài xế       |
-
-## Luồng chính
-
-| STT | Actor                                           | Hệ thống                                          |
-| --: | ----------------------------------------------- | ------------------------------------------------- |
-|   1 | Nhân viên vận hành truy cập **Quản lý tài xế**. |                                                   |
-|   2 |                                                 | Hệ thống hiển thị danh sách tài xế.               |
-|   3 | Nhân viên tìm kiếm hoặc lọc tài xế.             |                                                   |
-|   4 |                                                 | Hệ thống hiển thị thông tin và trạng thái tài xế. |
-|   5 | Nhân viên xem hoặc cập nhật thông tin tài xế.   |                                                   |
-|   6 | Nhân viên thay đổi trạng thái tài xế nếu cần.   |                                                   |
-|   7 |                                                 | Hệ thống kiểm tra dữ liệu.                        |
-|   8 |                                                 | Hệ thống lưu thay đổi.                            |
-|   9 |                                                 | Hệ thống ghi nhận lịch sử thao tác.               |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                    | Xử lý                                                                   |
-| -- | ----------------------------- | ----------------------------------------------------------------------- |
-| A1 | Không tìm thấy tài xế         | Hệ thống thông báo không có kết quả phù hợp.                            |
-| A2 | Thông tin tài xế không hợp lệ | Hệ thống yêu cầu nhân viên kiểm tra và nhập lại.                        |
-| A3 | Tài xế đang có chuyến         | Hệ thống hạn chế các thao tác có thể ảnh hưởng đến chuyến đang diễn ra. |
-
----
-
-# UC41 – Tạo tài khoản tài xế ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                        |
-| ------------------- | --------------------------------------------------------------- |
-| **Tên Use Case**    | Tạo tài khoản tài xế                                            |
-| **Mã**              | UC41                                                            |
-| **Actor chính**     | Nhân viên vận hành                                              |
-| **Actor phụ**       | Hệ thống CAB                                                    |
-| **Đối tượng**       | Tài xế mới                                                      |
-| **Mục tiêu**        | Tạo tài khoản để tài xế có thể truy cập và sử dụng hệ thống     |
-| **Điều kiện trước** | Nhân viên vận hành đã đăng nhập và có quyền tạo tài khoản       |
-| **Điều kiện sau**   | Tài khoản tài xế được tạo thành công hoặc hệ thống ghi nhận lỗi |
-| **Kích hoạt**       | Nhân viên vận hành chọn chức năng tạo tài khoản tài xế          |
-
-## Luồng chính
-
-| STT | Actor                                             | Hệ thống                                         |
-| --: | ------------------------------------------------- | ------------------------------------------------ |
-|   1 | Nhân viên vận hành chọn **Tạo tài khoản tài xế**. |                                                  |
-|   2 |                                                   | Hệ thống hiển thị biểu mẫu tạo tài khoản.        |
-|   3 | Nhân viên nhập thông tin tài xế.                  |                                                  |
-|   4 | Nhân viên nhập thông tin đăng nhập cần thiết.     |                                                  |
-|   5 |                                                   | Hệ thống kiểm tra tính hợp lệ của dữ liệu.       |
-|   6 |                                                   | Hệ thống kiểm tra tài khoản đã tồn tại hay chưa. |
-|   7 |                                                   | Hệ thống tạo tài khoản tài xế.                   |
-|   8 |                                                   | Hệ thống gán quyền phù hợp cho tài xế.           |
-|   9 |                                                   | Hệ thống thông báo tạo tài khoản thành công.     |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp               | Xử lý                                       |
-| -- | ------------------------ | ------------------------------------------- |
-| A1 | Thông tin không hợp lệ   | Hệ thống thông báo lỗi và yêu cầu nhập lại. |
-| A2 | Tài khoản đã tồn tại     | Hệ thống từ chối tạo tài khoản.             |
-| A3 | Thiếu thông tin bắt buộc | Hệ thống yêu cầu bổ sung thông tin.         |
-
----
-
-# UC42 – Quản lý phương tiện ⭐⭐⭐
-
-| Thành phần            | Nội dung                                                              |
-| --------------------- | --------------------------------------------------------------------- |
-| **Tên Use Case**      | Quản lý phương tiện                                                   |
-| **Mã**                | UC42                                                                  |
-| **Actor chính**       | Nhân viên vận hành                                                    |
-| **Actor phụ**         | Hệ thống CAB                                                          |
-| **Đối tượng quản lý** | Phương tiện                                                           |
-| **Mục tiêu**          | Quản lý thông tin và trạng thái phương tiện tham gia cung cấp dịch vụ |
-| **Điều kiện trước**   | Nhân viên vận hành đã đăng nhập và có quyền quản lý phương tiện       |
-| **Điều kiện sau**     | Thông tin hoặc trạng thái phương tiện được cập nhật                   |
-| **Kích hoạt**         | Nhân viên vận hành truy cập chức năng quản lý phương tiện             |
-
-## Luồng chính
-
-| STT | Actor                                                   | Hệ thống                                 |
-| --: | ------------------------------------------------------- | ---------------------------------------- |
-|   1 | Nhân viên vận hành truy cập **Quản lý phương tiện**.    |                                          |
-|   2 |                                                         | Hệ thống hiển thị danh sách phương tiện. |
-|   3 | Nhân viên tìm kiếm phương tiện.                         |                                          |
-|   4 |                                                         | Hệ thống hiển thị thông tin phương tiện. |
-|   5 | Nhân viên thêm mới hoặc cập nhật thông tin phương tiện. |                                          |
-|   6 | Nhân viên liên kết phương tiện với tài xế nếu cần.      |                                          |
-|   7 |                                                         | Hệ thống kiểm tra thông tin phương tiện. |
-|   8 |                                                         | Hệ thống lưu dữ liệu.                    |
-|   9 |                                                         | Hệ thống ghi nhận lịch sử thay đổi.      |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                         | Xử lý                                                   |
-| -- | ---------------------------------- | ------------------------------------------------------- |
-| A1 | Phương tiện đã tồn tại             | Hệ thống thông báo và không tạo bản ghi trùng.          |
-| A2 | Thông tin phương tiện không hợp lệ | Hệ thống yêu cầu nhập lại.                              |
-| A3 | Phương tiện đang được sử dụng      | Hệ thống hạn chế việc xóa hoặc vô hiệu hóa phương tiện. |
-
----
-
-# UC43 – Quản lý chuyến đi ⭐⭐
-
-| Thành phần            | Nội dung                                                   |
-| --------------------- | ---------------------------------------------------------- |
-| **Tên Use Case**      | Quản lý chuyến đi                                          |
-| **Mã**                | UC43                                                       |
-| **Actor chính**       | Nhân viên vận hành                                         |
-| **Actor phụ**         | Hệ thống CAB                                               |
-| **Đối tượng quản lý** | Chuyến đi                                                  |
-| **Mục tiêu**          | Theo dõi và xử lý thông tin chuyến đi trong hệ thống       |
-| **Điều kiện trước**   | Nhân viên vận hành đã đăng nhập và có quyền quản lý chuyến |
-| **Điều kiện sau**     | Thông tin hoặc trạng thái chuyến được cập nhật/xử lý       |
-| **Kích hoạt**         | Nhân viên vận hành truy cập chức năng quản lý chuyến đi    |
-
-## Luồng chính
-
-| STT | Actor                                                 | Hệ thống                                     |
-| --: | ----------------------------------------------------- | -------------------------------------------- |
-|   1 | Nhân viên vận hành truy cập **Quản lý chuyến đi**.    |                                              |
-|   2 |                                                       | Hệ thống hiển thị danh sách chuyến.          |
-|   3 | Nhân viên tìm kiếm hoặc lọc chuyến.                   |                                              |
-|   4 |                                                       | Hệ thống hiển thị thông tin chi tiết chuyến. |
-|   5 | Nhân viên kiểm tra khách hàng, tài xế và phương tiện. |                                              |
-|   6 | Nhân viên kiểm tra trạng thái chuyến.                 |                                              |
-|   7 | Nhân viên thực hiện thao tác xử lý nếu cần.           |                                              |
-|   8 |                                                       | Hệ thống cập nhật trạng thái.                |
-|   9 |                                                       | Hệ thống ghi nhận lịch sử xử lý.             |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp            | Xử lý                                                             |
-| -- | --------------------- | ----------------------------------------------------------------- |
-| A1 | Không tìm thấy chuyến | Hệ thống thông báo không có chuyến phù hợp.                       |
-| A2 | Chuyến đang diễn ra   | Hệ thống cảnh báo trước các thao tác có thể ảnh hưởng đến chuyến. |
-| A3 | Chuyến có lỗi         | Hệ thống chuyển sang quy trình xử lý chuyến lỗi.                  |
-
----
-
-# UC44 – Theo dõi chuyến đang diễn ra ⭐⭐
-
-| Thành phần          | Nội dung                                                          |
-| ------------------- | ----------------------------------------------------------------- |
-| **Tên Use Case**    | Theo dõi chuyến đang diễn ra                                      |
-| **Mã**              | UC44                                                              |
-| **Actor chính**     | Nhân viên vận hành                                                |
-| **Actor phụ**       | Hệ thống CAB                                                      |
-| **Đối tượng**       | Chuyến đang diễn ra                                               |
-| **Mục tiêu**        | Theo dõi trạng thái và vị trí chuyến để kịp thời phát hiện vấn đề |
-| **Điều kiện trước** | Có chuyến đang diễn ra trong hệ thống                             |
-| **Điều kiện sau**   | Nhân viên nắm được tình trạng hiện tại của chuyến                 |
-| **Kích hoạt**       | Nhân viên vận hành mở chức năng theo dõi chuyến                   |
-
-## Luồng chính
-
-| STT | Actor                                               | Hệ thống                                             |
-| --: | --------------------------------------------------- | ---------------------------------------------------- |
-|   1 | Nhân viên vận hành truy cập chức năng theo dõi.     |                                                      |
-|   2 |                                                     | Hệ thống hiển thị danh sách các chuyến đang diễn ra. |
-|   3 | Nhân viên chọn một chuyến cần theo dõi.             |                                                      |
-|   4 |                                                     | Hệ thống hiển thị thông tin khách hàng và tài xế.    |
-|   5 |                                                     | Hệ thống hiển thị trạng thái hiện tại của chuyến.    |
-|   6 |                                                     | Hệ thống cập nhật vị trí hoặc trạng thái chuyến.     |
-|   7 | Nhân viên theo dõi diễn biến chuyến.                |                                                      |
-|   8 | Nhân viên thực hiện xử lý nếu phát hiện bất thường. |                                                      |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                    | Xử lý                                                     |
-| -- | ----------------------------- | --------------------------------------------------------- |
-| A1 | Không nhận được vị trí tài xế | Hệ thống hiển thị trạng thái mất kết nối và ghi nhận lỗi. |
-| A2 | Chuyến có dấu hiệu bất thường | Nhân viên kiểm tra và thực hiện xử lý chuyến lỗi.         |
-| A3 | Chuyến đã kết thúc            | Hệ thống loại chuyến khỏi danh sách đang diễn ra.         |
-
----
-
-# UC45 – Kiểm tra trạng thái tài xế ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                         |
-| ------------------- | ---------------------------------------------------------------- |
-| **Tên Use Case**    | Kiểm tra trạng thái tài xế                                       |
-| **Mã**              | UC45                                                             |
-| **Actor chính**     | Nhân viên vận hành                                               |
-| **Actor phụ**       | Hệ thống CAB                                                     |
-| **Đối tượng**       | Tài xế                                                           |
-| **Mục tiêu**        | Kiểm tra trạng thái hoạt động và khả năng nhận chuyến của tài xế |
-| **Điều kiện trước** | Nhân viên vận hành đã đăng nhập                                  |
-| **Điều kiện sau**   | Trạng thái hiện tại của tài xế được xác định                     |
-| **Kích hoạt**       | Nhân viên cần kiểm tra trạng thái tài xế                         |
-
-## Luồng chính
-
-| STT | Actor                                                  | Hệ thống                                                             |
-| --: | ------------------------------------------------------ | -------------------------------------------------------------------- |
-|   1 | Nhân viên vận hành truy cập chức năng kiểm tra tài xế. |                                                                      |
-|   2 | Nhân viên tìm kiếm tài xế.                             |                                                                      |
-|   3 |                                                        | Hệ thống lấy trạng thái hiện tại của tài xế.                         |
-|   4 |                                                        | Hệ thống hiển thị trạng thái tài xế.                                 |
-|   5 |                                                        | Hệ thống hiển thị thông tin chuyến nếu tài xế đang thực hiện chuyến. |
-|   6 | Nhân viên đánh giá tình trạng tài xế.                  |                                                                      |
-|   7 | Nhân viên thực hiện xử lý nếu phát hiện bất thường.    |                                                                      |
-
-## Các trạng thái có thể kiểm tra
-
-| STT | Trạng thái            |
-| --: | --------------------- |
-|   1 | Đang hoạt động        |
-|   2 | Sẵn sàng nhận chuyến  |
-|   3 | Đang nhận chuyến      |
-|   4 | Đang thực hiện chuyến |
-|   5 | Tạm nghỉ              |
-|   6 | Mất kết nối           |
-|   7 | Bị khóa/vô hiệu hóa   |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                        | Xử lý                                                        |
-| -- | --------------------------------- | ------------------------------------------------------------ |
-| A1 | Không nhận được trạng thái tài xế | Hệ thống hiển thị trạng thái không xác định và ghi nhận lỗi. |
-| A2 | Tài xế mất kết nối                | Hệ thống cảnh báo nhân viên vận hành.                        |
-| A3 | Tài xế đang có chuyến             | Hệ thống hiển thị thông tin chuyến đang thực hiện.           |
-
----
-
-# UC46 – Xử lý chuyến lỗi ⭐⭐
-
-| Thành phần          | Nội dung                                                                 |
-| ------------------- | ------------------------------------------------------------------------ |
-| **Tên Use Case**    | Xử lý chuyến lỗi                                                         |
-| **Mã**              | UC46                                                                     |
-| **Actor chính**     | Nhân viên vận hành                                                       |
-| **Actor phụ**       | Hệ thống CAB                                                             |
-| **Đối tượng**       | Chuyến có lỗi/bất thường                                                 |
-| **Mục tiêu**        | Phát hiện, xác định nguyên nhân và xử lý các chuyến gặp sự cố            |
-| **Điều kiện trước** | Chuyến được xác định có lỗi hoặc bất thường                              |
-| **Điều kiện sau**   | Chuyến được xử lý, chuyển trạng thái phù hợp hoặc ghi nhận để xử lý tiếp |
-| **Kích hoạt**       | Hệ thống hoặc nhân viên phát hiện chuyến có vấn đề                       |
-
-## Luồng chính
-
-| STT | Actor                                   | Hệ thống                                                       |
-| --: | --------------------------------------- | -------------------------------------------------------------- |
-|   1 |                                         | Hệ thống hoặc nhân viên phát hiện chuyến có lỗi.               |
-|   2 | Nhân viên vận hành mở thông tin chuyến. |                                                                |
-|   3 |                                         | Hệ thống hiển thị thông tin khách hàng, tài xế và phương tiện. |
-|   4 | Nhân viên kiểm tra trạng thái chuyến.   |                                                                |
-|   5 | Nhân viên xác định nguyên nhân lỗi.     |                                                                |
-|   6 | Nhân viên thực hiện phương án xử lý.    |                                                                |
-|   7 |                                         | Hệ thống cập nhật trạng thái chuyến.                           |
-|   8 |                                         | Hệ thống ghi nhận nội dung và kết quả xử lý.                   |
-|   9 |                                         | Nếu cần, hệ thống thông báo cho các bên liên quan.             |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                      | Xử lý                                                              |
-| -- | ------------------------------- | ------------------------------------------------------------------ |
-| A1 | Không xác định được nguyên nhân | Ghi nhận sự cố để chuyển cấp xử lý cao hơn.                        |
-| A2 | Tài xế mất kết nối              | Nhân viên kiểm tra trạng thái tài xế và thực hiện phương án xử lý. |
-| A3 | Không thể tiếp tục chuyến       | Chuyển chuyến sang trạng thái xử lý theo chính sách của hệ thống.  |
-| A4 | Lỗi do hệ thống                 | Ghi nhận log và chuyển cho bộ phận kỹ thuật xử lý.                 |
-
----
-
-# UC47 – Tra cứu lịch sử giao dịch ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                                   |
-| ------------------- | -------------------------------------------------------------------------- |
-| **Tên Use Case**    | Tra cứu lịch sử giao dịch                                                  |
-| **Mã**              | UC47                                                                       |
-| **Actor chính**     | Nhân viên vận hành                                                         |
-| **Actor phụ**       | Hệ thống CAB                                                               |
-| **Đối tượng**       | Giao dịch                                                                  |
-| **Mục tiêu**        | Tra cứu và kiểm tra lịch sử các giao dịch phát sinh trên hệ thống          |
-| **Điều kiện trước** | Nhân viên vận hành đã đăng nhập và có quyền tra cứu                        |
-| **Điều kiện sau**   | Thông tin giao dịch được hiển thị hoặc hệ thống thông báo không có dữ liệu |
-| **Kích hoạt**       | Nhân viên vận hành yêu cầu tra cứu giao dịch                               |
-
-## Luồng chính
-
-| STT | Actor                                                                | Hệ thống                                       |
-| --: | -------------------------------------------------------------------- | ---------------------------------------------- |
-|   1 | Nhân viên vận hành truy cập chức năng **Tra cứu lịch sử giao dịch**. |                                                |
-|   2 |                                                                      | Hệ thống hiển thị bộ lọc tìm kiếm.             |
-|   3 | Nhân viên nhập điều kiện tra cứu.                                    |                                                |
-|   4 |                                                                      | Hệ thống kiểm tra điều kiện tìm kiếm.          |
-|   5 |                                                                      | Hệ thống truy vấn dữ liệu giao dịch.           |
-|   6 |                                                                      | Hệ thống hiển thị danh sách giao dịch phù hợp. |
-|   7 | Nhân viên chọn một giao dịch để xem chi tiết.                        |                                                |
-|   8 |                                                                      | Hệ thống hiển thị thông tin giao dịch.         |
-|   9 | Nhân viên kiểm tra và đối chiếu thông tin.                           |                                                |
-
-## Thông tin có thể tra cứu
-
-| STT | Thông tin              |
-| --: | ---------------------- |
-|   1 | Mã giao dịch           |
-|   2 | Mã chuyến              |
-|   3 | Khách hàng             |
-|   4 | Thời gian giao dịch    |
-|   5 | Số tiền                |
-|   6 | Phương thức thanh toán |
-|   7 | Trạng thái giao dịch   |
-|   8 | Kết quả thanh toán     |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                      | Xử lý                                            |
-| -- | ------------------------------- | ------------------------------------------------ |
-| A1 | Không tìm thấy giao dịch        | Hệ thống thông báo không có giao dịch phù hợp.   |
-| A2 | Điều kiện tìm kiếm không hợp lệ | Hệ thống yêu cầu nhân viên điều chỉnh điều kiện. |
-| A3 | Không thể truy xuất dữ liệu     | Hệ thống thông báo lỗi và ghi nhận log để xử lý. |
-
-  
-## 7. Nhóm quản trị
-
-| Mã | Use Case | Mức độ |
-|---|---|---|
-| UC48 | Quản lý tài khoản | Chính |
-| UC49 | Phân quyền người dùng | Quan trọng |
-| UC50 | Cấu hình hệ thống | Chính |
-| UC51 | Quản lý thao tác nhạy cảm | Chính |
-| UC52 | Ghi log thao tác | Chính |
-
-# UC48 – Quản lý tài khoản ⭐⭐⭐
-
-| Thành phần            | Nội dung                                                                    |
-| --------------------- | --------------------------------------------------------------------------- |
-| **Tên Use Case**      | Quản lý tài khoản                                                           |
-| **Mã**                | UC48                                                                        |
-| **Actor chính**       | Quản trị viên                                                               |
-| **Actor phụ**         | Hệ thống CAB                                                                |
-| **Đối tượng quản lý** | Tài khoản người dùng                                                        |
-| **Mục tiêu**          | Quản lý thông tin, trạng thái và hoạt động của các tài khoản trong hệ thống |
-| **Điều kiện trước**   | Quản trị viên đã đăng nhập và có quyền quản lý tài khoản                    |
-| **Điều kiện sau**     | Tài khoản được tạo, cập nhật, khóa/mở khóa hoặc hệ thống ghi nhận kết quả   |
-| **Kích hoạt**         | Quản trị viên truy cập chức năng quản lý tài khoản                          |
-
-## Luồng chính
-
-| STT | Actor                                                                   | Hệ thống                                        |
-| --: | ----------------------------------------------------------------------- | ----------------------------------------------- |
-|   1 | Quản trị viên truy cập chức năng **Quản lý tài khoản**.                 |                                                 |
-|   2 |                                                                         | Hệ thống hiển thị danh sách tài khoản.          |
-|   3 | Quản trị viên tìm kiếm hoặc lọc tài khoản.                              |                                                 |
-|   4 |                                                                         | Hệ thống hiển thị thông tin chi tiết tài khoản. |
-|   5 | Quản trị viên thực hiện tạo mới, cập nhật, khóa hoặc mở khóa tài khoản. |                                                 |
-|   6 |                                                                         | Hệ thống kiểm tra tính hợp lệ của thao tác.     |
-|   7 |                                                                         | Hệ thống lưu thay đổi.                          |
-|   8 |                                                                         | Hệ thống ghi nhận lịch sử thao tác.             |
-|   9 |                                                                         | Hệ thống thông báo kết quả cho quản trị viên.   |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                                   | Xử lý                                                                |
-| -- | -------------------------------------------- | -------------------------------------------------------------------- |
-| A1 | Tài khoản không tồn tại                      | Hệ thống thông báo không tìm thấy tài khoản.                         |
-| A2 | Thông tin tài khoản không hợp lệ             | Hệ thống thông báo lỗi và yêu cầu nhập lại.                          |
-| A3 | Tài khoản đang thực hiện thao tác quan trọng | Hệ thống cảnh báo và yêu cầu xác nhận trước khi thay đổi trạng thái. |
-| A4 | Không thể lưu thay đổi                       | Hệ thống thông báo lỗi và giữ nguyên dữ liệu hiện tại.               |
-
----
-
-# UC49 – Phân quyền người dùng ⭐⭐
-
-| Thành phần          | Nội dung                                                               |
-| ------------------- | ---------------------------------------------------------------------- |
-| **Tên Use Case**    | Phân quyền người dùng                                                  |
-| **Mã**              | UC49                                                                   |
-| **Actor chính**     | Quản trị viên                                                          |
-| **Actor phụ**       | Hệ thống CAB                                                           |
-| **Đối tượng**       | Tài khoản và quyền người dùng                                          |
-| **Mục tiêu**        | Cấp, thay đổi hoặc thu hồi quyền truy cập của người dùng               |
-| **Điều kiện trước** | Quản trị viên đã đăng nhập và có quyền phân quyền                      |
-| **Điều kiện sau**   | Quyền của người dùng được cập nhật thành công hoặc thao tác bị từ chối |
-| **Kích hoạt**       | Quản trị viên yêu cầu thay đổi quyền người dùng                        |
-
-## Luồng chính
-
-| STT | Actor                                                           | Hệ thống                                        |
-| --: | --------------------------------------------------------------- | ----------------------------------------------- |
-|   1 | Quản trị viên truy cập chức năng **Phân quyền người dùng**.     |                                                 |
-|   2 |                                                                 | Hệ thống hiển thị danh sách tài khoản.          |
-|   3 | Quản trị viên chọn tài khoản cần phân quyền.                    |                                                 |
-|   4 |                                                                 | Hệ thống hiển thị quyền hiện tại của tài khoản. |
-|   5 | Quản trị viên chọn vai trò hoặc quyền cần cấp/thay đổi/thu hồi. |                                                 |
-|   6 |                                                                 | Hệ thống kiểm tra tính hợp lệ của quyền.        |
-|   7 | Quản trị viên xác nhận thay đổi.                                |                                                 |
-|   8 |                                                                 | Hệ thống cập nhật quyền cho tài khoản.          |
-|   9 |                                                                 | Hệ thống ghi nhận thao tác phân quyền.          |
-|  10 |                                                                 | Hệ thống thông báo kết quả.                     |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                | Xử lý                                                  |
-| -- | ------------------------- | ------------------------------------------------------ |
-| A1 | Tài khoản không tồn tại   | Hệ thống thông báo lỗi và yêu cầu chọn lại tài khoản.  |
-| A2 | Quyền không hợp lệ        | Hệ thống từ chối quyền được cấp.                       |
-| A3 | Cấp quyền nhạy cảm        | Hệ thống yêu cầu xác nhận bổ sung trước khi thực hiện. |
-| A4 | Không đủ quyền phân quyền | Hệ thống từ chối thao tác.                             |
-
----
-
-# UC50 – Cấu hình hệ thống ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                             |
-| ------------------- | -------------------------------------------------------------------- |
-| **Tên Use Case**    | Cấu hình hệ thống                                                    |
-| **Mã**              | UC50                                                                 |
-| **Actor chính**     | Quản trị viên                                                        |
-| **Actor phụ**       | Hệ thống CAB                                                         |
-| **Đối tượng**       | Cấu hình hệ thống                                                    |
-| **Mục tiêu**        | Quản lý các tham số và cấu hình ảnh hưởng đến hoạt động của hệ thống |
-| **Điều kiện trước** | Quản trị viên đã đăng nhập và có quyền cấu hình hệ thống             |
-| **Điều kiện sau**   | Cấu hình mới được lưu và áp dụng theo chính sách                     |
-| **Kích hoạt**       | Quản trị viên truy cập chức năng cấu hình hệ thống                   |
-
-## Luồng chính
-
-| STT | Actor                                         | Hệ thống                                       |
-| --: | --------------------------------------------- | ---------------------------------------------- |
-|   1 | Quản trị viên truy cập **Cấu hình hệ thống**. |                                                |
-|   2 |                                               | Hệ thống hiển thị danh sách các nhóm cấu hình. |
-|   3 | Quản trị viên chọn cấu hình cần thay đổi.     |                                                |
-|   4 |                                               | Hệ thống hiển thị giá trị hiện tại.            |
-|   5 | Quản trị viên nhập giá trị mới.               |                                                |
-|   6 |                                               | Hệ thống kiểm tra tính hợp lệ.                 |
-|   7 | Quản trị viên xác nhận thay đổi.              |                                                |
-|   8 |                                               | Hệ thống lưu cấu hình mới.                     |
-|   9 |                                               | Hệ thống áp dụng cấu hình.                     |
-|  10 |                                               | Hệ thống ghi nhận thao tác cấu hình.           |
-|  11 |                                               | Hệ thống thông báo kết quả.                    |
-
-## Một số nhóm cấu hình
-
-| STT | Nhóm cấu hình          |
-| --: | ---------------------- |
-|   1 | Cấu hình đặt xe        |
-|   2 | Cấu hình thời gian chờ |
-|   3 | Cấu hình tính cước     |
-|   4 | Cấu hình thanh toán    |
-|   5 | Cấu hình thông báo     |
-|   6 | Cấu hình tài xế        |
-|   7 | Cấu hình vận hành      |
-|   8 | Cấu hình bảo mật       |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                          | Xử lý                                            |
-| -- | ----------------------------------- | ------------------------------------------------ |
-| A1 | Giá trị cấu hình không hợp lệ       | Hệ thống thông báo lỗi và yêu cầu nhập lại.      |
-| A2 | Cấu hình ảnh hưởng lớn đến hệ thống | Hệ thống yêu cầu xác nhận trước khi áp dụng.     |
-| A3 | Không thể lưu cấu hình              | Hệ thống giữ nguyên cấu hình cũ và ghi nhận lỗi. |
-| A4 | Không đủ quyền cấu hình             | Hệ thống từ chối thao tác.                       |
-
----
-
-# UC51 – Quản lý thao tác nhạy cảm ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                               |
-| ------------------- | ---------------------------------------------------------------------- |
-| **Tên Use Case**    | Quản lý thao tác nhạy cảm                                              |
-| **Mã**              | UC51                                                                   |
-| **Actor chính**     | Quản trị viên                                                          |
-| **Actor phụ**       | Hệ thống CAB                                                           |
-| **Đối tượng**       | Các thao tác nhạy cảm                                                  |
-| **Mục tiêu**        | Kiểm soát và quản lý các thao tác có mức độ ảnh hưởng cao đến hệ thống |
-| **Điều kiện trước** | Quản trị viên đã đăng nhập và có quyền thực hiện thao tác nhạy cảm     |
-| **Điều kiện sau**   | Thao tác được thực hiện hoặc bị từ chối và được ghi nhận               |
-| **Kích hoạt**       | Quản trị viên yêu cầu thực hiện thao tác nhạy cảm                      |
-
-## Luồng chính
-
-| STT | Actor                                                  | Hệ thống                                      |
-| --: | ------------------------------------------------------ | --------------------------------------------- |
-|   1 | Quản trị viên yêu cầu thực hiện một thao tác nhạy cảm. |                                               |
-|   2 |                                                        | Hệ thống xác định loại thao tác.              |
-|   3 |                                                        | Hệ thống kiểm tra quyền của quản trị viên.    |
-|   4 |                                                        | Hệ thống kiểm tra điều kiện thực hiện.        |
-|   5 |                                                        | Hệ thống yêu cầu quản trị viên xác nhận.      |
-|   6 | Quản trị viên xác nhận thao tác.                       |                                               |
-|   7 |                                                        | Hệ thống thực hiện thao tác.                  |
-|   8 |                                                        | Hệ thống ghi nhận kết quả.                    |
-|   9 |                                                        | Hệ thống ghi nhận thông tin thao tác.         |
-|  10 |                                                        | Hệ thống thông báo kết quả cho quản trị viên. |
-
-## Các thao tác nhạy cảm có thể bao gồm
-
-| STT | Thao tác                                |
-| --: | --------------------------------------- |
-|   1 | Khóa hoặc mở khóa tài khoản             |
-|   2 | Thay đổi quyền quản trị                 |
-|   3 | Xóa hoặc vô hiệu hóa dữ liệu quan trọng |
-|   4 | Thay đổi cấu hình quan trọng            |
-|   5 | Can thiệp vào giao dịch                 |
-|   6 | Can thiệp vào chuyến đi                 |
-|   7 | Thay đổi các thiết lập bảo mật          |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                        | Xử lý                                            |
-| -- | --------------------------------- | ------------------------------------------------ |
-| A1 | Không đủ quyền                    | Hệ thống từ chối thao tác.                       |
-| A2 | Quản trị viên không xác nhận      | Hệ thống hủy thao tác.                           |
-| A3 | Điều kiện thực hiện không đáp ứng | Hệ thống từ chối và thông báo lý do.             |
-| A4 | Thao tác thất bại                 | Hệ thống ghi nhận lỗi và lưu thông tin thao tác. |
-
----
-
-# UC52 – Ghi log thao tác ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                                      |
-| ------------------- | ----------------------------------------------------------------------------- |
-| **Tên Use Case**    | Ghi log thao tác                                                              |
-| **Mã**              | UC52                                                                          |
-| **Actor chính**     | Hệ thống CAB                                                                  |
-| **Actor phụ**       | Quản trị viên                                                                 |
-| **Đối tượng**       | Nhật ký thao tác hệ thống                                                     |
-| **Mục tiêu**        | Ghi nhận các thao tác của người dùng để phục vụ kiểm tra, truy vết và bảo mật |
-| **Điều kiện trước** | Có thao tác cần ghi nhận                                                      |
-| **Điều kiện sau**   | Thông tin thao tác được lưu vào hệ thống log                                  |
-| **Kích hoạt**       | Người dùng thực hiện thao tác trên hệ thống                                   |
-
-## Luồng chính
-
-| STT | Actor                                            | Hệ thống                                         |
-| --: | ------------------------------------------------ | ------------------------------------------------ |
-|   1 | Người dùng thực hiện một thao tác trên hệ thống. |                                                  |
-|   2 |                                                  | Hệ thống xác định tài khoản thực hiện.           |
-|   3 |                                                  | Hệ thống xác định loại thao tác.                 |
-|   4 |                                                  | Hệ thống ghi nhận thời gian thực hiện.           |
-|   5 |                                                  | Hệ thống xác định đối tượng bị tác động.         |
-|   6 |                                                  | Hệ thống ghi nhận kết quả thao tác.              |
-|   7 |                                                  | Hệ thống lưu thông tin vào nhật ký.              |
-|   8 |                                                  | Hệ thống bảo vệ log khỏi việc sửa đổi trái phép. |
-
-## Thông tin log có thể bao gồm
-
-| STT | Thông tin                    |
-| --: | ---------------------------- |
-|   1 | Người thực hiện              |
-|   2 | Thời gian thực hiện          |
-|   3 | Loại thao tác                |
-|   4 | Đối tượng bị tác động        |
-|   5 | Dữ liệu trước khi thay đổi   |
-|   6 | Dữ liệu sau khi thay đổi     |
-|   7 | Kết quả thao tác             |
-|   8 | Thông tin truy vết cần thiết |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                           | Xử lý                                                                                    |
-| -- | ------------------------------------ | ---------------------------------------------------------------------------------------- |
-| A1 | Không thể ghi log                    | Hệ thống ghi nhận lỗi và thực hiện cơ chế lưu log dự phòng nếu có.                       |
-| A2 | Dữ liệu log không đầy đủ             | Hệ thống đánh dấu bản ghi để phục vụ kiểm tra.                                           |
-| A3 | Hệ thống log tạm thời không khả dụng | Hệ thống lưu tạm thông tin thao tác và thực hiện đồng bộ lại khi hệ thống log hoạt động. |
-
-## 8. Nhóm báo cáo
-
-| Mã | Use Case | Mức độ |
-|---|---|---|
-| UC53 | Xem báo cáo hoạt động | Quan trọng |
-| UC54 | Báo cáo số lượng chuyến | Chính |
-| UC55 | Báo cáo doanh thu | Chính |
-| UC56 | Báo cáo tỷ lệ hoàn thành | Chính |
-| UC57 | Báo cáo tỷ lệ hủy | Chính |
-| UC58 | Báo cáo hiệu quả tài xế | Chính |
-
-# UC53 – Xem báo cáo hoạt động ⭐⭐
-
-| Thành phần          | Nội dung                                                         |
-| ------------------- | ---------------------------------------------------------------- |
-| **Tên Use Case**    | Xem báo cáo hoạt động                                            |
-| **Mã**              | UC53                                                             |
-| **Actor chính**     | Quản trị viên                                                    |
-| **Actor phụ**       | Hệ thống CAB                                                     |
-| **Đối tượng**       | Báo cáo hoạt động hệ thống                                       |
-| **Mục tiêu**        | Cung cấp thông tin tổng quan về tình hình hoạt động của hệ thống |
-| **Điều kiện trước** | Người dùng đã đăng nhập và có quyền xem báo cáo                  |
-| **Điều kiện sau**   | Báo cáo hoạt động được hiển thị theo điều kiện tra cứu           |
-| **Kích hoạt**       | Người dùng truy cập chức năng báo cáo hoạt động                  |
-
-## Luồng chính
-
-| STT | Actor                                                    | Hệ thống                             |
-| --: | -------------------------------------------------------- | ------------------------------------ |
-|   1 | Người dùng truy cập chức năng **Xem báo cáo hoạt động**. |                                      |
-|   2 |                                                          | Hệ thống hiển thị các loại báo cáo.  |
-|   3 | Người dùng chọn khoảng thời gian cần xem.                |                                      |
-|   4 | Người dùng chọn các tiêu chí hoặc phạm vi báo cáo.       |                                      |
-|   5 |                                                          | Hệ thống truy xuất dữ liệu.          |
-|   6 |                                                          | Hệ thống tổng hợp dữ liệu hoạt động. |
-|   7 |                                                          | Hệ thống hiển thị báo cáo.           |
-|   8 | Người dùng xem và phân tích kết quả.                     |                                      |
-|   9 | Người dùng xuất báo cáo nếu được cấp quyền.              |                                      |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                    | Xử lý                                                               |
-| -- | ----------------------------- | ------------------------------------------------------------------- |
-| A1 | Không có dữ liệu              | Hệ thống thông báo không có dữ liệu trong khoảng thời gian đã chọn. |
-| A2 | Khoảng thời gian không hợp lệ | Hệ thống yêu cầu nhập lại khoảng thời gian.                         |
-| A3 | Không thể truy xuất dữ liệu   | Hệ thống thông báo lỗi và ghi nhận log.                             |
-
----
-
-# UC54 – Báo cáo số lượng chuyến ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                |
-| ------------------- | ------------------------------------------------------- |
-| **Tên Use Case**    | Báo cáo số lượng chuyến                                 |
-| **Mã**              | UC54                                                    |
-| **Actor chính**     | Quản trị viên                                           |
-| **Actor phụ**       | Hệ thống CAB                                            |
-| **Đối tượng**       | Dữ liệu chuyến đi                                       |
-| **Mục tiêu**        | Thống kê số lượng chuyến theo thời gian và trạng thái   |
-| **Điều kiện trước** | Có dữ liệu chuyến đi và người dùng có quyền xem báo cáo |
-| **Điều kiện sau**   | Báo cáo số lượng chuyến được tổng hợp và hiển thị       |
-| **Kích hoạt**       | Người dùng yêu cầu xem báo cáo số lượng chuyến          |
-
-## Luồng chính
-
-| STT | Actor                                           | Hệ thống                                               |
-| --: | ----------------------------------------------- | ------------------------------------------------------ |
-|   1 | Người dùng chọn **Báo cáo số lượng chuyến**.    |                                                        |
-|   2 |                                                 | Hệ thống hiển thị bộ lọc báo cáo.                      |
-|   3 | Người dùng chọn khoảng thời gian.               |                                                        |
-|   4 | Người dùng chọn phạm vi hoặc tiêu chí thống kê. |                                                        |
-|   5 |                                                 | Hệ thống truy xuất dữ liệu chuyến.                     |
-|   6 |                                                 | Hệ thống phân loại chuyến theo trạng thái.             |
-|   7 |                                                 | Hệ thống tính tổng số chuyến.                          |
-|   8 |                                                 | Hệ thống hiển thị kết quả dưới dạng bảng hoặc biểu đồ. |
-|   9 | Người dùng xem hoặc xuất báo cáo.               |                                                        |
-
-## Nội dung báo cáo
-
-| STT | Nội dung                              |
-| --: | ------------------------------------- |
-|   1 | Tổng số chuyến                        |
-|   2 | Số chuyến hoàn thành                  |
-|   3 | Số chuyến đang thực hiện              |
-|   4 | Số chuyến bị hủy                      |
-|   5 | Số chuyến lỗi                         |
-|   6 | Số chuyến theo ngày/tháng             |
-|   7 | Số chuyến theo khu vực nếu có dữ liệu |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                 | Xử lý                                   |
-| -- | -------------------------- | --------------------------------------- |
-| A1 | Không có dữ liệu chuyến    | Hệ thống thông báo không có dữ liệu.    |
-| A2 | Không thể tổng hợp dữ liệu | Hệ thống thông báo lỗi và ghi nhận log. |
-
----
-
-# UC55 – Báo cáo doanh thu ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                |
-| ------------------- | ------------------------------------------------------- |
-| **Tên Use Case**    | Báo cáo doanh thu                                       |
-| **Mã**              | UC55                                                    |
-| **Actor chính**     | Quản trị viên                                           |
-| **Actor phụ**       | Hệ thống CAB                                            |
-| **Đối tượng**       | Dữ liệu doanh thu và giao dịch                          |
-| **Mục tiêu**        | Thống kê và phân tích doanh thu từ hoạt động đặt xe     |
-| **Điều kiện trước** | Có dữ liệu giao dịch và người dùng có quyền xem báo cáo |
-| **Điều kiện sau**   | Báo cáo doanh thu được tổng hợp và hiển thị             |
-| **Kích hoạt**       | Người dùng yêu cầu xem báo cáo doanh thu                |
-
-## Luồng chính
-
-| STT | Actor                                  | Hệ thống                                                  |
-| --: | -------------------------------------- | --------------------------------------------------------- |
-|   1 | Người dùng chọn **Báo cáo doanh thu**. |                                                           |
-|   2 |                                        | Hệ thống hiển thị bộ lọc.                                 |
-|   3 | Người dùng chọn khoảng thời gian.      |                                                           |
-|   4 | Người dùng chọn tiêu chí thống kê.     |                                                           |
-|   5 |                                        | Hệ thống truy xuất dữ liệu giao dịch.                     |
-|   6 |                                        | Hệ thống lọc các giao dịch hợp lệ.                        |
-|   7 |                                        | Hệ thống tính tổng doanh thu.                             |
-|   8 |                                        | Hệ thống tổng hợp doanh thu theo thời gian hoặc tiêu chí. |
-|   9 |                                        | Hệ thống hiển thị báo cáo.                                |
-|  10 | Người dùng xem hoặc xuất báo cáo.      |                                                           |
-
-## Nội dung báo cáo
-
-| STT | Nội dung                       |
-| --: | ------------------------------ |
-|   1 | Tổng doanh thu                 |
-|   2 | Doanh thu theo ngày/tháng      |
-|   3 | Doanh thu theo số lượng chuyến |
-|   4 | Số giao dịch thành công        |
-|   5 | Số giao dịch thất bại          |
-|   6 | Giá trị giao dịch trung bình   |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                      | Xử lý                                                                            |
-| -- | ------------------------------- | -------------------------------------------------------------------------------- |
-| A1 | Không có dữ liệu giao dịch      | Hệ thống thông báo không có dữ liệu doanh thu.                                   |
-| A2 | Dữ liệu giao dịch chưa hoàn tất | Hệ thống loại các giao dịch chưa có kết quả cuối cùng khỏi doanh thu chính thức. |
-| A3 | Không thể tính toán doanh thu   | Hệ thống thông báo lỗi và ghi nhận log.                                          |
-
----
-
-# UC56 – Báo cáo tỷ lệ hoàn thành ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                    |
-| ------------------- | ----------------------------------------------------------- |
-| **Tên Use Case**    | Báo cáo tỷ lệ hoàn thành                                    |
-| **Mã**              | UC56                                                        |
-| **Actor chính**     | Quản trị viên                                               |
-| **Actor phụ**       | Hệ thống CAB                                                |
-| **Đối tượng**       | Dữ liệu trạng thái chuyến                                   |
-| **Mục tiêu**        | Đánh giá tỷ lệ chuyến được hoàn thành so với tổng số chuyến |
-| **Điều kiện trước** | Có dữ liệu chuyến và người dùng có quyền xem báo cáo        |
-| **Điều kiện sau**   | Tỷ lệ hoàn thành được tính toán và hiển thị                 |
-| **Kích hoạt**       | Người dùng yêu cầu xem báo cáo tỷ lệ hoàn thành             |
-
-## Luồng chính
-
-| STT | Actor                                         | Hệ thống                                |
-| --: | --------------------------------------------- | --------------------------------------- |
-|   1 | Người dùng chọn **Báo cáo tỷ lệ hoàn thành**. |                                         |
-|   2 |                                               | Hệ thống hiển thị bộ lọc thời gian.     |
-|   3 | Người dùng chọn khoảng thời gian.             |                                         |
-|   4 |                                               | Hệ thống truy xuất dữ liệu chuyến.      |
-|   5 |                                               | Hệ thống xác định tổng số chuyến.       |
-|   6 |                                               | Hệ thống xác định số chuyến hoàn thành. |
-|   7 |                                               | Hệ thống tính tỷ lệ hoàn thành.         |
-|   8 |                                               | Hệ thống hiển thị kết quả.              |
-|   9 | Người dùng xem hoặc xuất báo cáo.             |                                         |
-
-## Công thức
-
-```text
-Tỷ lệ hoàn thành =
-Số chuyến hoàn thành / Tổng số chuyến × 100%
-```
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                             | Xử lý                                                            |
-| -- | -------------------------------------- | ---------------------------------------------------------------- |
-| A1 | Không có chuyến trong khoảng thời gian | Hệ thống thông báo không có dữ liệu để tính toán.                |
-| A2 | Dữ liệu chuyến không đầy đủ            | Hệ thống cảnh báo và không đưa dữ liệu không hợp lệ vào kết quả. |
-
----
-
-# UC57 – Báo cáo tỷ lệ hủy ⭐⭐⭐
-
-| Thành phần          | Nội dung                                             |
-| ------------------- | ---------------------------------------------------- |
-| **Tên Use Case**    | Báo cáo tỷ lệ hủy                                    |
-| **Mã**              | UC57                                                 |
-| **Actor chính**     | Quản trị viên                                        |
-| **Actor phụ**       | Hệ thống CAB                                         |
-| **Đối tượng**       | Dữ liệu chuyến bị hủy                                |
-| **Mục tiêu**        | Theo dõi và phân tích tỷ lệ chuyến bị hủy            |
-| **Điều kiện trước** | Có dữ liệu chuyến và người dùng có quyền xem báo cáo |
-| **Điều kiện sau**   | Tỷ lệ hủy được tính toán và hiển thị                 |
-| **Kích hoạt**       | Người dùng yêu cầu xem báo cáo tỷ lệ hủy             |
-
-## Luồng chính
-
-| STT | Actor                                  | Hệ thống                                           |
-| --: | -------------------------------------- | -------------------------------------------------- |
-|   1 | Người dùng chọn **Báo cáo tỷ lệ hủy**. |                                                    |
-|   2 |                                        | Hệ thống hiển thị bộ lọc.                          |
-|   3 | Người dùng chọn khoảng thời gian.      |                                                    |
-|   4 |                                        | Hệ thống truy xuất dữ liệu chuyến.                 |
-|   5 |                                        | Hệ thống xác định tổng số chuyến.                  |
-|   6 |                                        | Hệ thống xác định số chuyến bị hủy.                |
-|   7 |                                        | Hệ thống phân loại nguyên nhân hủy nếu có dữ liệu. |
-|   8 |                                        | Hệ thống tính tỷ lệ hủy.                           |
-|   9 |                                        | Hệ thống hiển thị kết quả.                         |
-|  10 | Người dùng xem hoặc xuất báo cáo.      |                                                    |
-
-## Công thức
-
-```text
-Tỷ lệ hủy =
-Số chuyến bị hủy / Tổng số chuyến × 100%
-```
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp                          | Xử lý                                                                      |
-| -- | ----------------------------------- | -------------------------------------------------------------------------- |
-| A1 | Không có dữ liệu chuyến             | Hệ thống thông báo không có dữ liệu để tính toán.                          |
-| A2 | Không xác định được nguyên nhân hủy | Hệ thống vẫn thống kê chuyến hủy nhưng đánh dấu nguyên nhân chưa xác định. |
-
----
-
-# UC58 – Báo cáo hiệu quả tài xế ⭐⭐⭐
-
-| Thành phần          | Nội dung                                                           |
-| ------------------- | ------------------------------------------------------------------ |
-| **Tên Use Case**    | Báo cáo hiệu quả tài xế                                            |
-| **Mã**              | UC58                                                               |
-| **Actor chính**     | Quản trị viên                                                      |
-| **Actor phụ**       | Hệ thống CAB                                                       |
-| **Đối tượng**       | Dữ liệu hoạt động tài xế                                           |
-| **Mục tiêu**        | Đánh giá hiệu quả hoạt động của tài xế dựa trên dữ liệu chuyến đi  |
-| **Điều kiện trước** | Có dữ liệu hoạt động của tài xế và người dùng có quyền xem báo cáo |
-| **Điều kiện sau**   | Báo cáo hiệu quả tài xế được tổng hợp và hiển thị                  |
-| **Kích hoạt**       | Người dùng yêu cầu xem báo cáo hiệu quả tài xế                     |
-
-## Luồng chính
-
-| STT | Actor                                        | Hệ thống                                     |
-| --: | -------------------------------------------- | -------------------------------------------- |
-|   1 | Người dùng chọn **Báo cáo hiệu quả tài xế**. |                                              |
-|   2 |                                              | Hệ thống hiển thị bộ lọc báo cáo.            |
-|   3 | Người dùng chọn khoảng thời gian.            |                                              |
-|   4 | Người dùng chọn tài xế hoặc phạm vi tài xế.  |                                              |
-|   5 |                                              | Hệ thống truy xuất dữ liệu hoạt động.        |
-|   6 |                                              | Hệ thống tổng hợp số chuyến của từng tài xế. |
-|   7 |                                              | Hệ thống tính các chỉ số hiệu quả.           |
-|   8 |                                              | Hệ thống hiển thị kết quả.                   |
-|   9 | Người dùng so sánh hiệu quả giữa các tài xế. |                                              |
-|  10 | Người dùng xuất báo cáo nếu cần.             |                                              |
-
-## Các chỉ số có thể báo cáo
-
-| STT | Chỉ số                               |
-| --: | ------------------------------------ |
-|   1 | Số chuyến nhận                       |
-|   2 | Số chuyến hoàn thành                 |
-|   3 | Số chuyến hủy                        |
-|   4 | Tỷ lệ hoàn thành                     |
-|   5 | Tỷ lệ hủy                            |
-|   6 | Doanh thu tạo ra                     |
-|   7 | Thời gian hoạt động                  |
-|   8 | Số chuyến trung bình theo ngày/tháng |
-
-## Luồng thay thế / ngoại lệ
-
-| Mã | Trường hợp              | Xử lý                                                  |
-| -- | ----------------------- | ------------------------------------------------------ |
-| A1 | Không có dữ liệu tài xế | Hệ thống thông báo không có dữ liệu.                   |
-| A2 | Tài xế không tồn tại    | Hệ thống yêu cầu chọn lại tài xế.                      |
-| A3 | Dữ liệu chưa đầy đủ     | Hệ thống cảnh báo các chỉ số không thể tính chính xác. |
-
+| **1. Tài xế** nhận thông báo có chuyến đi mới. | **2. Hệ thống** hiển thị thông tin chuyến đi gồm điểm đón, điểm đến, loại phương tiện và các thông tin liên quan. |
+| **3. Tài xế** xem thông tin chuyến đi. | **4. Hệ thống** cho phép tài xế lựa chọn **Nhận chuyến** hoặc **Từ chối chuyến**. |
+| **5. Tài xế** chọn **Nhận chuyến**. | **6. Hệ thống** kiểm tra trạng thái chuyến đi và trạng thái tài xế. |
+| | **7. Hệ thống** cập nhật tài xế là tài xế được phân công cho chuyến đi. |
+| | **8. Hệ thống** cập nhật trạng thái chuyến đi thành **Đã có tài xế**. |
+| | **9. Hệ thống** thông báo cho khách hàng thông tin tài xế và trạng thái chuyến đi. |
+| | **10. Hệ thống** cập nhật trạng thái tài xế phù hợp với việc đang thực hiện chuyến. |
+
+### Alternative Flow
+
+#### 5.1 – Tài xế từ chối chuyến
+
+1. **Tài xế:** Chọn **Từ chối chuyến**.
+2. **Hệ thống:** Hiển thị yêu cầu xác nhận từ chối chuyến.
+3. **Tài xế:** Xác nhận từ chối.
+4. **Hệ thống:** Ghi nhận tài xế từ chối chuyến.
+5. **Hệ thống:** Không gán chuyến đi cho tài xế hiện tại.
+6. **Hệ thống:** Chuyển yêu cầu về trạng thái **Tiếp tục tìm tài xế**.
+7. **Hệ thống:** Tiếp tục tìm tài xế phù hợp khác.
+8. Kết thúc Alternative Flow.
+
+#### 5.2 – Tài xế hủy thao tác phản hồi
+
+1. **Tài xế:** Chọn **Hủy**.
+2. **Hệ thống:** Đóng giao diện phản hồi.
+3. **Hệ thống:** Giữ yêu cầu chuyến đi ở trạng thái **Chờ tài xế phản hồi**.
+4. Kết thúc Alternative Flow.
+
+### Exception Flow
+
+#### E1 – Chuyến đi đã được tài xế khác nhận
+
+1. **Tài xế:** Chọn **Nhận chuyến**.
+2. **Hệ thống:** Kiểm tra và phát hiện chuyến đi đã được tài xế khác nhận.
+3. **Hệ thống:** Thông báo chuyến đi không còn khả dụng.
+4. **Hệ thống:** Không gán chuyến cho tài xế hiện tại.
+5. Kết thúc Use Case.
+
+#### E2 – Tài xế không còn ở trạng thái có thể nhận chuyến
+
+1. **Tài xế:** Chọn **Nhận chuyến**.
+2. **Hệ thống:** Kiểm tra trạng thái tài xế.
+3. **Hệ thống:** Phát hiện tài xế không còn đủ điều kiện nhận chuyến.
+4. **Hệ thống:** Thông báo chuyến đi không thể được nhận.
+5. Kết thúc Use Case.
+
+#### E3 – Lỗi cập nhật phân công
+
+1. **Hệ thống:** Phát hiện lỗi khi cập nhật thông tin phân công.
+2. **Hệ thống:** Thông báo nhận chuyến chưa thành công.
+3. **Hệ thống:** Không xác nhận chuyến đi cho tài xế.
+4. Kết thúc Use Case.
 # 12. Phân tích quy trình nghiệp vụ (business project)
 # Phân tích quy trình nghiệp vụ – CAB System
 
