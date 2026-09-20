@@ -1453,10 +1453,649 @@ Kết thúc Use Case.
 2. **Hệ thống:** Thông báo nhận chuyến chưa thành công.
 3. **Hệ thống:** Không xác nhận chuyến đi cho tài xế.
 4. Kết thúc Use Case.
+
+# UC-11 – Theo dõi chuyến đi
+
+| **Thành phần**     | **Nội dung**                                                                |
+| ------------------ | --------------------------------------------------------------------------- |
+| **Tên Use Case**   | Theo dõi chuyến đi                                                          |
+| **Tiền điều kiện** | Khách hàng đã đăng nhập và có chuyến đi đang được xử lý hoặc đang thực hiện |
+| **Hậu điều kiện**  | Khách hàng xem được thông tin và trạng thái hiện tại của chuyến đi          |
+| **Actor chính**    | Khách hàng                                                                  |
+| **Actor phụ**      | Không                                                                       |
+
+## Basic Flow
+
+| **Khách hàng**                                     | **Hệ thống**                                                  |
+| -------------------------------------------------- | ------------------------------------------------------------- |
+| **1.** Chọn chức năng **Theo dõi chuyến đi**.      |                                                               |
+|                                                    | **2.** Hiển thị thông tin chuyến đi hiện tại.                 |
+|                                                    | **3.** Hiển thị trạng thái chuyến đi.                         |
+|                                                    | **4.** Hiển thị thông tin tài xế đã nhận chuyến nếu có.       |
+|                                                    | **5.** Hiển thị thời gian dự kiến tài xế đến điểm đón nếu có. |
+|                                                    | **6.** Cập nhật thông tin chuyến đi theo trạng thái mới nhất. |
+| **7.** Theo dõi thông tin chuyến đi trên hệ thống. |                                                               |
+
+## Alternative Flow
+
+### 3.1 – Chưa tìm được tài xế
+
+1. **Hệ thống:** Xác định chuyến đi chưa có tài xế nhận.
+2. **Hệ thống:** Hiển thị trạng thái **Đang tìm tài xế**.
+3. **Hệ thống:** Tiếp tục cập nhật trạng thái khi có tài xế nhận chuyến.
+4. Kết thúc Alternative Flow.
+
+### 4.1 – Đã có tài xế nhận chuyến
+
+1. **Hệ thống:** Nhận thông tin tài xế được phân công.
+2. **Hệ thống:** Hiển thị thông tin tài xế cho khách hàng.
+3. **Hệ thống:** Hiển thị thời gian dự kiến tài xế đến.
+4. Tiếp tục **bước 6**.
+
+### 6.1 – Chuyến đi đã hoàn thành
+
+1. **Hệ thống:** Cập nhật trạng thái chuyến đi thành **Hoàn thành**.
+2. **Hệ thống:** Hiển thị thông tin chuyến đi hoàn thành.
+3. Kết thúc Use Case.
+
+## Exception
+
+### 2.1 – Không thể tải thông tin chuyến đi
+
+1. **Hệ thống:** Phát hiện lỗi khi tải thông tin chuyến đi.
+2. **Hệ thống:** Thông báo không thể tải thông tin chuyến đi.
+3. **Khách hàng:** Thực hiện tải lại thông tin.
+4. **Hệ thống:** Thực hiện tải lại thông tin chuyến đi.
+5. Kết thúc Use Case nếu tải lại thành công.
+
+# UC-12 – Cập nhật trạng thái chuyến
+
+| **Thành phần**     | **Nội dung**                                                          |
+| ------------------ | --------------------------------------------------------------------- |
+| **Tên Use Case**   | Cập nhật trạng thái chuyến                                            |
+| **Tiền điều kiện** | Tài xế đã đăng nhập và đang có chuyến đi được phân công               |
+| **Hậu điều kiện**  | Trạng thái chuyến đi được cập nhật và thông báo đến các bên liên quan |
+| **Actor chính**    | Tài xế                                                                |
+| **Actor phụ**      | Khách hàng                                                            |
+
+## Basic Flow
+
+| **Tài xế**                                 | **Hệ thống**                                                                       |
+| ------------------------------------------ | ---------------------------------------------------------------------------------- |
+| **1.** Chọn chuyến đi đang được phân công. |                                                                                    |
+|                                            | **2.** Hiển thị thông tin và trạng thái hiện tại của chuyến đi.                    |
+| **3.** Chọn trạng thái cần cập nhật.       |                                                                                    |
+|                                            | **4.** Kiểm tra trạng thái được chọn có phù hợp với trạng thái hiện tại hay không. |
+|                                            | **5.** Cập nhật trạng thái chuyến đi.                                              |
+|                                            | **6.** Lưu thông tin trạng thái vào hệ thống.                                      |
+|                                            | **7.** Gửi thông báo trạng thái mới cho khách hàng.                                |
+|                                            | **8.** Hiển thị kết quả cập nhật thành công.                                       |
+
+## Alternative Flow
+
+### 3.1 – Đã đến điểm đón
+
+1. **Tài xế:** Chọn trạng thái **Đã đến điểm đón**.
+2. **Hệ thống:** Cập nhật trạng thái chuyến đi.
+3. **Hệ thống:** Thông báo cho khách hàng tài xế đã đến điểm đón.
+4. Tiếp tục **bước 8**.
+
+### 3.2 – Đã đón khách
+
+1. **Tài xế:** Chọn trạng thái **Đã đón khách**.
+2. **Hệ thống:** Cập nhật trạng thái chuyến đi.
+3. **Hệ thống:** Thông báo cho khách hàng.
+4. Tiếp tục **bước 8**.
+
+### 3.3 – Đang di chuyển
+
+1. **Tài xế:** Chọn trạng thái **Đang di chuyển**.
+2. **Hệ thống:** Cập nhật trạng thái chuyến đi.
+3. **Hệ thống:** Thông báo cho khách hàng.
+4. Tiếp tục **bước 8**.
+
+### 3.4 – Hoàn thành chuyến
+
+1. **Tài xế:** Chọn trạng thái **Hoàn thành**.
+2. **Hệ thống:** Cập nhật chuyến đi thành **Hoàn thành**.
+3. **Hệ thống:** Thông báo cho khách hàng.
+4. **Hệ thống:** Chuyển chuyến đi sang bước tính cước.
+5. Kết thúc Use Case.
+
+## Exception
+
+### 4.1 – Trạng thái không hợp lệ
+
+1. **Hệ thống:** Phát hiện trạng thái được chọn không phù hợp với trạng thái hiện tại.
+2. **Hệ thống:** Thông báo không thể cập nhật trạng thái.
+3. **Tài xế:** Chọn lại trạng thái phù hợp.
+4. Quay lại **bước 3**.
+
+### 6.1 – Không thể lưu trạng thái
+
+1. **Hệ thống:** Phát sinh lỗi khi lưu trạng thái chuyến đi.
+2. **Hệ thống:** Thông báo cập nhật thất bại.
+3. **Hệ thống:** Giữ nguyên trạng thái hiện tại.
+4. Kết thúc Use Case.
+
+# UC-13 – Tính cước chuyến đi
+
+| **Thành phần**     | **Nội dung**                                                          |
+| ------------------ | --------------------------------------------------------------------- |
+| **Tên Use Case**   | Tính cước chuyến đi                                                   |
+| **Tiền điều kiện** | Chuyến đi đã hoàn thành và có đầy đủ thông tin cần thiết để tính cước |
+| **Hậu điều kiện**  | Số tiền khách hàng phải trả được xác định và lưu vào hệ thống         |
+| **Actor chính**    | Hệ thống                                                              |
+| **Actor phụ**      | Không                                                                 |
+
+## Basic Flow
+
+| **Hệ thống**                                   | **Actor**                            |
+| ---------------------------------------------- | ------------------------------------ |
+| **1.** Nhận thông tin chuyến đi đã hoàn thành. |                                      |
+| **2.** Xác định loại dịch vụ của chuyến đi.    |                                      |
+| **3.** Lấy thông tin cần thiết để tính cước.   |                                      |
+| **4.** Áp dụng quy tắc tính cước tương ứng.    |                                      |
+| **5.** Tính số tiền khách hàng phải trả.       |                                      |
+| **6.** Lưu thông tin cước chuyến đi.           |                                      |
+| **7.** Hiển thị số tiền phải trả.              |                                      |
+|                                                | **8.** Xem thông tin cước chuyến đi. |
+
+## Alternative Flow
+
+### 4.1 – Áp dụng loại dịch vụ khác
+
+1. **Hệ thống:** Xác định loại dịch vụ của chuyến đi.
+2. **Hệ thống:** Áp dụng quy tắc tính cước tương ứng với loại dịch vụ.
+3. Tiếp tục **bước 5**.
+
+### 7.1 – Hiển thị cước cho khách hàng
+
+1. **Hệ thống:** Gửi thông tin số tiền phải trả cho khách hàng.
+2. **Khách hàng:** Xem số tiền phải trả.
+3. Kết thúc Use Case.
+
+## Exception
+
+### 3.1 – Thiếu thông tin tính cước
+
+1. **Hệ thống:** Phát hiện thiếu thông tin cần thiết để tính cước.
+2. **Hệ thống:** Không thực hiện tính cước.
+3. **Hệ thống:** Ghi nhận lỗi để xử lý.
+4. Kết thúc Use Case.
+
+### 5.1 – Không thể tính cước
+
+1. **Hệ thống:** Phát sinh lỗi trong quá trình tính cước.
+2. **Hệ thống:** Thông báo không thể xác định số tiền phải trả.
+3. **Hệ thống:** Không lưu kết quả tính cước không hợp lệ.
+4. Kết thúc Use Case.
+
+# UC-14 – Thanh toán chuyến đi
+
+| **Thành phần**     | **Nội dung**                                                                |
+| ------------------ | --------------------------------------------------------------------------- |
+| **Tên Use Case**   | Thanh toán chuyến đi                                                        |
+| **Tiền điều kiện** | Chuyến đi đã hoàn thành và hệ thống đã xác định số tiền khách hàng phải trả |
+| **Hậu điều kiện**  | Giao dịch thanh toán được ghi nhận với trạng thái tương ứng                 |
+| **Actor chính**    | Khách hàng                                                                  |
+| **Actor phụ**      | Nhà cung cấp thanh toán                                                     |
+
+## Basic Flow
+
+| **Khách hàng**                      | **Hệ thống**                                          |
+| ----------------------------------- | ----------------------------------------------------- |
+| **1.** Chọn phương thức thanh toán. |                                                       |
+|                                     | **2.** Hiển thị số tiền cần thanh toán.               |
+| **3.** Xác nhận thanh toán.         |                                                       |
+|                                     | **4.** Kiểm tra phương thức thanh toán được chọn.     |
+|                                     | **5.** Thực hiện thanh toán theo phương thức đã chọn. |
+|                                     | **6.** Ghi nhận kết quả giao dịch.                    |
+|                                     | **7.** Cập nhật trạng thái thanh toán.                |
+|                                     | **8.** Thông báo kết quả thanh toán cho khách hàng.   |
+
+## Alternative Flow
+
+### 1.1 – Thanh toán bằng tiền mặt
+
+1. **Khách hàng:** Chọn phương thức **Tiền mặt**.
+2. **Hệ thống:** Ghi nhận phương thức thanh toán là tiền mặt.
+3. **Hệ thống:** Cập nhật trạng thái thanh toán theo quy trình của doanh nghiệp.
+4. Tiếp tục **bước 8**.
+
+### 1.2 – Thanh toán điện tử
+
+1. **Khách hàng:** Chọn phương thức **Thanh toán điện tử**.
+2. **Hệ thống:** Chuyển yêu cầu thanh toán đến nhà cung cấp thanh toán.
+3. **Nhà cung cấp thanh toán:** Xử lý giao dịch.
+4. **Hệ thống:** Nhận kết quả giao dịch.
+5. Tiếp tục **bước 6**.
+
+### 6.1 – Thanh toán thành công
+
+1. **Hệ thống:** Nhận kết quả giao dịch thành công.
+2. **Hệ thống:** Cập nhật trạng thái thanh toán thành **Đã thanh toán**.
+3. **Hệ thống:** Thông báo thanh toán thành công cho khách hàng.
+4. Kết thúc Use Case.
+
+## Exception
+
+### 5.1 – Thanh toán điện tử thất bại
+
+1. **Nhà cung cấp thanh toán:** Trả về kết quả giao dịch thất bại.
+2. **Hệ thống:** Ghi nhận giao dịch thất bại.
+3. **Hệ thống:** Thông báo thanh toán không thành công cho khách hàng.
+4. **Khách hàng:** Chọn thực hiện thanh toán lại.
+5. Quay lại **bước 3**.
+
+### 5.2 – Không thể kết nối nhà cung cấp thanh toán
+
+1. **Hệ thống:** Phát hiện không thể kết nối với nhà cung cấp thanh toán.
+2. **Hệ thống:** Thông báo tạm thời không thể thực hiện thanh toán.
+3. **Hệ thống:** Ghi nhận trạng thái giao dịch phù hợp.
+4. Kết thúc Use Case.
+
+# UC-15 – Quản lý thông báo
+
+| **Thành phần**     | **Nội dung**                                                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Tên Use Case**   | Quản lý thông báo                                                                                                                     |
+| **Tiền điều kiện** | Người dùng đã đăng nhập đối với chức năng xem thông báo; hệ thống phát sinh sự kiện cần gửi thông báo đối với chức năng gửi thông báo |
+| **Hậu điều kiện**  | Thông báo được gửi đến người nhận và được lưu lại với trạng thái tương ứng                                                            |
+| **Actor chính**    | Hệ thống                                                                                                                              |
+| **Actor phụ**      | Khách hàng, Tài xế                                                                                                                    |
+
+## Basic Flow
+
+| **Hệ thống**                                      | **Actor**              |
+| ------------------------------------------------- | ---------------------- |
+| **1.** Phát sinh sự kiện cần gửi thông báo.       |                        |
+| **2.** Xác định người nhận thông báo.             |                        |
+| **3.** Xác định nội dung thông báo.               |                        |
+| **4.** Xác định kênh gửi thông báo.               |                        |
+| **5.** Gửi thông báo đến người nhận.              |                        |
+|                                                   | **6.** Nhận thông báo. |
+| **7.** Lưu thông tin và trạng thái gửi thông báo. |                        |
+
+## Alternative Flow
+
+### 1.1 – Thông báo đặt xe
+
+1. **Hệ thống:** Ghi nhận yêu cầu đặt xe của khách hàng.
+2. **Hệ thống:** Gửi thông báo xác nhận đã tiếp nhận yêu cầu.
+3. **Khách hàng:** Nhận thông báo.
+4. Tiếp tục **bước 7**.
+
+### 1.2 – Thông báo tài xế nhận chuyến
+
+1. **Hệ thống:** Ghi nhận tài xế đã nhận chuyến.
+2. **Hệ thống:** Gửi thông báo cho khách hàng.
+3. **Khách hàng:** Nhận thông tin tài xế.
+4. Tiếp tục **bước 7**.
+
+### 1.3 – Thông báo tài xế đến điểm đón
+
+1. **Hệ thống:** Ghi nhận tài xế đã đến điểm đón.
+2. **Hệ thống:** Gửi thông báo cho khách hàng.
+3. **Khách hàng:** Nhận thông báo.
+4. Tiếp tục **bước 7**.
+
+### 1.4 – Thông báo hoàn thành chuyến
+
+1. **Hệ thống:** Ghi nhận chuyến đi đã hoàn thành.
+2. **Hệ thống:** Gửi thông báo cho khách hàng.
+3. **Khách hàng:** Nhận thông báo.
+4. Tiếp tục **bước 7**.
+
+### 1.5 – Thông báo kết quả thanh toán
+
+1. **Hệ thống:** Nhận kết quả thanh toán.
+2. **Hệ thống:** Gửi thông báo kết quả thanh toán cho khách hàng.
+3. **Khách hàng:** Nhận thông báo.
+4. Tiếp tục **bước 7**.
+
+### 1.6 – Thông báo chuyến mới cho tài xế
+
+1. **Hệ thống:** Xác định tài xế phù hợp với yêu cầu chuyến đi.
+2. **Hệ thống:** Gửi thông báo chuyến mới cho tài xế.
+3. **Tài xế:** Nhận thông báo chuyến mới.
+4. Tiếp tục **bước 7**.
+
+### 1.7 – Thông báo thay đổi chuyến đi
+
+1. **Hệ thống:** Ghi nhận thay đổi liên quan đến chuyến đi.
+2. **Hệ thống:** Xác định người cần nhận thông báo.
+3. **Hệ thống:** Gửi thông báo đến người nhận.
+4. Tiếp tục **bước 7**.
+
+## Exception
+
+### 5.1 – Không gửi được thông báo
+
+1. **Hệ thống:** Phát hiện lỗi khi gửi thông báo.
+2. **Hệ thống:** Ghi nhận trạng thái gửi thất bại.
+3. **Hệ thống:** Thực hiện xử lý lại theo cơ chế của hệ thống.
+4. Kết thúc Use Case.
+
+### 5.2 – Kênh thông báo không khả dụng
+
+1. **Hệ thống:** Phát hiện kênh thông báo hiện tại không khả dụng.
+2. **Hệ thống:** Xác định kênh thông báo thay thế nếu có.
+3. **Hệ thống:** Gửi thông báo qua kênh thay thế.
+4. Kết thúc Use Case nếu gửi thành công.
+
 # 12. Phân tích quy trình nghiệp vụ (business project)
 # Phân tích quy trình nghiệp vụ – CAB System
 
-## 1. Tổng quan quy trình nghiệp vụ
+# UC-16 – Đánh giá tài xế
+
+| **Thành phần**     | **Nội dung**                                  |
+| ------------------ | --------------------------------------------- |
+| **Tên Use Case**   | Đánh giá tài xế                               |
+| **Tiền điều kiện** | Khách hàng đã hoàn thành chuyến đi            |
+| **Hậu điều kiện**  | Đánh giá của khách hàng được lưu vào hệ thống |
+| **Actor chính**    | Khách hàng                                    |
+| **Actor phụ**      | Không                                         |
+
+## Basic Flow
+
+| **Khách hàng**                                    | **Hệ thống**                                                  |
+| ------------------------------------------------- | ------------------------------------------------------------- |
+| **1.** Chọn chuyến đi đã hoàn thành.              |                                                               |
+|                                                   | **2.** Kiểm tra chuyến đi có đủ điều kiện đánh giá hay không. |
+|                                                   | **3.** Hiển thị chức năng đánh giá tài xế.                    |
+| **4.** Chọn mức đánh giá và nhập nhận xét nếu có. |                                                               |
+|                                                   | **5.** Kiểm tra thông tin đánh giá.                           |
+| **6.** Xác nhận gửi đánh giá.                     |                                                               |
+|                                                   | **7.** Lưu đánh giá vào hệ thống.                             |
+|                                                   | **8.** Thông báo đánh giá thành công.                         |
+
+## Alternative Flow
+
+### 4.1 – Chỉ đánh giá mức điểm
+
+1. **Khách hàng:** Chọn mức đánh giá.
+2. **Khách hàng:** Không nhập nhận xét.
+3. **Hệ thống:** Lưu mức đánh giá.
+4. Tiếp tục **bước 8**.
+
+### 4.2 – Đánh giá kèm nhận xét
+
+1. **Khách hàng:** Chọn mức đánh giá và nhập nhận xét.
+2. **Hệ thống:** Kiểm tra nội dung nhận xét.
+3. **Hệ thống:** Lưu mức đánh giá và nhận xét.
+4. Tiếp tục **bước 8**.
+
+## Exception
+
+### 5.1 – Thông tin đánh giá không hợp lệ
+
+1. **Hệ thống:** Phát hiện thông tin đánh giá không hợp lệ.
+2. **Hệ thống:** Thông báo lỗi.
+3. **Khách hàng:** Nhập lại thông tin đánh giá.
+4. Quay lại **bước 4**.
+
+### 7.1 – Không thể lưu đánh giá
+
+1. **Hệ thống:** Phát sinh lỗi khi lưu đánh giá.
+2. **Hệ thống:** Thông báo đánh giá thất bại.
+3. **Hệ thống:** Không ghi nhận đánh giá.
+4. Kết thúc Use Case.
+
+# UC-17 – Quản lý vận hành chuyến đi
+
+| **Thành phần**     | **Nội dung**                                                              |
+| ------------------ | ------------------------------------------------------------------------- |
+| **Tên Use Case**   | Quản lý vận hành chuyến đi                                                |
+| **Tiền điều kiện** | Nhân viên vận hành đã đăng nhập và có quyền quản lý chuyến đi             |
+| **Hậu điều kiện**  | Thông tin và trạng thái chuyến đi được theo dõi hoặc xử lý theo nghiệp vụ |
+| **Actor chính**    | Nhân viên vận hành                                                        |
+| **Actor phụ**      | Không                                                                     |
+
+## Basic Flow
+
+| **Nhân viên vận hành**                                | **Hệ thống**                                                 |
+| ----------------------------------------------------- | ------------------------------------------------------------ |
+| **1.** Chọn chức năng **Quản lý vận hành chuyến đi**. |                                                              |
+|                                                       | **2.** Hiển thị danh sách các chuyến đi.                     |
+| **3.** Chọn chuyến đi cần theo dõi hoặc xử lý.        |                                                              |
+|                                                       | **4.** Hiển thị thông tin chi tiết chuyến đi.                |
+|                                                       | **5.** Hiển thị trạng thái hiện tại của chuyến đi và tài xế. |
+| **6.** Thực hiện thao tác xử lý phù hợp.              |                                                              |
+|                                                       | **7.** Kiểm tra quyền và thông tin thao tác.                 |
+|                                                       | **8.** Cập nhật thông tin chuyến đi.                         |
+|                                                       | **9.** Ghi nhận thao tác vận hành.                           |
+|                                                       | **10.** Hiển thị kết quả xử lý.                              |
+
+## Alternative Flow
+
+### 3.1 – Theo dõi chuyến đang diễn ra
+
+1. **Nhân viên vận hành:** Chọn chuyến đang diễn ra.
+2. **Hệ thống:** Hiển thị trạng thái chuyến đi.
+3. **Hệ thống:** Hiển thị thông tin tài xế và vị trí nếu có.
+4. Kết thúc Alternative Flow.
+
+### 3.2 – Tra cứu chuyến đi
+
+1. **Nhân viên vận hành:** Nhập thông tin tìm kiếm.
+2. **Hệ thống:** Tìm kiếm chuyến đi phù hợp.
+3. **Hệ thống:** Hiển thị kết quả tìm kiếm.
+4. Tiếp tục **bước 3**.
+
+### 3.3 – Xử lý chuyến đi cần hỗ trợ
+
+1. **Nhân viên vận hành:** Chọn chuyến đi cần hỗ trợ.
+2. **Hệ thống:** Hiển thị thông tin và trạng thái chuyến.
+3. **Nhân viên vận hành:** Thực hiện thao tác xử lý.
+4. **Hệ thống:** Cập nhật thông tin chuyến đi.
+5. Tiếp tục **bước 9**.
+
+## Exception
+
+### 4.1 – Không tìm thấy chuyến đi
+
+1. **Hệ thống:** Không tìm thấy chuyến đi phù hợp.
+2. **Hệ thống:** Thông báo không tìm thấy dữ liệu.
+3. Kết thúc Use Case.
+
+### 7.1 – Không có quyền thực hiện thao tác
+
+1. **Hệ thống:** Kiểm tra và phát hiện nhân viên không có quyền thực hiện thao tác.
+2. **Hệ thống:** Từ chối thao tác.
+3. **Hệ thống:** Thông báo không đủ quyền truy cập.
+4. Kết thúc Use Case.
+
+# UC-18 – Xử lý chuyến lỗi
+
+| **Thành phần**     | **Nội dung**                                                 |
+| ------------------ | ------------------------------------------------------------ |
+| **Tên Use Case**   | Xử lý chuyến lỗi                                             |
+| **Tiền điều kiện** | Nhân viên vận hành đã đăng nhập và có quyền xử lý chuyến lỗi |
+| **Hậu điều kiện**  | Chuyến lỗi được ghi nhận và xử lý theo tình trạng thực tế    |
+| **Actor chính**    | Nhân viên vận hành                                           |
+| **Actor phụ**      | Khách hàng, Tài xế                                           |
+
+## Basic Flow
+
+| **Nhân viên vận hành**                      | **Hệ thống**                                                 |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| **1.** Chọn chức năng **Xử lý chuyến lỗi**. |                                                              |
+|                                             | **2.** Hiển thị danh sách các chuyến có lỗi hoặc cần hỗ trợ. |
+| **3.** Chọn chuyến cần xử lý.               |                                                              |
+|                                             | **4.** Hiển thị thông tin chi tiết và tình trạng lỗi.        |
+|                                             | **5.** Kiểm tra trạng thái chuyến và thông tin liên quan.    |
+| **6.** Chọn phương án xử lý.                |                                                              |
+|                                             | **7.** Kiểm tra quyền thực hiện thao tác.                    |
+|                                             | **8.** Cập nhật kết quả xử lý.                               |
+|                                             | **9.** Lưu thông tin xử lý.                                  |
+|                                             | **10.** Ghi nhận thao tác vào lịch sử hệ thống.              |
+|                                             | **11.** Thông báo kết quả xử lý đến bên liên quan nếu cần.   |
+
+## Alternative Flow
+
+### 2.1 – Chuyến lỗi do không tìm được tài xế
+
+1. **Hệ thống:** Xác định chuyến không tìm được tài xế.
+2. **Nhân viên vận hành:** Kiểm tra thông tin chuyến.
+3. **Nhân viên vận hành:** Thực hiện phương án xử lý phù hợp.
+4. **Hệ thống:** Cập nhật kết quả xử lý.
+5. Tiếp tục **bước 9**.
+
+### 2.2 – Chuyến lỗi trong quá trình thực hiện
+
+1. **Hệ thống:** Hiển thị thông tin lỗi của chuyến.
+2. **Nhân viên vận hành:** Kiểm tra trạng thái chuyến và tài xế.
+3. **Nhân viên vận hành:** Thực hiện phương án xử lý.
+4. **Hệ thống:** Cập nhật kết quả xử lý.
+5. Tiếp tục **bước 9**.
+
+### 6.1 – Chuyển chuyến sang trạng thái cần xử lý khác
+
+1. **Nhân viên vận hành:** Chọn phương án xử lý khác.
+2. **Hệ thống:** Kiểm tra điều kiện xử lý.
+3. **Hệ thống:** Cập nhật trạng thái chuyến.
+4. Tiếp tục **bước 9**.
+
+## Exception
+
+### 5.1 – Không đủ thông tin xử lý
+
+1. **Hệ thống:** Phát hiện thiếu thông tin cần thiết.
+2. **Hệ thống:** Thông báo không thể tiếp tục xử lý.
+3. **Nhân viên vận hành:** Bổ sung hoặc kiểm tra thông tin.
+4. Quay lại **bước 5**.
+
+### 7.1 – Không có quyền xử lý
+
+1. **Hệ thống:** Phát hiện nhân viên không có quyền xử lý chuyến.
+2. **Hệ thống:** Từ chối thao tác.
+3. **Hệ thống:** Ghi nhận thao tác bị từ chối nếu cần.
+4. Kết thúc Use Case.
+
+# UC-19 – Dashboard & báo cáo
+
+| **Thành phần**     | **Nội dung**                                                |
+| ------------------ | ----------------------------------------------------------- |
+| **Tên Use Case**   | Dashboard & báo cáo                                         |
+| **Tiền điều kiện** | Nhân viên vận hành hoặc người có quyền báo cáo đã đăng nhập |
+| **Hậu điều kiện**  | Dữ liệu thống kê và báo cáo được hiển thị theo yêu cầu      |
+| **Actor chính**    | Nhân viên vận hành                                          |
+| **Actor phụ**      | Không                                                       |
+
+## Basic Flow
+
+| **Nhân viên vận hành**                              | **Hệ thống**                                             |
+| --------------------------------------------------- | -------------------------------------------------------- |
+| **1.** Chọn chức năng **Dashboard & báo cáo**.      |                                                          |
+|                                                     | **2.** Hiển thị Dashboard tổng quan.                     |
+|                                                     | **3.** Tổng hợp dữ liệu hoạt động của hệ thống.          |
+|                                                     | **4.** Hiển thị số lượng chuyến đi.                      |
+|                                                     | **5.** Hiển thị doanh thu.                               |
+|                                                     | **6.** Hiển thị tỷ lệ chuyến hoàn thành và tỷ lệ hủy.    |
+|                                                     | **7.** Hiển thị thông tin hiệu quả hoạt động của tài xế. |
+| **8.** Chọn khoảng thời gian hoặc tiêu chí báo cáo. |                                                          |
+|                                                     | **9.** Lọc và tổng hợp dữ liệu theo tiêu chí đã chọn.    |
+|                                                     | **10.** Hiển thị kết quả báo cáo.                        |
+
+## Alternative Flow
+
+### 8.1 – Xem báo cáo theo khoảng thời gian
+
+1. **Nhân viên vận hành:** Chọn khoảng thời gian cần xem.
+2. **Hệ thống:** Lọc dữ liệu theo khoảng thời gian.
+3. **Hệ thống:** Tổng hợp và hiển thị kết quả.
+4. Kết thúc Alternative Flow.
+
+### 8.2 – Xem báo cáo theo tiêu chí
+
+1. **Nhân viên vận hành:** Chọn tiêu chí báo cáo.
+2. **Hệ thống:** Lọc dữ liệu theo tiêu chí.
+3. **Hệ thống:** Hiển thị kết quả báo cáo.
+4. Kết thúc Alternative Flow.
+
+## Exception
+
+### 3.1 – Không có dữ liệu báo cáo
+
+1. **Hệ thống:** Không tìm thấy dữ liệu phù hợp.
+2. **Hệ thống:** Hiển thị thông báo không có dữ liệu.
+3. Kết thúc Use Case.
+
+### 9.1 – Không thể tổng hợp dữ liệu
+
+1. **Hệ thống:** Phát sinh lỗi khi tổng hợp dữ liệu.
+2. **Hệ thống:** Thông báo không thể tạo báo cáo.
+3. Kết thúc Use Case.
+
+# UC-20 – Audit & kiểm soát
+
+| **Thành phần**     | **Nội dung**                                                                 |
+| ------------------ | ---------------------------------------------------------------------------- |
+| **Tên Use Case**   | Audit & kiểm soát                                                            |
+| **Tiền điều kiện** | Người dùng đã đăng nhập và có quyền xem hoặc kiểm tra nhật ký hệ thống       |
+| **Hậu điều kiện**  | Các thao tác quan trọng được lưu vết và thông tin audit được tra cứu khi cần |
+| **Actor chính**    | Nhân viên vận hành                                                           |
+| **Actor phụ**      | Quản trị viên hệ thống                                                       |
+
+## Basic Flow
+
+| **Nhân viên vận hành / Quản trị viên**                    | **Hệ thống**                                              |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| **1.** Chọn chức năng **Audit & kiểm soát**.              |                                                           |
+|                                                           | **2.** Kiểm tra quyền truy cập.                           |
+|                                                           | **3.** Hiển thị giao diện tra cứu nhật ký.                |
+| **4.** Nhập tiêu chí tìm kiếm hoặc chọn khoảng thời gian. |                                                           |
+|                                                           | **5.** Tìm kiếm các bản ghi audit phù hợp.                |
+|                                                           | **6.** Hiển thị thông tin nhật ký thao tác.               |
+| **7.** Chọn bản ghi cần kiểm tra.                         |                                                           |
+|                                                           | **8.** Hiển thị chi tiết thao tác và thông tin liên quan. |
+
+## Alternative Flow
+
+### 4.1 – Tra cứu theo người thực hiện
+
+1. **Nhân viên vận hành / Quản trị viên:** Chọn người thực hiện thao tác.
+2. **Hệ thống:** Tìm kiếm các bản ghi tương ứng.
+3. **Hệ thống:** Hiển thị kết quả.
+4. Tiếp tục **bước 7**.
+
+### 4.2 – Tra cứu theo thời gian
+
+1. **Nhân viên vận hành / Quản trị viên:** Chọn khoảng thời gian cần kiểm tra.
+2. **Hệ thống:** Lọc các bản ghi theo thời gian.
+3. **Hệ thống:** Hiển thị kết quả.
+4. Tiếp tục **bước 7**.
+
+### 4.3 – Kiểm tra thao tác nhạy cảm
+
+1. **Quản trị viên:** Chọn bản ghi thao tác nhạy cảm.
+2. **Hệ thống:** Hiển thị thông tin chi tiết của thao tác.
+3. **Quản trị viên:** Kiểm tra thông tin thao tác.
+4. Kết thúc Alternative Flow.
+
+## Exception
+
+### 2.1 – Không có quyền truy cập
+
+1. **Hệ thống:** Phát hiện người dùng không có quyền truy cập chức năng.
+2. **Hệ thống:** Từ chối truy cập.
+3. **Hệ thống:** Thông báo không đủ quyền.
+4. Kết thúc Use Case.
+
+### 5.1 – Không tìm thấy bản ghi
+
+1. **Hệ thống:** Không tìm thấy bản ghi phù hợp với tiêu chí.
+2. **Hệ thống:** Thông báo không có dữ liệu.
+3. Kết thúc Use Case.
+
+### 6.1 – Không thể tải nhật ký
+
+1. **Hệ thống:** Phát sinh lỗi khi truy xuất nhật ký.
+2. **Hệ thống:** Thông báo không thể tải dữ liệu audit.
+3. Kết thúc Use Case.
+
+## 12. Tổng quan quy trình nghiệp vụ
 
 Quy trình nghiệp vụ cốt lõi của **CAB System** bắt đầu khi **khách hàng tạo yêu cầu đặt xe**, sau đó hệ thống tiếp nhận và tìm tài xế phù hợp. Hệ thống gửi yêu cầu đến tài xế, xử lý trường hợp tài xế chấp nhận, từ chối hoặc không phản hồi. Khi tài xế nhận chuyến, khách hàng có thể theo dõi trạng thái chuyến đi trong suốt quá trình thực hiện.
 
