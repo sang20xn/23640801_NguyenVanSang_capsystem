@@ -1784,9 +1784,6 @@ Kết thúc Use Case.
 3. **Hệ thống:** Gửi thông báo qua kênh thay thế.
 4. Kết thúc Use Case nếu gửi thành công.
 
-# 12. Phân tích quy trình nghiệp vụ (business project)
-# Phân tích quy trình nghiệp vụ – CAB System
-
 # UC-16 – Đánh giá tài xế
 
 | **Thành phần**     | **Nội dung**                                  |
@@ -2095,8 +2092,8 @@ Kết thúc Use Case.
 2. **Hệ thống:** Thông báo không thể tải dữ liệu audit.
 3. Kết thúc Use Case.
 
-## 12. Tổng quan quy trình nghiệp vụ
-
+# 12. Phân tích quy trình nghiệp vụ (business project)
+# Phân tích quy trình nghiệp vụ – CAB System
 Quy trình nghiệp vụ cốt lõi của **CAB System** bắt đầu khi **khách hàng tạo yêu cầu đặt xe**, sau đó hệ thống tiếp nhận và tìm tài xế phù hợp. Hệ thống gửi yêu cầu đến tài xế, xử lý trường hợp tài xế chấp nhận, từ chối hoặc không phản hồi. Khi tài xế nhận chuyến, khách hàng có thể theo dõi trạng thái chuyến đi trong suốt quá trình thực hiện.
 
 Sau khi chuyến hoàn thành, hệ thống thực hiện tính cước, xử lý thanh toán, gửi kết quả thanh toán và cho phép khách hàng đánh giá tài xế.
