@@ -289,3 +289,168 @@ Read model tổng hợp theo kỳ (batch/ETL hoặc event-sourced) từ Trip, Pa
 3. **Triển khai tối giản/basic**: Rating, Operations Console, Reporting, Audit & Control — đúng như khuyến nghị "mức tối thiểu/cơ bản" đã nêu ở mục 9 của SRS gốc.
 4. **Giao tiếp giữa context**: ưu tiên **domain event bất đồng bộ** (message broker) cho Notification, Audit, Reporting để đảm bảo lỗi ở một thành phần (ví dụ Payment) không làm sập luồng chính (đúng BR-16, Hạn chế #14 trong SRS gốc).
 5. **Nếu triển khai monolith trước** (do thời gian gấp): vẫn nên tách các Bounded Context này thành **module/package riêng trong cùng một codebase** (modular monolith), giữ ranh giới rõ ràng để dễ tách thành microservice ở Phase 2 khi cần mở rộng (đúng BR-18, Business Goal #9, #10).
+
+flowchart TB
+
+CAB["HỆ THỐNG CAB - DOMAIN"]
+
+CAB --> IDENTITY
+CAB --> CUSTOMER
+CAB --> DRIVER
+CAB --> RIDE
+CAB --> PAYMENT
+CAB --> NOTIFICATION
+CAB --> OPERATION
+CAB --> AUDIT
+
+
+subgraph IDENTITY["1. MIỀN TÀI KHOẢN & PHÂN QUYỀN"]
+direction TB
+I1["Đăng ký tài khoản"]
+I2["Đăng nhập / Đăng xuất"]
+I3["Cập nhật thông tin cá nhân"]
+I4["Quản lý tài khoản"]
+I5["Khóa / mở khóa tài khoản"]
+I6["Quản lý vai trò"]
+I7["Kiểm soát quyền truy cập"]
+end
+
+
+subgraph CUSTOMER["2. MIỀN KHÁCH HÀNG"]
+direction TB
+C1["Quản lý thông tin khách hàng"]
+C2["Tìm kiếm khách hàng"]
+C3["Xem chi tiết khách hàng"]
+C4["Khóa / mở khóa khách hàng"]
+C5["Xem lịch sử chuyến đi"]
+C6["Tra cứu giao dịch khách hàng"]
+end
+
+
+subgraph DRIVER["3. MIỀN TÀI XẾ & PHƯƠNG TIỆN"]
+direction TB
+D1["Quản lý hồ sơ tài xế"]
+D2["Quản lý trạng thái hoạt động"]
+D3["Quản lý khả năng nhận chuyến"]
+D4["Theo dõi vị trí tài xế"]
+D5["Quản lý phương tiện"]
+D6["Gán phương tiện cho tài xế"]
+D7["Quản lý loại xe"]
+D8["Khóa / kích hoạt tài xế"]
+end
+
+
+subgraph RIDE["4. MIỀN ĐẶT XE & CHUYẾN ĐI - CORE DOMAIN"]
+direction TB
+R1["Nhập điểm đón / điểm đến"]
+R2["Chọn loại xe"]
+R3["Tạo yêu cầu đặt xe"]
+R4["Tạo chuyến"]
+R5["Xác nhận yêu cầu đặt xe"]
+R6["Tìm tài xế phù hợp"]
+R7["Ưu tiên tài xế gần khách"]
+R8["Gửi yêu cầu nhận chuyến"]
+R9["Tài xế nhận / từ chối chuyến"]
+R10["Xử lý tài xế không phản hồi"]
+R11["Tìm tài xế tiếp theo"]
+R12["Gán chuyến cho tài xế"]
+R13["Theo dõi vòng đời chuyến"]
+R14["Cập nhật trạng thái chuyến"]
+R15["Theo dõi vị trí / chuyến đi"]
+R16["Hủy chuyến"]
+R17["Xử lý chuyến lỗi"]
+R18["Quản lý lịch sử chuyến"]
+end
+
+
+subgraph PAYMENT["5. MIỀN CƯỚC & THANH TOÁN"]
+direction TB
+P1["Xác định loại dịch vụ"]
+P2["Ghi nhận thông tin chuyến"]
+P3["Tính cước"]
+P4["Hiển thị cước"]
+P5["Thanh toán tiền mặt"]
+P6["Thanh toán điện tử"]
+P7["Kết nối Payment Gateway"]
+P8["Tiếp nhận kết quả giao dịch"]
+P9["Quản lý trạng thái thanh toán"]
+P10["Xử lý thanh toán thất bại"]
+P11["Thử lại giao dịch"]
+P12["Tra cứu lịch sử giao dịch"]
+end
+
+
+subgraph NOTIFICATION["6. MIỀN THÔNG BÁO"]
+direction TB
+N1["Thông báo tiếp nhận yêu cầu đặt xe"]
+N2["Thông báo chuyến mới cho tài xế"]
+N3["Thông báo tài xế nhận chuyến"]
+N4["Thông báo tài xế đến điểm đón"]
+N5["Thông báo hoàn thành chuyến"]
+N6["Thông báo thay đổi chuyến"]
+N7["Thông báo kết quả thanh toán"]
+N8["Gửi SMS / Email / Push"]
+end
+
+
+subgraph OPERATION["7. MIỀN VẬN HÀNH & BÁO CÁO"]
+direction TB
+O1["Theo dõi chuyến đang hoạt động"]
+O2["Theo dõi trạng thái tài xế"]
+O3["Tra cứu khách hàng"]
+O4["Tra cứu tài xế"]
+O5["Tra cứu phương tiện"]
+O6["Tra cứu chuyến đi"]
+O7["Tra cứu giao dịch"]
+O8["Xử lý chuyến lỗi"]
+O9["Quản lý đánh giá tài xế"]
+O10["Tổng hợp đánh giá"]
+O11["Thống kê số lượng chuyến"]
+O12["Thống kê chuyến hoàn thành"]
+O13["Thống kê chuyến hủy"]
+O14["Thống kê doanh thu"]
+O15["Tỷ lệ hoàn thành / hủy"]
+O16["Đánh giá hiệu quả tài xế"]
+end
+
+
+subgraph AUDIT["8. MIỀN AUDIT & KIỂM SOÁT"]
+direction TB
+A1["Ghi nhận thao tác quản trị"]
+A2["Ghi nhận người thực hiện"]
+A3["Ghi nhận thời gian thao tác"]
+A4["Tra cứu lịch sử thao tác"]
+A5["Kiểm soát truy cập dữ liệu"]
+end
+
+
+IDENTITY ---|"Quản lý người dùng"| CUSTOMER
+IDENTITY ---|"Quản lý tài khoản tài xế"| DRIVER
+
+CUSTOMER ---|"Khách hàng đặt xe"| RIDE
+DRIVER ---|"Tài xế nhận / thực hiện chuyến"| RIDE
+
+RIDE ---|"Tính cước / thanh toán"| PAYMENT
+RIDE ---|"Thông báo trạng thái"| NOTIFICATION
+PAYMENT ---|"Thông báo kết quả"| NOTIFICATION
+
+RIDE ---|"Giám sát chuyến"| OPERATION
+DRIVER ---|"Giám sát tài xế"| OPERATION
+CUSTOMER ---|"Tra cứu khách hàng"| OPERATION
+PAYMENT ---|"Tra cứu giao dịch / doanh thu"| OPERATION
+
+IDENTITY ---|"Kiểm soát quyền"| AUDIT
+OPERATION ---|"Lưu vết vận hành"| AUDIT
+PAYMENT ---|"Lưu vết giao dịch"| AUDIT
+
+
+style CAB fill:#1565C0,color:#ffffff,stroke:#0D47A1,stroke-width:3px
+
+style RIDE fill:#FFF3E0,stroke:#EF6C00,stroke-width:3px
+style IDENTITY fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+style CUSTOMER fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+style DRIVER fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+style PAYMENT fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+style NOTIFICATION fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+style OPERATION fill:#FFF8E1,stroke:#F9A825,stroke-width:2px
+style AUDIT fill:#ECEFF1,stroke:#455A64,stroke-width:2px
