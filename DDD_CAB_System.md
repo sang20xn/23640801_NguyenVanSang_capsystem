@@ -290,6 +290,7 @@ Read model tổng hợp theo kỳ (batch/ETL hoặc event-sourced) từ Trip, Pa
 4. **Giao tiếp giữa context**: ưu tiên **domain event bất đồng bộ** (message broker) cho Notification, Audit, Reporting để đảm bảo lỗi ở một thành phần (ví dụ Payment) không làm sập luồng chính (đúng BR-16, Hạn chế #14 trong SRS gốc).
 5. **Nếu triển khai monolith trước** (do thời gian gấp): vẫn nên tách các Bounded Context này thành **module/package riêng trong cùng một codebase** (modular monolith), giữ ranh giới rõ ràng để dễ tách thành microservice ở Phase 2 khi cần mở rộng (đúng BR-18, Business Goal #9, #10).
 
+```mermaid
 flowchart TB
 
 CAB["HỆ THỐNG CAB - DOMAIN"]
